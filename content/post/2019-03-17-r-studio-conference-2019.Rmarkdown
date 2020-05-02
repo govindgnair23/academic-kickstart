@@ -1,0 +1,983 @@
+---
+title: R Studio Conference 2019
+author: Govind G Nair
+date: '2019-03-17'
+slug: r-studio-conference-2019
+categories:
+  - Conferences
+tags:
+  - R
+subtitle: ''
+summary: 'Highlights from the 2019 R Studio Conference'
+authors: []
+lastmod: '2019-03-17T11:57:50-04:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is a notebook summarizing what I learned at the R Studio Conference 2019 Links to all the talks and slide decks,including talks on how to use R in production at scale are available at <https://github.com/kbroman/RStudioConf2019Slides>
+
+
+Make sure the libraries being used in each section are installed.
+
+
+## Reproducible Examples with reprex
+
+The reprex package allows you to create a minimal reproducible example that you can share if you are reporting an issue on Github or asking a question on stack overflow. Running the code chunk below after uncommenting will create a new web page with the code and the results that can be shared with others.
+
+```{r, echo=FALSE,warning=FALSE}
+library(reprex)
+```
+
+
+```{r,echo=TRUE, results= 'hide'}
+
+# reprex({
+#   x <- 1:4
+#   y <- 2:5
+#   x + y
+# })
+```
+
+## Categorical data in R
+
+Factor variables in R can be idiosyncratic
+
+```{r}
+x <- c(20,20,10,40,20)
+cat(x)
+```
+Converting this to a factor variable produces the following
+
+```{r}
+xf <- factor(x)
+xf
+```
+
+Converting this factor back to numeric produces the following odd result
+
+
+```{r}
+x <- as.numeric(xf)
+x
+```
+
+The right way to carry out this conversion is as follows
+```{r}
+x <- as.numeric(as.character(xf))
+x
+```
+
+
+One also needs to be careful while re-ordering the levels of a factor
+
+```{r}
+ratings1<-  as.factor(c(rep('High',30),rep('Low',10),rep('Medium',20)))
+ratings2 <- ratings1
+ratings3 <- ratings1
+table(ratings1)
+cat('Levels: \n')
+cat(levels(ratings1))
+
+```
+
+We might want to change the levels of this variable to be Low,Medium,High
+
+The next couple of approaches do not yield expected results.
+
+```{r}
+
+levels(ratings1) <- levels(ratings1)[c(2,1,3)]
+table(ratings1)
+
+```
+
+
+```{r}
+levels(ratings2) <- c('Low','Medium','High')
+table(ratings2)
+
+```
+
+
+The correct approach here would be as follows
+
+```{r}
+ratings3 <- factor(ratings3,levels=c('Low','Medium','High'))
+table(ratings3)
+```
+
+The **forcats** package by Hadley Wickham makes working with factors much more straightforward.
+
+```{r}
+library(forcats)
+ratings1<-  as.factor(c(rep('High',30),rep('Low',10),rep('Medium',20)))
+ratings1 <- fct_relevel(ratings1,c('Low','Medium','High'))
+table(ratings1)
+
+```
+
+Recoding the levels of the factors are also straightforward.
+
+```{r}
+ratings1 <- fct_recode(ratings1,Poor='Low',Fair ='Medium',Good = 'High')
+table(ratings1)
+
+```
+
+Plenty of other useful functions are available in the forcats package.
+
+## Defensive Coding
+
+The **testthat** and **assertthat** packages allows us to code defensively. This is typically best practice in software engineering and makes debugging much easier.
+
+For instance if a function is designed to accept a scalar (i.e. a vector of length 1), you may want 
+the function to throw an error if a vector is passed into the function, so that you can adjust the function appropriately.
+
+```{r}
+library(assertthat)
+
+is_odd <- function(x) {
+  assert_that(is.numeric(x), length(x) == 1)
+  x %% 2 == 1
+}
+
+
+print(is_odd(3))
+print(is_odd(2))
+#is_odd(c(1,4)) ##Throws an error##
+
+```
+
+
+The see_if function returns a logical value and an error message as an attribute that allows execution to continue.
+```{r}
+x <- c(1,2)
+y <- 'a'
+see_if(is.numeric(x), length(x) == 1)
+see_if(is.numeric(y), length(y) == 1)
+```
+
+
+The testthat package provides functionality that is essential to software testing. This is useful if you are building packages or writing code that is meant to be used in production
+
+```{r ,warning=FALSE}
+library(testthat)
+
+#Check for equality within numerical tolerance
+expect_that(10,equals(10+1e-7))
+###Check for exact equality - Throws an error
+#expect_that(2*5, is_identical_to(10 + 1e-7))
+model <- lm(mpg~wt,data=mtcars)
+expect_that(model,is_a("lm"))
+###Throws an error
+#expect_that(model,is_a("glm"))
+
+```
+
+If you are making a function you can use this to ensure that it produces warnings when expected.
+
+```{r}
+#  Two functions below pass
+expect_that(log(-1), gives_warning())
+expect_that(log(-1),
+gives_warning("NaNs produced"))
+
+# This one fails if run
+#expect_that(log(0), gives_warning())
+
+
+```
+
+
+## New Features in R Studio 1.2
+
+R Studio 1.2 allows incorporation of SQL, Python , RCPP, Stan etc seamlessly into your workflow. The reticulate package allows you to use Python within R Studio.
+
+### Python
+Note the bit below requires R Studio 1.2 and python's Anaconda installation. Also you might encounter the issue described [here](https://stackoverflow.com/questions/50085788/qt-platform-plugin-issue-rstudio) and will have to fix by adding the appropriate path to the environment variable
+
+```{r}
+library(reticulate)
+use_condaenv("r-reticulate")
+
+```
+
+```{python}
+
+import os
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'C:/Users/learningmachine/AppData/Local/Continuum/anaconda3/Library/plugins/platforms'
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+x = np.arange(0.0,2,0.01)
+y = np.sin(2* np.pi*x)
+
+plt.plot(x,y)
+plt.grid(True)
+plt.show()
+
+data = pd.DataFrame({'x':x,'y':y})
+```
+
+A pandas dataframe can also be used within R.
+
+```{r}
+library(ggplot2)
+ggplot(py$data,aes(x,y))+ geom_line(col='blue')
+
+```
+SImilarly you can embed SQL or Stan code chunks in your markdown document.
+
+
+##  Parsnip - A tidy model interface
+
+```{r , message=FALSE,warning=FALSE}
+library(parsnip)
+library(tidymodels)
+library(glmnet)
+library(randomForest)
+
+```
+
+
+Parsnip is tidy version of the popular caret package being developed by Max Kuhn (who also developed caret).This package creates a unified interface to models, organizes them by model type (e.g. Logistic regression, splines etc)and generalizes how to fit them.
+
+
+First create a model specification
+
+
+```{r pressure, echo=FALSE}
+reg_model <- linear_reg(penalty =0.01)
+reg_model
+
+
+```
+
+The computation engine can be one of  **lm**, **glmnet**,**stan**,**spark** or **keras**. Parsnip can translate this general syntax to the model's argument.
+
+```{r}
+
+reg_model %>%
+  set_engine("glmnet")%>%
+    translate()
+
+
+
+```
+
+Note that data is not required for the model specification. Further although glmnet requires the predictors and target to be provided as X,y matrices , parsnip allows you to use a formula.
+
+```{r}
+reg_model %>%
+  set_engine("glmnet")%>%
+    fit(mpg ~ .,data = mtcars)
+
+```
+
+The whole sequence of steps from specification to prediction can be done as follows
+
+```{r}
+linear_reg(penalty =0.01) %>%
+  set_engine("glmnet") %>%
+    fit(mpg~.,dat =mtcars %>% slice(1:29)) %>% # train set
+      predict(new_data = mtcars %>% slice(30:32)) #test set
+
+
+```
+
+
+If we want to fit the model using multiple penalty values:
+
+```{r}
+
+preds <- 
+  linear_reg() %>%
+    set_engine("glmnet")%>%
+      fit(mpg ~. , data = mtcars %>% slice(1:29))%>%
+        multi_predict(new_data = mtcars %>% slice(30:32))
+
+
+print(preds)
+```
+
+This produces a list of dataframes where each list contains predictions for all penalty values considered.
+To obtain the first 5 predictions for the second data point:
+
+```{r}
+preds %>% pull(.pred) %>% pluck(2) %>% slice(1:5)
+
+```
+
+
+In the cases of models like random forest where certain data dependent parameters like **mtry** need to be specified,the model can be specified as follows:
+
+
+```{r}
+
+mod <- rand_forest(trees= 1000, mtry =floor(.preds() * 0.75)) %>%
+        set_engine("randomForest")
+
+mod %>% translate()
+
+
+```
+
+Fit the model.
+
+```{r}
+
+mod %>% fit(mpg ~ ., data = mtcars)
+
+```
+
+As you can see, the number of predictors used is 75 % of the number of predictors in the data.
+
+```{r}
+floor((ncol(mtcars) - 1) *0.75)
+
+```
+
+
+## Time Series in Tidyverse
+
+Tidy and Transform the data using the **tsibble** package and perform modelling/forecasting using **fable**.
+tsibble is a time series version of a tibble/dataframe.
+
+```{r , message=FALSE}
+library(tidyr)
+library(tsibble)
+library(lubridate)
+```
+
+We can use the EuStockMarkets data available in base R which is a ts object.
+
+```{r}
+
+data("EuStockMarkets")
+
+```
+
+as_tibble can easily convert this into a tsibble in a long format. Here the index  represents time and key identifies the variable that defines the series. Here each stock index ha a unique time stamp.
+
+
+```{r}
+eu_ts <- as_tsibble(EuStockMarkets)
+print(eu_ts)
+
+```
+
+Given the index in seconds, the tsibble expects an entry for each second, so the index should be converted to day.
+
+```{r}
+eu_ts2 <-  eu_ts %>%
+            mutate(index = as.Date(index))
+print(eu_ts2)
+```
+
+One can also calculate the average price of a week or month as follows.
+
+```{r}
+eu_ts %>%
+    index_by(Month = floor_date(index,'month'))%>%
+        group_by(key)%>%
+            summarize(Price =  mean(value))%>% head()
+
+```
+
+We can also check if there are gaps in the time series as follows.
+
+```{r}
+has_gaps(eu_ts2)
+
+```
+
+
+
+You can get a 30 day rolling average of the process as follows. Note that the first 29 observations of the rolling mean will be NA.
+
+```{r}
+
+eu_ts3 <-  eu_ts2 %>%
+            group_by(key) %>%
+              mutate(avg_30day = slide_dbl(value,~mean(.,na.rm = TRUE),.size=30))
+
+print(eu_ts3 %>% filter_index("1991-08-01"~"1991-09-01") )
+
+```
+
+
+Tsibble works well with ggplot2.
+
+```{r}
+library(ggplot2)
+ggplot(eu_ts2,aes(x=index,y=value)) + geom_line()+
+  facet_wrap(.~key,ncol=1)
+```
+
+Forecasting can be done using the fable package which is a tidy implementation of the classic forecast package by Rob Hyndman. This package is being developed by Hyndman's student Earo Wang and is currently not available on CRAN
+
+## Model representation using Broom
+
+Use tidy() to summarize information about models
+Use glance() to report goodness of fit metrics
+Use augment() to add information about observations
+
+Produces outputs in a simple tibble
+
+
+The code below shows what we typically get when building a model
+```{r, warnings= FALSE,message=FALSE}
+attach(mtcars)
+library(broom)
+ols_fit <- lm(hp~ mpg + cyl, mtcars)
+summary(ols_fit)
+
+
+```
+
+Using tidy from the broom package we get:
+
+```{r}
+tidy(ols_fit)
+
+
+```
+
+Using glance
+
+```{r}
+glance(ols_fit)
+```
+
+
+Using augment gives information about each observation in the training data
+
+```{r}
+augment(ols_fit)
+```
+
+
+
+To compare multiple models on goodness of fit:
+```{r}
+library(purrr)
+
+fits <- list( fit1 = lm(hp~cyl,mtcars),
+              fit2 = lm(hp ~ cyl +mpg, mtcars),
+              fit3 = lm(hp~. , mtcars))
+
+map_df(fits,glance,.id = "model") %>% arrange(AIC)
+
+
+```
+
+
+A more realistic application for broom are cases where you want to bootstrap the parameter estimates of a model
+
+Consider the model $$mpg = \frac{k}{wt} + b + \epsilon, \sim Normal(0,\sigma^2)$$
+
+
+To estimate the bootstrapped estimates, you can do the following
+
+```{r}
+library(rsample)
+boots <- bootstraps(mtcars,times=100)
+
+```
+
+Function to fit non linear least squares
+
+```{r}
+fit_nls_on_bootstrap <- function(split) {
+  nls(
+    mpg ~ k/wt + b,
+    analysis(split),
+    start = list(k=1,b=0)
+  )
+}
+
+```
+Bootstrap as follows:
+
+```{r}
+boot_fits <- boots %>%
+              mutate(fit = map(splits,fit_nls_on_bootstrap),
+                     coef_info = map(fit,tidy))
+
+head(boot_fits)
+
+
+```
+
+Get bootstrapped coefficients
+
+```{r}
+library(resample)
+library(tidyr)
+
+data("mtcars")
+mtcars_bs <- bootstraps(mtcars,times=20)
+boot_coefs <- boot_fits %>%
+                unnest(coef_info)
+
+head(boot_coefs)
+
+
+```
+
+Plot bootstrapped estimates as follows
+
+```{r}
+
+p <- ggplot(boot_coefs,aes(estimate))+
+      geom_histogram(binwidth = 2) + facet_wrap(~ term,scales='free')+
+        labs(title = "Sampling distribution of k and b",
+             y = "Count",
+             x = "Value" )
+
+
+
+p
+```
+
+
+We can also plot the bootstrapped predictions as follows
+
+```{r}
+
+boot_aug <- boot_fits %>%
+              mutate(augmented = map(fit,augment))%>%
+                unnest(augmented)
+
+
+ggplot(boot_aug,aes(wt,mpg))+
+  geom_point()+
+    geom_line(aes(y = .fitted,group =id),alpha =0.2)
+
+```
+
+
+## gganimate
+Package for animated graphics which extends ggplot2. Additional dependencies will have to be installed.
+
+```{r,message=FALSE}
+library(gapminder)
+library(gganimate)
+
+
+ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, colour = country)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) +
+  scale_colour_manual(values = country_colors) +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  # Here comes the gganimate specific bits
+  labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') +
+  transition_time(year) +
+  ease_aes('linear')
+
+
+```
+
+## Hypothetical Outcome Plots
+
+Hypothetical outcome plots provide an alternative way to visualize uncertainty by animating a finite set of individual draws rather than producing a static representation of distributions. 
+
+Load required packages.
+
+```{r ,message=FALSE}
+library(rsample)
+library(purrr)
+library(ggplot2)
+library(gganimate)
+library(transformr)
+```
+
+
+
+The plot below uses bootstrapped samples to visualize uncertainty in the trend line. 
+```{r ,message=FALSE, warning= FALSE}
+attach(mtcars)
+
+
+#Draw bootstrap samples
+
+mtcars_bs <- bootstraps(mtcars,times=20)
+
+mtcars_bs_df <- map_df(mtcars_bs$splits, function(x){
+                        return(as.data.frame(x))
+                        })
+
+mtcars_bs_df$id <- rep(c(1:20),each=nrow(mtcars))
+
+
+mtcars %>% 
+  ggplot(aes(disp,mpg))+
+    geom_point()+ 
+      geom_smooth(
+        data = mtcars_bs_df,
+        aes(group =id),
+        se = FALSE,
+        alpha = 0.6
+      )
+    
+
+
+```
+
+
+The same can be represented using a hypothetical outcome plot as follows
+
+
+```{r, message= FALSE}
+
+
+mtcars_bs_df %>%
+  ggplot(aes(disp,mpg))+
+    geom_smooth(aes(group =id),se=FALSE,alpha=0.6)+
+      geom_point(data=mtcars)+
+        transition_states(id)
+
+```
+
+
+
+## Datapasta
+
+If you want to quickly copy some sample data from excel or SQL into R, you often have to convert it into csv or excel file and then import it or type it manually. Datapasta is an R Studio add in that provides a much easier alternative.
+
+After installing the package 'datapasta' , simply copy the table from an excel file,  go to add ins and select the appropriate option. 
+
+Here, I simply copied a table from excel using 'Ctrl+C' and then selected 'Paste as data.frame' from the add ins dropdown.
+
+```{r}
+data.frame(stringsAsFactors=FALSE,
+        Name = c("A", "B", "C", "D", "E"),
+       Marks = c(87L, 35L, 76L, 34L, 86L)
+)
+
+
+```
+
+## vctrs
+
+This is another package from Hadley Wickham designed to make sure that outputs from functions are predictable.
+
+
+Sometimes, R does not behave predictable. For instance when combining two factors..
+```{r}
+c(factor("a"),factor("b"))
+
+```
+
+Also..
+```{r}
+today <- as.Date('2019-02-23')
+tomorrow <- as.POSIXct("2019-02-23 12:00",tz = "America/Chicago")
+
+c(today,tomorrow)
+
+```
+
+Also..
+```{r}
+
+c(NULL,tomorrow)
+
+```
+
+The vctrs package formalizes the relationships between various datatypes and requires the user to be more explicit when combining different datatypes.
+
+To summarize:
+ Logical --> Integer --> Double
+ Date --> Date-time
+ Factor -->Character
+ Ordered --> Character
+ 
+```{r}
+library(vctrs)
+
+```
+ 
+ 
+When coercing to character , it is stricter than base R. vec_c below would throw an error
+
+```{r}
+c(1.5,"a")
+#vec_c(1.5,"a")
+```
+
+Instead you have to be explicit..
+```{r}
+vec_c(1.5,"x",.ptype = character())
+```
+
+Unlike in base R, the following works..
+```{r}
+vec_c(factor("a"),factor("b"))
+```
+Note the order affects the levels..
+
+```{r}
+vec_c(factor("b"),factor("a"))
+```
+
+Similarly when concatenating a factor and an ordered factor...
+```{r}
+c(factor("a"),ordered("b"))
+```
+The first call below would throw an error..
+
+```{r}
+#vec_c(factor("a"),ordered("b"))
+vec_c(factor("a"),ordered("b"),.ptype = character())
+```
+
+The date problem does not occur here..
+
+```{r}
+vec_c(today,tomorrow)
+```
+
+Disparate datatypes can be combined into a list
+
+```{r}
+vec_c(today,factor("a"),.ptype=list())
+```
+
+
+## Tidy Evaluation
+
+A tool for metaprogramming. This becomes important when you do not know the names of an object in advance and you want to build a tidyverse pipeline which operates on such objects. This is often the case when you have to operate on user inputs, say in a shiny application where you have to make indirect references with column names stored in variables or passed as function arguments.
+
+It is tidy evaluation that really allows you to use column names below without using quotes.
+
+```{r}
+attach(starwars)
+
+starwars %>%
+  filter(homeworld == "Tatooine")%>%
+    arrange(height)%>%
+      select(name,ends_with("color"))
+
+
+```
+
+
+To evaluate an expression, the interpreter searches the environment for name-value bindings. In tidy eval, the expression is modified or the chain of searched environments is modified. This is what allows you to use unquoted variable names and work inside a dataframe. This is also referred to as **non-standard evaluation**.
+
+Tidy eval can be implemented in the following ways..
+
+1) Using '...'
+
+
+```{r, message=FALSE}
+attach(mtcars)
+
+measure_hp <- function(df,...){
+  df %>%
+    group_by(...)%>%
+      summarize(avg_hp = mean(hp,na.rm=TRUE))}
+
+measure_hp(mtcars,gear)
+
+  
+
+```
+
+
+2) Using enquo and !!(called 'bang!bang!' operator)
+
+```{r}
+measure<- function(df,group_var,summary_var){
+  group_var <- enquo(group_var) #Effectively quotes the variable
+  summary_var <- enquo(summary_var)
+  
+  df %>%
+    group_by(!!group_var)%>%
+      summarize(avg_hp = mean(!!summary_var,na.rm=TRUE))}
+
+measure(mtcars,gear,hp)
+
+
+```
+
+
+
+If you need to manipulate user input that is passed as character strings,you can do the following..
+
+```{r,warning=FALSE,message=FALSE}
+library(rlang)
+group_var <- 'gear'
+summary_var <- 'hp'
+
+measure(mtcars,!!rlang::sym(group_var),!!rlang::sym(summary_var))
+```
+
+
+
+
+### Action and Selection Verbs
+
+dplyr verbs comes in two flavors - **action** and **selection**. **select** is a *selection* verb while verbs like mutate,group_by and transmute are action verbs.
+
+Action verbs created new vectors and modify the dataframe.Selection verbs look up the position of the columns in the dataframe and re-organizes the dataframe.
+
+Selection verbs are context aware and know about current variables.
+```{r}
+
+starwars %>% select(c(1:height))
+starwars %>% select(1:height)
+starwars %>% select(-1,-height)
+
+
+```
+
+
+
+You can also use selection helpers as follows..
+
+```{r}
+
+starwars %>% select(ends_with("color")) %>% head()
+starwars %>% select(dplyr::matches("^[nm]a")) %>% head()
+starwars %>% select(10,everything()) %>% head()
+
+```
+
+
+group_by is an action verb, it does not work with selection helpers. The code below does not work.
+
+```{r}
+#starwars %>% group_by(ends_with"color")
+
+```
+
+Instead you can use..
+
+```{r}
+starwars %>% group_by_at(vars(ends_with("color"))) %>% summarise(mean_height=mean(height))
+```
+
+
+## profviz
+
+profviz can be used to profile your code, identify modules that slow down the program and take corrective action.
+
+```{r}
+library(profvis)
+#profvis::profvis(mtcars %>% lm(mpg ~ wt +cyl,.))
+```
+
+## Using Spark to scale out your jobs
+
+Spark allows you to leverage compute from mutliple machines by distributing computations across multiple machines. The sparklyr package allows you to leverage the power of Spark through R.
+
+Although we connect to spark running on the local machine below, we can easily connect to a cluster provided by a cloud provider. Make sure Java is installed in a directory which does not have spaces or special characters. This [link](https://forum.unity.com/threads/could-not-reserve-enough-space-for-object-heap-resolved.88119/) may also be useful 
+
+```{r , warning=FALSE}
+library(DBI)
+library(dplyr)
+library(sparklyr)                                   #R Interface to Apache Spark
+#spark_install()                                    #Install Apache Spark
+
+#Add path to java to environment variables
+Sys.setenv(JAVA_HOME = 'C:/Users/learningmachine/Java/jre1.8.0_201')
+
+
+sc <- spark_connect(master = 'local')               #Connect to local cluster
+##Make sure you have the mtcars.csv file in your working directory
+cars_tbl <- spark_read_csv(sc,"cars","mtcars.csv")     #Read data into spark
+
+summarize(cars_tbl, n =n())                         #Count records with dplyr
+dbGetQuery(sc,"SELECT count(*) FROM cars")          # COunt records with DBI
+```
+
+Perform linear regression
+
+```{r}
+ml_linear_regression(cars_tbl,mpg~wt+cyl)
+```
+
+You can also define a pipeline and run it on a spark cluster and save it to disk.
+
+```{r}
+pipeline <- ml_pipeline(sc) %>%                #Define Spark pipleine
+              ft_r_formula(mpg~wt + cyl)%>%    #Add formula translation
+                ml_linear_regression()         #Add model to pipeline
+
+fitted <- ml_fit(pipeline,cars_tbl)
+fitted
+#ml_save(fitted,"mtcars_model",overwrite = TRUE)
+
+              
+```
+
+The sparklyr output of a saved Spark ML Pipeline object is in Scala code, which means that the code can be added to the scheduled Spark ML jobs, and without any dependencies in R.
+
+
+
+## Shiny
+
+Some resources worth exploring on shiny and included in the link shared at the beginning of the document are 
+
+1) Modules: How to compartmentalize your shiny application into modules for easier maintenance and concurrent development 
+
+2) Reactlog 2.0: Library built in Javascript that allows for easier debugging by visualizing reactive dependencies in the app. Th goto tool for reactivity debugging
+
+## Miscellaneous
+
+### Sunburst Charts
+
+Pretty cool visualization for representing hierarchical data using concentric circles.
+
+```{r}
+library(sunburstR)
+sequences <- read.csv(
+  system.file("examples/visit-sequences.csv",package="sunburstR")
+  ,header=F
+  ,stringsAsFactors = FALSE
+)
+
+sunburst(sequences)
+```
+
+### rayshader
+
+This is  a really cool package. According to the documentation:
+
+*rayshader uses a combination of raytracing, spherical texture mapping, lambertian reflectance, and ambient occlusion to produce hillshades of elevation matrices. Includes water detection and layering functions, programmable color palette generation, several built-in textures, 2D and 3D plotting options, and the ability to export 3D maps to a 3D printable format.*
+
+Try running the code below to see some really cool 3d visualizations.
+
+```{r,eval = FALSE}
+library(rayshader)
+
+montereybay %>%
+sphere_shade(texture="imhof2") %>%
+plot_3d(montereybay, zscale=50, water = TRUE, watercolor="imhof2",
+waterlinecolor="white", waterlinealpha=0.5)
+
+
+```
+
+
+## Other useful/interesting resources
+
+1. Best practices for naming files: [link](https://speakerdeck.com/jennybc/how-to-name-files?slide=27)
+
+2. mlflow for tracking ML experiments,sharing  and deploying : [link](https://www.mlflow.org/docs/latest/tutorial.html)
+
+3. All the risk calculators  at <http://riskcalc.org/> were built by Cleveland Clinic using Shiny
+
