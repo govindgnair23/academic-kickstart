@@ -22,6 +22,9 @@ copyright = ""
 # Name of Academic theme folder in `themes/`.
 theme = "academic"
 
+#Enable Math
+math = true
+
 # Get last modified date for content from Git?
 enableGitInfo = false
 

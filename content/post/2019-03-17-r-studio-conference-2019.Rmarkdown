@@ -486,7 +486,7 @@ map_df(fits,glance,.id = "model") %>% arrange(AIC)
 
 A more realistic application for broom are cases where you want to bootstrap the parameter estimates of a model
 
-Consider the model $$mpg = \frac{k}{wt} + b + \epsilon, \sim Normal(0,\sigma^2)$$
+Consider the model $$ mpg = \frac{k}{wt} + b + \epsilon, \sim Normal(0,\sigma^2) $$
 
 
 To estimate the bootstrapped estimates, you can do the following

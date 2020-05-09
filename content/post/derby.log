@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sat May 02 12:23:06 EDT 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0171-d632-d169-000001406768 
+Sat May 09 11:39:01 EDT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0171-fa16-f7d0-0000010b0370 
 on database directory memory:C:\Users\learningmachine\Documents\My_Website\content\post\databaseName=metastore_db with class loader sun.misc.Launcher$AppClassLoader@1a8a1dc 
 Loaded from file:/C:/Users/learningmachine/AppData/Local/spark/spark-2.4.0-bin-hadoop2.7/jars/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
