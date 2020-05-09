@@ -250,7 +250,7 @@ print(KL_divergence_drift>kl_threshold)
 
 #### MD
 
-Given the simulated data used here is balanced, the range of predictions indicating uncertainty in prediction can be considered to be  anything between 0.25 and  0.75. This corresponds to `\(\theta = 0.5\)`.
+Given the simulated data used here is balanced, the range of predictions indicating uncertainty in prediction can be considered to be  anything between 0.25 and  0.75. This corresponds to $ \theta = 0.5 $.
 
 Although CV can be used, given we are working with simulated data, the margin density of the original data and five test data sets are computed.
 
@@ -392,7 +392,7 @@ All these techniques are promising in their ability to detect concept drift with
 
 1) These techniques are able to detect drift only when concept drift occurs with respect to one or more  parameters in the model. If concept drift occurs due to a variable which is not part of the model becoming significant, these techniques will not be effective. Ground truth labels and accuracy metrics will be necessary to detect such drift.
 
-2) When the data set is imbalanced, the threshold `\(\theta_margin\)` will have to be adjusted appropriately.
+2) When the data set is imbalanced, the threshold $ \theta_margin $ will have to be adjusted appropriately.
 
 
 ## References

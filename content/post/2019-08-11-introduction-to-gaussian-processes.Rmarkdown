@@ -7,7 +7,7 @@ categories:
   - Statistics
   - Machine Learning
 tags: ["R","Machine Learning"]
-subtitle: 'An'
+subtitle: ''
 summary: 'An Introduction to Gaussian Processes for Beginners'
 authors: []
 lastmod: '2019-08-11T11:10:22-04:00'
