@@ -54,22 +54,22 @@ The Bayesian analogue of the commonly used Frequentist Confidence Interval is th
 Although both sound similar and often yield identical results, their interpretations are quite different.
 
 In Bayesianism, probability distributions reflect degrees of belief, so a 95 % credible interval [a,b]
-of a parameter $\mu$ is equivalent to saying:
+of a parameter $ \mu $ is equivalent to saying:
 
-*Given our observed data, there is a 95% probability that the true value  of $\mu$ falls within the credible interval [a,b]*
+*Given our observed data, there is a 95% probability that the true value  of $ \mu $ falls within the credible interval [a,b]*
 
 The frequentist 95% confidence interval [a,b]  is equivalent to saying
 
 *There is a 95% probability that when I compute this confidence interval from **data of this sort**, the true mean will fall within this confidence interval* 
 
 
-Note the difference: the Bayesian solution is a statement of probability about the parameter value given fixed bounds. It fixes the credible region, and guarantees that 95% of possible values of $\mu$ fall within it. 
+Note the difference: the Bayesian solution is a statement of probability about the parameter value given fixed bounds. It fixes the credible region, and guarantees that 95% of possible values of $ \mu $ fall within it. 
 
 The frequentist solution is a probability about the bounds or intervals given a fixed parameter value. It fixes that parameter and guarantees that 95% of possible confidence intervals will contain it.
 
 A criticism of frequentist inference is that it often answers the wrong question. It relies on **data of this sort** or a hypothetical space of observations like what we have observed so far. This may lead one to answers that don't tell you anything meaningful about the particular data observed.
 
-If you want to ask what the confidence interval can tell you *given the particular data already observed*, all it can say is that: *Given the observed data, the true value of $\mu$ is either in the confidence interval or it isn't*. If you are only interested in what particular observed data is telling you, frequentism is not very useful.
+If you want to ask what the confidence interval can tell you *given the particular data already observed*, all it can say is that: *Given the observed data, the true value of $ \mu $ is either in the confidence interval or it isn't*. If you are only interested in what particular observed data is telling you, frequentism is not very useful.
 
 
 ## Null Hypothesis Significance Testing
@@ -83,7 +83,7 @@ Experimental design or setup is very important when using frequentist approaches
 The null hypothesis we want to evaluate is:
 
 H0: The bias of the coin is 0.5 or alternatively
-H0: $$\theta = 0.5$$ 
+H0: $$ \theta = 0.5 $$ 
 
 To evaluate whether the observation suggests that the coin is biased ,we need to calculate the p-value.
 The p-value is the probability of getting a sample outcome from the sampling distribution that is as or more extreme than the actual outcome.
@@ -190,13 +190,13 @@ plot(density(rbeta(10000,2,20)),main = "Prior 2",xlab="")
 
 
 
-Note that while the frequentist approach above uses conditional distributions of data given a fixed hypothesis, e.g. $$\theta = 0.5$$, the bayesian uses a probability distribution over all possible hypotheses.
+Note that while the frequentist approach above uses conditional distributions of data given a fixed hypothesis, e.g. $ \theta = 0.5 $, the bayesian uses a probability distribution over all possible hypotheses.
 
 
 The posterior distribution over all possible hypotheses is given by the Baye's rule.
 
 
-$$P(H|D) = \frac{P(D|H) P(H)}{P(D)}$$
+$$ P(H|D) = \frac{P(D|H) P(H)}{P(D)} $$
 
 Now H is a hypothesis and D is data which may give evidence for or against H. Each term
 in Bayes’ formula has a name and a role.
@@ -238,7 +238,7 @@ In summary, according to the statistician Larry Wasserman:
 # Simple Bayesian Analysis using MCMC
 
 
-$$P(H|D) = \frac{P(D|H) P(H)}{P(D)}$$
+$$ P(H|D) = \frac{P(D|H) P(H)}{P(D)} $$
 For computing the expression above  one has to calculate the term P(D) which for complex models involves the calculation of  very complex integrals that are not analytically tractable. The most commonly used alternative to this is Markov Chain Monte Carlo, which allows for the estimation of the posterior, without calculating the complex integral.
 
 
@@ -429,18 +429,18 @@ summary(lm(mpg~disp,data=mtcars))
 
 To do the same in Stan, you need to specify priors for the slope, intercept and error parameters.The noise distribution which in the case of  simple linear regression can be a normal distribution.
 
-$$\hat{y} \sim  N(\beta_0 + \beta_1x, \sigma)$$
+$$ \hat{y} \sim  N(\beta_0 + \beta_1x, \sigma) $$
         
 
-The priors on $\beta_0$ and $\beta_1$ can be weakly informative priors on the scale of the data. .
+The priors on $ \beta_0 $ and $ \beta_1 $ can be weakly informative priors on the scale of the data. .
 
-$$ \beta_0 \sim N(25,1000 )$$
-
-
-$$ \beta_1 \sim N(0,100 )$$
+$$ \beta_0 \sim N(25,1000) $$
 
 
-$$ \sigma \sim Uniform(sd(Y)/1000,1000sd(Y))$$
+$$ \beta_1 \sim N(0,100) $$
+
+
+$$ \sigma \sim Uniform(sd(Y)/1000,1000sd(Y)) $$
 
 Specify data for shipment to Stan
 
