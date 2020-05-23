@@ -10,10 +10,10 @@ tags:
   - Strategy
   - Anti Money Laundering
 subtitle: ''
-summary: ''
+summary: 'Machine Learnign in the AML Industry'
 authors: []
 lastmod: '2020-05-16T11:19:25-04:00'
-featured: no
+featured: yes
 image:
   caption: ''
   focal_point: ''
@@ -117,6 +117,9 @@ Vendors should collaborate with multiple banks to create a rich set of engineere
 The journey to a strong ML driven compliance program is an iterative one requiring multiple rounds of experimentation, learning and incremental improvement. Vendors  need to understand the several challenges banks face  and support them at every step of this journey. Vendors who are bold enough to invest in partnerships with financial institutions and value long term success over short term profits have an opportunity to truly transform this industry.
 
 
+## References
+
+1) http://ai.stanford.edu/blog/weak-supervision/
 
 
 
