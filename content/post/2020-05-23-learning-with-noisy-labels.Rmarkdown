@@ -21,7 +21,7 @@ projects: []
 ---
 
 <iframe
-       src="./Learning_with_Noisy_Labels.html"
+       src="./content/post/Learning_with_Noisy_Labels.html"
        width="125%"
        height="1000px"
        style="border:none;">
