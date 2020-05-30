@@ -73,7 +73,7 @@ user_groups:
 
 I am a Technical Product Manager @ Oracle where I work on building AI and ML powered products that enable Financial Institutions to better prevent and detect Money Laundering and thus make our financial system safer. 
 
-I am a data scientist, a newbie product manager and an infinite learner constantly seeking to become wiser every single day.
+I am a data scientist, a newbie product manager and an infinite learner constantly seeking to become a little wiser every single day.
 
 > *Wisdom is not a product of schooling but the lifelong attempt to acquire it* - Albert Einstein
 
