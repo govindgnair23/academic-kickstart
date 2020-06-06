@@ -237,10 +237,10 @@ posterior_interval(bayes_glm1,prob=0.95)
 ```
 
 ```
-##                    2.5%     97.5%
-## (Intercept)  -41.887627 -12.82305
-## Sepal.Length  -1.459673   2.15130
-## Petal.Width    9.020976  21.49028
+##                    2.5%      97.5%
+## (Intercept)  -41.784209 -13.136812
+## Sepal.Length  -1.370776   2.215592
+## Petal.Width    8.785807  21.795103
 ```
 
 Model predictions on new data points are computed below
@@ -261,9 +261,9 @@ print(results)
 
 ```
 ##   label    median         lb        ub
-## 1     A 0.9956850 0.96137381 0.9998801
-## 2     B 0.9919045 0.82759409 0.9998761
-## 3     C 0.9761248 0.01831896 0.9999963
+## 1     A 0.9957762 0.95670934 0.9998836
+## 2     B 0.9919329 0.84845089 0.9998762
+## 3     C 0.9766733 0.01786457 0.9999951
 ## 4     D 1.0000000 1.00000000 1.0000000
 ## 5     E 1.0000000 1.00000000 1.0000000
 ```
@@ -297,7 +297,7 @@ print(probs)
 
 ```
 ##       A       B       C       D       E 
-## 1.00000 0.98275 0.72300 1.00000 1.00000
+## 1.00000 0.98575 0.72600 1.00000 1.00000
 ```
 
 This can allow us to set thresholds like,the posterior predictive distribution should have a probability mass of 0.5 exceeding the chosen threshold. 
@@ -344,9 +344,9 @@ posterior_interval(bayes_glm2,prob=0.95)
 
 ```
 ##                     2.5%        97.5%
-## (Intercept) -3.848464080 -3.276651433
-## Height      -0.018483552 -0.013322733
-## P_black      0.005548201  0.006737464
+## (Intercept) -3.831934864 -3.268164915
+## Height      -0.018557965 -0.013382559
+## P_black      0.005524707  0.006682367
 ```
 
 
@@ -514,7 +514,7 @@ Consider an ML scenario event where the predicted score is (0.58), assume this i
 Neither of these ML events will lead to alerts but the first event should be escalated to an alert given the much larger uncertainty associated with the prediction and the high cost of false negatives. The probability mass exceeding the threshold of 0.6  for event 1 is ~ 0.33 whereas this probability mass is 0 for event 2.
 
 
-**2) Making a binary(yes/no) decision by comparing a score against a threshold.**
+**2) Rank Ordering Events**
 
 In many applications the model's predictions are used to rank items. In fraud, analysts have only a limited time and budget to review fraud cases, so the cases are reviewed from the top-down until the available budget is exhausted.
 

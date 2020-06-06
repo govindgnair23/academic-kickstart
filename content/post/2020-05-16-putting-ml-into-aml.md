@@ -10,7 +10,7 @@ tags:
   - Strategy
   - Anti Money Laundering
 subtitle: ''
-summary: 'Machine Learnign in the AML Industry'
+summary: 'Machine Learning in the AML Industry'
 authors: []
 lastmod: '2020-05-16T11:19:25-04:00'
 featured: yes
