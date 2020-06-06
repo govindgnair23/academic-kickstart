@@ -389,7 +389,7 @@ Consider an ML scenario event where the predicted score is (0.58), assume this i
 Neither of these ML events will lead to alerts but the first event should be escalated to an alert given the much larger uncertainty associated with the prediction and the high cost of false negatives. The probability mass exceeding the threshold of 0.6  for event 1 is ~ 0.33 whereas this probability mass is 0 for event 2.
 
 
-**2) Making a binary(yes/no) decision by comparing a score against a threshold.**
+**2) Rank Ordering Events**
 
 In many applications the model's predictions are used to rank items. In fraud, analysts have only a limited time and budget to review fraud cases, so the cases are reviewed from the top-down until the available budget is exhausted.
 
