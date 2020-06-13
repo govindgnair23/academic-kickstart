@@ -22,7 +22,9 @@ image:
 projects: []
 ---
 
-These are my notes from the O'Reilly Artificial Intelligence Conference held in San Jose in 2019.There are over a hundred hours of content from this conference so I will be continually updating this post as I consume it.
+These are the notes covering my learning from the talks at the O'Reilly Artificial Intelligence Conference held in San Jose in 2019.There are over a hundred hours of content from this conference so I will be continually updating this post as I consume it.
+
+Also note that, I have only included content that was new or interesting to me. It is not a comprehensive report on these talks.
 
 
 ## 1) Fighting Crime with Graphs | (MIT + IBM)
@@ -33,7 +35,7 @@ Algorithms like node2vec and deepwalk have been used to create embeddings that c
 
 GraphSage is a Graph convolutional network algorithm that allows you to capture both the topology of a network as well as useful node attributes.Besides this is an **inductive"" algorithm meaning that it does not need to be trained on whole graphs and can be used for inference on unseen nodes and graphs.
 
-More useful information is available [here] (http://snap.stanford.edu/graphsage/) and [here](https://blogs.oracle.com/datascience/graphwise-graph-convolutional-networks-in-pgx)
+More useful information is available [here](http://snap.stanford.edu/graphsage/) and [here](https://blogs.oracle.com/datascience/graphwise-graph-convolutional-networks-in-pgx)
 
 
 ## 2) Facebook Keynote -  Going beyond supervised learning
@@ -129,6 +131,141 @@ The key operations in the Snorkel workflow include:
 3) Slicing Functions: Partition the data specifying critical subsets where model performance needs to be high
 
 For this approach to work at least 50% of the labeling functions need to be better than random.
+
+
+## 6) Managing AI Products | Salesforce
+
+To demonstrate value to business stakeholders, which is the ultimate goal of anyone who works in a corporation, it is essential to tie business metrics to model metrics. This should ultimately inform what kind of ML we decide to use.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/acceptance_criteria.PNG)
+
+The figure above demonstrates the accuracy of the model(x-axis) required to provide a material lift in the business metric(y-axis) e.g. conversion rate. If the base line improvement rate in conversion that we need to deliver is only 2%, a model that has accuracy in the range 50 - 75% is sufficient. This means we could rule out sophisticated models like Neural Nets that are harder to deploy and maintain and focus on simpler models that are easier to build or maintain. 
+
+
+## 7) Explainability and Bias in AI and ML| Institute for Ethical AI and ML
+
+Undesired bias can be split into two conceptual pieces
+
+**1) Statistical Bias (Project Bias)** : The error between where you ARE and where you could get caused by modeling/project decisions
+
+  * Sub optimal choices of accuracy metrics/cost functions
+  * Sub optimal choices of ML models chosen for the task
+  * Lack of infrastructure required to monitor model performance in production
+  * Lack of human in the loop where necessary
+
+
+
+**2) A-priori bias (Societal Bias)** : The error between the best you can practically get, and the idealistic best possible scenario - caused by a-priori constraints
+
+  * Sub optimal business objectives
+  * Lack of understanding of the project
+  * Incomplete resources (data, domain experts etc)
+  * Incorrectly labelled data (accident or otherwise)
+  * Lack of relevant skill sets
+  * Societal shifts in perception
+  
+
+Explainability is key to:
+
+a) Identify and evaluate undesirable biases
+b) To meet regulatory requirements such as GDPR
+c) For compliance of processes
+d) To identify and reduce risks (FP vs FN)
+
+**Interpretability != Explainability**
+
+ * Having a model that can be interpreted doesn't mean in can be explained
+ * Explainability requires us to go beyond algorithms
+ * Undesired bias cannot be tackled without explainability
+
+Library for Explainable AI: [xAI](https://github.com/EthicalML/XAI) [alibi](https://github.com/SeldonIO/alibi)
+
+
+
+Anchor points: What are features that influenced a specific prediction for a data instance? This can be evaluated by roughly by pulling out a feature and estimating its impact on the model prediction.
+
+Counterfactual: How would the input/features have to change for the prediction to change?
+
+
+## 8) Usable Machine Learning - Lessons from Stanford and beyond | Stanford University
+
+- For deep learning, improvement in performance requires exponential increase in data
+- Deep learning still doesn't work very well with structured data
+- Don't look for a perfect model right out of the gate, instead iterate towards higher quality models
+- Measure implicit signals where possible. e.g. Is a user spending time on a page or closing a window
+
+
+## 9) Human Centered Machine Learning | H2O.ai
+
+- Establish a benchmark using a simple model from which to gauge improvements in accuracy, fairness, interpretability or privacy
+
+-  Overly complicated featured are hard to explain. Features should provide business intuition.(More relevant for regulated industries)
+
+- For fairness, it is important to evaluate if different sub groups of people are being treated differently by your ML model (Disparate Impact). Need to do appropriate data processing. OSS:  [AIF360](https://github.com/IBM/AIF360), [aequitas](https://github.com/dssg/aequitas)
+
+- Model Debugging for Accuracy, Privacy or Security: This involves eliminating errors in model predictions by testing using adversarial examples, explaining residuals, random attacks and what if analysis. Useful OSS: [cleverhans](https://github.com/tensorflow/cleverhans), [pdpbox](https://github.com/SauceCat/PDPbox),
+[what-if-tool](https://github.com/pair-code/what-if-tool)
+
+
+## 10) Operationalizing AI at Scale: From drift detection to monitoring business impact | IBM Watson
+
+Note: See my post on [concept drift](https://www.govindgnair.com/post/detecting-concept-drift/) for a general understanding of the problem.
+
+
+* Fair Credit Act  requires a sample of model decisions to be explained to the regulator. Same with GDPR.
+
+Watson Openscale provides the following capabilities:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Watson.PNG)
+
+Important to realize high model performance doesn't always correlate to high business performance. Need to correlate model KPIs and Business KPIs. IBM openscale will automatically correlate model metrics in run time with business event data to inform impact on business KPIs.
+
+Types of concept drift:
+
+1) Class Imbalance. e.g. The imbalance ratio shifts.
+2) Novel Class Emergence e.g. A new category of chats in a chatbot
+3) Existing Class Fusion e.g. A bank wants to merge the loan approved class with the loan partially approved class
+
+Accuracy Drift: Has model accuracy changes because of changing business dynamics? This is what businesses really care about. This could happen due to:
+
+a) Drop in Accuracy: Model accuracy could drop if there is an increase in transactions similar to those which the model was unable to evaluate correctly in training data
+
+- Use training and test data to learn what kind of data the model is making accurate prediction on and where it is not. You can build a secondary model to predict the model accuracy of your primary model and see if the accuracy falls
+
+b) Drop in data consistency:  Drop in consistency of data at runtime compared to characteristics at running time.
+
+E.g. % of married people applying for your loan has increased from 15% to 80%. These are the kind of explanations that are accessible to a business user.
+
+- Open scale can map a drop in business KPI to the model responsible for the drop and identify the samples of data that has changed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
