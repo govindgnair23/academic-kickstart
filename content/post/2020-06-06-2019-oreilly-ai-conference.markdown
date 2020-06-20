@@ -66,7 +66,7 @@ Another interesting application of this technique at Facebook is **machine trans
 
 This relies on creating automatic word dictionaries. First,you create vector representations for vocabularies in each languages and leverage the fact that the vector representations of the same word in different languages share structure to learn a *rotation matrix* to align them and produce a word by word translation.
 
-Then  you build a language model in each language to learn the sentence structure in each language. This language model can then be used to reorder the word by word translation produced in the previous step. This gives you an initial model to translate between the two languages (L1 to L2 * L2 to L1).
+Then  you build a language model in each language to learn the sentence structure in each language. This language model can then be used to reorder the word by word translation produced in the previous step. This gives you an initial model to translate between the two languages (L1 to L2  and L2 to L1).
 
 ![](/post/2020-06-06-oreilly-strata-ai-confrence_files/Language_Model0.PNG)
 
@@ -237,6 +237,228 @@ b) Drop in data consistency:  Drop in consistency of data at runtime compared to
 E.g. % of married people applying for your loan has increased from 15% to 80%. These are the kind of explanations that are accessible to a business user.
 
 - Open scale can map a drop in business KPI to the model responsible for the drop and identify the samples of data that has changed.
+
+
+## 11) Monitoring production ML Systems | DataVisor
+
+Datavizor is a company that specializes in unsupervised ML for fraud detection.
+
+There are potentially several issues that can occur in a production ML systems as shown below. Robust monitoring systems are required to be able to detect and resolve these issues in a timely fashion.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/DataVizor.PNG)
+
+You can react to these issues by having the ability to roll back your system to the previous stable build or by auto scaling to a bigger cluster but it is more cost effective to be able to detect and prevent these issues.
+
+Some approaches to monitoring model quality:
+
+1) Build a surrogate model(offline) to monitor the performance of the deployed model(online)
+2) Track model drift
+3) Carry out anomaly detection on model outputs and metadata
+
+Anomaly detection using Time series decomposition is a suitable approach.
+
+Additive decomposition of a time series:
+
+$$ Y_t = T_t + S_t + R_t $$
+
+where $ T_t $ is the trend component, $ S_t $ is the seasonal component and $ R_t $ is the residual component.
+
+Subtract the trend and seasonal components from the signal to get the residual component.You should be able to use the residual component to track anomalies.
+
+$$ R_t = Y_t - T_t - S_t $$             
+
+This approach can create unexpected drops in the residual component as shown in red in the image below.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/anomdetection2.PNG)
+
+To resolve this, obtain the residual component by subtracting the median instead of the trend.
+
+The mean absolute deviation (MAD) can then be used to identify anomalies.
+
+$$ If\ Distance\ to\ Median > x \times MAD : anomaly $$
+
+
+## 12) Reference Architectures for AI and Machine Learning | Microsoft
+
+Distributed training of models can be implemented via data parallelism or model parallelism.
+
+In data parallelism, the entire model is copied to each worker that processes a subset of the total data. The batch size can hence be scaled up to the number of workers you have. Very large batch sizes can cause issues with convergence of the network.
+
+In model parallelism, the model is split across workers and there has to be communication of gradients between the nodes during the forward and backward pass.
+
+Data parallelism is more fault tolerant and common.
+
+* When to use distributed training?
+ - Your model us too big to fit a sufficiently large batch size
+ - Your data is large
+ - Your model requires significant GPU computation
+
+You do not need distributed training if:
+ - You want to run hyperparameter tuning
+ - Your model is small
+ 
+
+### Reference Architecture for Distributed Training
+
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/distributed_training.PNG)
+
+Azure ML supports distributed training for TF, Pytorch and Keras. The dependencies are placed in a docker container that runs on the host machine. The storage can be mounted to each of the nodes where training happens.
+
+Azure ML will create the appropriate docker containers and configure the Message Passing interface (MPI) which is essential for distributed training. Azure ML will run the script on the nodes and push the results to blob storage.
+
+
+### Architecture for Real Time Scoring with DL Models
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/realtimescoring.PNG)
+
+- Model served as a REST endpoint
+- Should handle requests from multiple clients and respond near instantaneously
+- Timing of requests are unknown
+- Solution should have low latency, scalable and elastic to seasonal variations
+
+Best practices for deploying an image classification system:
+
+- Use GPU for efficient inferencing (faster than CPU)
+- Send multiple images with a single request (GPUs process batches more efficiently)
+- Use HTTP 2.0 (allows you to accept multiple request)
+- Send image as file within HTTP request
+
+### Architecture for Batch Scoring with DL Models
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Batchscoring.PNG)
+
+* Scoring can be triggered (by appearance of new data) or scheduled (at recurring intervals)
+* Large scale jobs that run asynchronously
+* Optimize for cost, wall clock time and scalability
+
+The way Azure implements this is given [here](https://github.com/Azure/batch-scoring-for-dl-model)
+
+
+## 13) Semi Supervised Learning for ML | Rocket ML
+
+Three important considerations:
+
+1) Total cost - May not be possible to acquire the volume of labels needed to build a good model
+2) Social Accountability - Interpretability, Explainability, Traceability
+3) Robustness - Should not be vulnerable to to easy adversarial attacks
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/rocketml1.PNG)
+
+
+
+### Anomaly Detection Problem
+
+* Labels are rare and expensive to acquire
+
+Types of Anomalies:
+
+1) Point Anomalies : E.g. a point In a time series
+2) Contextual Anomalies : Anomalous in a given context but not in another
+3) Collective Anomalies: Group of points constitute and anomaly
+
+
+* KNN is parameterized by the no of neighbors(K) and the distance metric.
+
+* In an unsupervised setting, use the [Local outlier Factor](https://en.wikipedia.org/wiki/Local_outlier_factor) to identify outliers.
+
+#### Anomaly detection performance
+
+* Build KNN for different values of K
+* Compute LOF for the neighboring k points
+* Use threshold on LOF to determine anomaly vs normal
+
+
+* As k increases the performance of the model increases. This is because for small k, by looking at really close neighbors, density is not too different and hence anomalies are not found. i.e. you miss the forest for the trees.
+For larger k, by looking beyond the clusters into normal areas, density differences stand out.
+
+* Possible methods to generate better features: Matrix Factorization, Pre-trained models, Auto Encoders.
+* Reducing dimensionality using SVD can improve accuracy by addressing the curse of dimensionality problem
+
+* KNN is computationally intensive so need highly efficient, parallelized implementations for this approach to work.
+
+
+## 14) Sequence to Sequence Learning for Time Series Forecasting | Anodot
+
+
+Structural Characteristics that affect the choice and performance of your Time Series forecasting algorithm:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/TimeSeries1.PNG)
+
+Existing techniques are unable to address situations when many of these structural characteristics co-occur.
+
+Key development that allowed the application of Neural Nets to time Series: Recurrent Neural Nets and Back Propagation Through Time
+
+RNNs can be memory based (GRU and LSTM) or attention based (Transformers).
+
+**Considerations for getting accurate TS forecasts:**
+1. Discovering influencing metrics and events
+ - Look at correlations between target and time series features
+ 
+2. Ensemble of models - Usually require multiple algorithms
+
+3. Identify and account for unexplainable data anomalies
+ - Identify anomalies and use this to create new features
+ - Enhance anomalies that can be explained by external factors
+ - Weight down anomalies that can't be explained by external factors
+ 
+ 
+
+4. Identify and account for different time series behaviors
+ - Training a single model for multiple time series does not work if each series shows a different seasonality. 
+   Difference can be in frequency or strength.
+ - Mixing stationary and non stationary time series also does not work
+
+
+## 15) Transfer Learning NLP: Machine Reading comprehension for question answering | Microsoft
+
+Attention can be content based or location based. Question Answering requires content based attention.
+
+Machine Reading Comprehension systems should be capable of summarizing key points in a piece of texts, it can answer questions and also do reply (e.g Gmail auto suggestion)and comment.
+
+Machine reading comprises (in increasing order of complexity) Extraction, Synthesis & Generation and Reasoning & Inference.
+
+Open Source datasets available: SQUAD (Stanford) and Marco (Microsoft)
+
+Best performing algorithms:
+
+For extraction: BIDAF(for small paragraphs) , DOCQA(large documents), S-NET (small multiple paragraphs)
+
+For reasoning and inference: SynNet ( multiple small paragraphs) and Open NMT (multiple small or large paragraphs)
+
+BIDAF: Bi Direction Attention Flow for Machine Comprehension
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
