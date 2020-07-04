@@ -514,6 +514,154 @@ In the absence of ground truth labels:
 * Train Discriminative models (VGG or Resnet) on good and bad images. Score of the model is the metric.
 
 
+## 18) Supercharging business decisions with AI | Uber
+
+The finance planning department at Uber carries out rolling 12 month forecasts for Uber trips. Some of the challenges involved here are:
+
+* Time series of trips vary considerably across cities based on economy, geography, quality of public transport etc.
+* Shape of time series can change over time. It can grow rapidly initially but then flatten
+* Affected by holidays,e vents, weather etc.
+* Newly launched cities have little or no data
+
+### Planning
+
+Below is a planning model used by Uber. The goals of the first part of the system here is to generate cost curves that track the relationship between money spent on driver and rider promotions and no of sign ups. the goals is to find the optimal point maximizing ROI.
+
+The levers available are:
+
+$ \\$_{Ref} \rightarrow $  Dollars spent on Referrals <br />
+$ \\$_{DPaid} \rightarrow $ Dollars paid to drivers <br />
+$ \\$_{Promo} \rightarrow $ Dollars paid in promotions to riders <br />
+$ SU_D \rightarrow $ Sign Ups from drivers <br />
+$ SU_R \rightarrow $ Sign Ups from riders
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber0.PNG)
+
+
+
+The second part of the system is the **trips models**
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber1.PNG)
+
+$ FT_D \rightarrow $ First trip per rider <br />
+$ FT_R \rightarrow $ First trip per driver <br />
+$ RR_D \rightarrow $ Retention Rate pf drivers <br />
+$ RR_R \rightarrow $ Retentions rate of riders <br />
+$ TPA_D \rightarrow $ Trips per active driver <br />
+$ TPA_R \rightarrow $ Trips per active rider <br />
+$ RES_D \rightarrow $ Resurrected drivers <br />
+$ RESR_R \rightarrow $ Resurrected Riders
+
+Active drivers are those that are active at least once per month.
+
+This a classic funnel. Promotions lead to sign ups and first rides, but many churn at this point looking for new promotions.
+
+This variables are used to calculate the no of trips, active riders, active drivers, resurrected drivers, resurrected riders and per trip metrics.
+
+Resurrected riders /drivers are those who haven't been active in the previous three months. 
+
+
+### Forecasting Models
+
+Riders and Drivers are cohorted based on month of joining for each city.
+
+For each cohort, three models as shown below are used. A black box model ensembles these three models by assigning weights to the predictions of each. Evaluation Metric is MAPE and SMAPE.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber2.PNG)
+
+
+Models used include ETS, ARIMA and TBATS.
+
+Model averaging is done at different training end points to correct for misleading volatility in recent data points.
+
+
+### Modelling Seasonality
+
+Seasonal holidays can shift from year to year that can cause problems. Uber uses the a Day to Month model to account for this. 
+
+Uber  uses FB's prophet and python holiday library.
+
+The sophistication of the systems used by Uber's financial planning team is truly remarkable. There was a lot more content in this talk that I didn't fully follow given my familiarity with this domain is limited.
+
+
+## 19) An age of embeddings| USC Information Sciences Institute
+
+> 'You shall know a work by the company it keeps' - JR Firth(1957)
+
+
+### Word embeddings
+
+Skip Gram: Take a word and predict the surrounding words
+CBOW: Take surrounding words and predict the target word
+
+Glove word embeddings are based on matrix factorization of a matrix with entries corresponding to frequency of their co-occurence.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings1.PNG)
+
+TFIDF is a simple type of an embedding, but they are sparse adn high dimensional. 
+
+
+
+### Image Embeddings
+
+Can use fully connected layers before the softmax layer of a CNN built for classification. Auto encoders are also a popular choice to create embeddings.
+
+
+### Document Embeddings
+
+Topic models give lower dimensional embeddings of documents.
+
+Below is a way to get document embeddings from a word embeddings.$d_{test}$ in the image below is the id for a document inserted as  a word into the document.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings2.PNG)
+
+### Graph and Network Embedding
+
+Graph CNNs can be used to create embeddings.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
