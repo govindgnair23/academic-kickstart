@@ -586,7 +586,7 @@ The sophistication of the systems used by Uber's financial planning team is trul
 
 ## 19) An age of embeddings| USC Information Sciences Institute
 
-> 'You shall know a work by the company it keeps' - JR Firth(1957)
+> 'You shall know a word by the company it keeps' - JR Firth(1957)
 
 
 ### Word embeddings
@@ -618,6 +618,215 @@ Below is a way to get document embeddings from a word embeddings.$d_{test}$ in t
 ### Graph and Network Embedding
 
 Graph CNNs can be used to create embeddings.
+
+
+# 20) Recommendation system challenges at Twitter scale | Twitter
+
+Recommendation systems can be content based, collaborative filtering driven or a hybrid of the two.
+
+* Given twitter has user follows, collaborative filtering is a more natural approach
+* Content based approaches are more challenging  given short document length, multi lingual content and multiple languages within the same tweet.
+* Recommendations served include 
+- user-user: Who to follow
+- user-item: Home timeline with tweets. Which tweet  to follow 
+- item-item : Recommend new trends/tweets etc.
+
+An item at twitter can be tweets,events,trends,moments or live video/broadcast.
+
+Twitter faces a unique challenge that the shelf life of a tweet is typically only a few hours unlike movies or e-commerce products that have a shelf life of months or years. People use twitter to keep up with the most current information.
+
+
+This figure provides a framework for thinking about recommender systems.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitter1.PNG)
+
+1) Small Number of items + Long Shelf Life: Ideal spot to be in
+2) Small Number of items + Short Shelf Life: Can't have a cold start problem because items disappear quickly
+3) Large Number of items + Long Shelf Life: A doable problem
+4) Large Number of items + Short Shelf Life : The hardest problem
+
+
+Question: What to optimize recommendations for? Can be retweets, likes, CTR, DAU/MAU etc. Optimizing too hard any of these may not be appropriate. Optimizing for clicks promotes click baity content, while optimizing for engagement may reduce diversity. 
+
+* Recommendations at twitter do not assign higher weights to a tweet from a verified user
+
+### Challenges in User - Item Recommendations
+
+* Distribution of content and user interests keep changing over time so the recommender system is always predicting out of distribution.
+
+* Content keeps changing and user's interests keep changing. 
+
+* Interests can be long term, short term (e.g. elections) or geographic
+
+
+Twitter is trying to map users and items into more stable spaces where learning can happen.
+
+Co-occurrence of entities yields information about topics. e.g. LeCun + CNN vs White House + CNN
+
+
+## 21) PyTorch at Scale for translation and NLP | Facebook
+
+Common NLP Tasks:
+
+* Classification
+* Word Tagging E.g. Part of Speech
+* Sequence Classification
+* Sequence to Sequence E.g. Translation
+
+Model should be able to take additional input features such as relevant metadata
+
+### Inference
+
+* Python is not good for inference. Scaling up to multiple CPUs is often necessary for inference which is challenging in Python due to the [global interpreter lock](https://docs.python.org/3/c-api/init.html#thread-state-and-the-global-interpreter-lock)
+
+* Saving models by saving the weights as in TF or PyTorch is not very resilient as you need to reconstruct the model and reload the weights for  for inference. Small changes such as change in internal variable names can break the model. ONNX and TorchScript are resilient model formats for PyTorch.
+
+* If models are of  reasonable  size, they can be duplicated in multiple replicas and scaled up according to traffic needs.
+* If models are very large, you need intra model parallelism or sharding. This might be necessary if vocabularies are very large.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/pytext1.PNG)
+
+
+An alternative to sharding is BPE (Byte Pair Encoding). You look over a corpus of text and learn sub word units and tokenize into these sub word units. This reduces the vocabulary size and can work across languages and hence is a good choice for large multilingual models.
+
+### Training
+
+A training framework needs:
+* Data
+* Model
+* Metrics
+* Trainer - Might make sense to fold this into the model in some cases. e.g. PyTorch ignite
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/pytext2.PNG)
+
+
+
+Training a Classifier in Pytext comprises the following steps
+
+1) Get data
+2) Tokenize and Numericalize
+3) Convert to Tensor and pad to equalize lengths
+4) Get  Model outputs
+5) Compute Loss and Optimize using Backprop
+
+
+## 22) Turning AI research into a revenue engine | Verta.ai
+
+ModelDB: Model Life Cycle Management System built at MIT. Tracks hyperparameters, metrics and other model metadata
+
+You need to be agile with ML/AI for it to make a revenue impact with ML. The new model lifecyle is
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai1.PNG)
+
+Agile principles for ML:
+
+1) Good enough vs best models
+2) Constant iteration: Build, deploy, repeat
+3) Monitoring: gather feedback and repeat
+
+
+The challenges Verta focuses on tackling are in the lower half of the model lifecycle:
+
+1)How do you run and manage ML Experiments? Need a git equivalent for ML models
+2)Deploying Models in Production
+3)Monitoring Model Performance
+
+* Model versioning requires code versioning, data versioning, config versioning and environment versioning
+
+* Automated Model deployment for models equivalent to Jenkins is missing. Automated Monitoring and Collaboration are also required
+
+Verta's solution includes:
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai2.PNG)
+
+Auto scaling is accomplished through containers and Kubernetes
+
+For a sales engineering client, it resulted in the following improvements.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai3.PNG)
+
+
+
+## 23) Deep Learning Applications in NLP and Conversational AI | Uber
+
+The right problem to tackle with AI
+* Involves decision making under uncertainty
+* Within reach of AI Tech
+* Touches customer pain point
+* Delivers business value
+
+The best model depends on data available and the data required depends on task complexity.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp1.PNG)
+
+Uber has deployed ML systems for their customer support platform. Based on the customer questions,the system recommends templates to the customer service agent for replies.
+
+Uber also has developed one click chat reply templates for drivers.This is similar to Gmail's auto reply features.
+The major challenge here is that the chats are often informal and have lots of typos. However, the task complexity is lower compared to Gmail as the variety of conversations is lower.
+
+To solve this Uber has used a two step algorithm.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp2.PNG)
+
+Given the types of responses are limited depending on the intent of the question, intent detection is the primary focus.
+
+Intent detection is carried out as follows
+
+1. Train Doc2vec model to get dense embedding for each message (Self Supervised Learning)
+2. Map labelled data to embedding space (You should have labelled data giving intent of various messages)
+3. Calculate centroid of each intent cluster
+4. Calculate distance between incoming message and intent cluster centroid
+5. Classify into Nearest Neighbor Intent Cluster.
+
+
+Another use case allows Uber drivers to converse with the Uber App without touching their phones.
+
+Conversational AI can be done with two approaches as shown below. The first one uses a modular approach with different modules carrying out specific sub tasks while the second uses an end  to end model.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp3.PNG)
+
+
+For task oriented conversations, the first is preferred.
+
+Uber also has created a system that combines the strengths of Spark which is CPU driven and Deep Learning frameworks such as Tensorflow that rely on GPUs.
+
+The pre-processing of data is done on Spark Clusters and are transferred to GPU clusters where the models are trained.
+
+For inference - Apache Spark and Java are used for both batch and real time requests. The tensorflow model is converted into a spark transformer in a Spark pipeline.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
