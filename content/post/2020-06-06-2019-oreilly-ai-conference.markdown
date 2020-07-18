@@ -798,6 +798,151 @@ The pre-processing of data is done on Spark Clusters and are transferred to GPU 
 For inference - Apache Spark and Java are used for both batch and real time requests. The tensorflow model is converted into a spark transformer in a Spark pipeline.
 
 
+## 24) Using Deep Learning model to extract the most value from 360-degree images | Trulia
+
+Trulia needs to rank candidate images based on an objective which can be quality, relevance, informativeness, engagement, diversity or personalization. If there are multiple images, a few need to be selected to be displayed to the user.
+
+Image selection can be based on behavioral data or through content understanding.
+
+### Selecting Hero Images for Real Estate Listings
+
+Real Estate images can vary widely in quality and content. Zillow needs to select a primary image(hero image) to display along with the listing.Typically, exterior images are selected as the primary image which may not be appropriate.
+
+A good hero image must be:
+*Attractive
+*Relevant - Informative of the listing
+*Appropriate - No irrelevant advertisements
+
+
+
+### Turning 3D panoramas into thumbnails
+
+The goal is to select an appropriate thumbnail  shown on the upper half of the image from the  panorama image  below it.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/trulia1.PNG)
+
+This can be done by using an equiangular projection as a thumbnail or by selecting a thumbnail from possible rectilinear projections.
+
+The first approach is to present the entire equiangular projection.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/trulia2.PNG)
+
+Clearly this results in some distortions
+
+The second approach is shown below. Here you project a selected portion of the panorama into the 2D domain.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/trulia3.PNG)
+
+Here you need to select the most salient thumbnail from multiple possibilities. A salient thumbnail must be informative, representative, attractive and diverse.
+
+For example. Image C below is the most salient thumbnail.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/trulia4.PNG)
+
+
+The **Thumbnail Extraction Pipeline** is as follows
+
+1) Optimal Field of View (FOV) Estimation
+
+This has to be done because different cameras has different vertical [FOV](https://www.brickhousesecurity.com/field-of-view-explained/). For e.g. an I-phone has a sixty degree field of view and has to be padded with zero pixels while more professional cameras have an 180 degree vertical field of view .
+
+
+2) Extracting 2D viewpoints from 360 degree panoramas
+3) Extract saliency attributes and compute saliency scores
+4) Rank candidate viewpoints by sailency scores
+5) Apply diversity filter and return top N candidates
+
+
+## Computing Sailency Scores
+
+Trulia developed 3 different CNN models for
+- Image Attractiveness
+- Image Appropriateness
+- Image Scene Understanding
+
+
+Also, gaussian kernel smoothing is used to account for the fact the models are trained on 2d images while the test data are 360 degree panorama images.
+
+
+The aggregate score from the 3 models is used to compute overall salience score per viewpoint.
+
+
+## Training Sail ency Models
+
+* Resent/Inception architectures pretrained on Imagenet/Places365 are fine tuned on internal Scenes60 data set.
+* This model is then fine tuned on Trulia's Appropriateness and Attractiveness data sets.
+* Binary Cross Entropy loss is used fro the Appropriateness and Attractiveness data sets while a 60 way categorical cross entropy loss is used for the scene understanding model.
+
+
+## Estimating Image Attractiveness
+
+This is set up as a supervised problem and requires labels that can be quality ratings on some scale or pairwise comparisons. However this is highly subjective and human labels are expensive to acquire.
+
+So a weakly supervised approach using the meta data available from the listings is used. Home price is used as an alias for attractiveness as luxury homes have professionally taken ,well staged photos while low price homes typically have low quality images.
+
+
+The Grad CAM approach is used to visualize saliency to ensure the model is learning the right concepts from these weak labels.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/trulia5.PNG)
+
+
+To ensure diversity in top N recommendation, maximal marginal relevance - [MMR](https://medium.com/tech-that-works/maximal-marginal-relevance-to-rerank-results-in-unsupervised-keyphrase-extraction-22d95015c7c5#:~:text=Maximal%20Marginal%20Relevance%20a.k.a.%20MMR,already%20ranked%20documents%2Fphrases%20etc.) is used
+
+
+## 25) Named Entity Recognition at Scale with DL | Twitter
+
+Applications of NER at Twitter include Trends which have to be meaningful words , Event detection, Recommending User Interests.
+
+Twitter has opted for in-house NER due to the unique linguistic features of Twitter besides other reasons.
+
+### Generating Training Data
+
+* Tweets were sampled based on tweet engagement
+* Sampling has to carried out over a longer time span to capture temporal signals. e.g. A soccer game lasts 90 minutes
+* Normalization has to be carried out based on countries and spoken language
+* Character based Labeling is carried out on a crowd sourcing platform
+* Character labels have then to be processed into token labels to train the model
+* Deleted tweets have to expunged to comply with GDPR
+
+
+### Model
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER1.PNG)
+
+
+Historically, Conditional Random Fields were used for NER. Deep Learning and Language models are now the most popular approaches.
+
+The Deep Learning approach uses a multi layered approach as shown below.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER2.PNG)
+
+
+The architecture used by Twitter is a Char - BiLSTM -CRF.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER3.PNG)
+
+A character representation is used to supplement the word representation if a token is unknown.Other features indicate if the token was a hashtag or other twitter specific characteristics.
+
+Twitter chose not to use the LM approach because of the size of the model and latency demands in production.
+
+### Confidence Estimation
+
+The output of the NER model is typically consumed by other models so confidence estimates are also provided along with NER tags. Some downstream applications might require high precision in the NER tags.
+
+This confidence estimation also has to be at the entity level rather than token level. Simple softmax decoder gives confidence at the token level i.e. confidence in "San" and "Jose" separately rather than the single entity "San Jose". 
+
+Using a CRF based approach proposed in a 2004 [paper](https://people.cs.umass.edu/~mccallum/papers/crfcp-hlt04.pdf), the correct confidence can be computed.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER4.PNG)
+
+
+
+
+
+
 
 
 
