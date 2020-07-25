@@ -939,6 +939,127 @@ Using a CRF based approach proposed in a 2004 [paper](https://people.cs.umass.ed
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER4.PNG)
 
 
+## 26) Behavior Analytics for Enterprise Security using NLP Approached | Aruba Networks
+
+* Need to identify relevant anomalies in a network. Malware more of a threat than adware
+* For supervised learning to work, you need a list of all possible access to the network tagged as safe or anomalous. However what is available are large volumes of diverse unlabeled data
+* Need to explain to an admin why something has been identified as an anomaly
+* Most anomalies tend to be multi-dimensional
+* Different employees in the network go about differently using network resources in different sequences. A seasoned employee and a first timer also go about accessing network resources in different sequences.
+
+* Capture embeddings capturing the 'semantic meaning' of  a server. Can you create embeddings for servers hosting Perforce and Git (code repositories) and Jira and Bugzilla (Bug repositories) such that
+
+$$ Perforce - Git + Jira = Bugzilla $$
+
+Capture the likelihood of using a second server given you use first server.
+
+
+* Label servers as QA/Finance/Dev based on workflows or departments used by them.Evaluating whether servers belonging to a specific group or workflow is being used by someone outside of it can reveal anomalies or breaches.
+
+**Corpus Used**: Access sequences of servers
+
+
+
+## 27) Interpreting millions of patient stories with deep learned OCR and NLP | SelectDara & John Snow Labs
+
+**Home Health**: Healthcare delivered at home primarily to elderly or those with multiple chronic conditions. Industry expected to grow by 6.7% each year as more baby boomers retire. However this is reducing the workforce available to the industry. Most payments to the industry comes from Medicare which is under pressure and reducing amounts of payments.
+
+Given the workforce is inexperienced, the goal of the project is to be able to identify assessments (health assessments documents of patients) as Hard,Medium or Easy based on degree of effort and perceived level of difficulty so that a manager can delegate the assessments appropriately.
+
+Feedback on difficulty was gathered subjectively from workers a while effort was quantified in terms of time spent within a record (which also validates the subjective assessment.
+
+
+**Challenges**:
+*Different layouts, scales , fonts etc
+*High number of records and pages
+*Need processing in clusters
+
+
+Spark OCR and Spark NLP were used.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/sparkOCR.PNG)
+
+
+Spark NLP is built on Spark ML APIs.Apache project being actively developed. Proven to be better than spacy in accuracy and training time.
+
+Spark NLP also scales to large clusters of machines and can process many documents in parallel.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/samplepipeline1.PNG)
+
+
+
+The document assembler (part of Spark NLP) takes the text from the OCR and creates an annotation that represents a document.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/samplepipeline2.PNG)
+
+Layout Analysis: Identify related regions of text that belong together in the image.
+Annotations of a document: Contains the text extracted from the image and relevant metadata.
+
+
+## 28) A framework to bootstrap and scale a machine learning function | Workday
+
+Workday uses a single platform on top of which all applications such as payroll, HCM live. The platform simply exposes API for the application teams to use.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/workday1.PNG)
+
+Workday is used by 40% of Fortune 500 and 50% of Fortune 50 giving them vast amounts of clean data to train ML models.
+
+**Challenge**: ML service to scan receipts and auto populate an expense report. Ship in 6 months.
+
+Very import to **Define the Win** and define success metrics: For this project goal was to create an ML Service that scans receipts with 80% accuracy that is delivered in private and public clouds for all customers in 6 months.
+
+Off the shelf OCR solutions work best for traditional text and not for receipts.
+
+Simulating data was not sufficient to get to the expected level of accuracy. Workday did a receipt contest to get employees to upload receipts. 50,000 receipts were invested. Labeling was done by a data labeling team.
+
+Deep learning framework chosen was MXNet for its Scala and Python support.
+
+
+**Step 1: Bounding Box Detection**
+
+A deep learning model based on residual networks outputs center of the box, height,width ,angle of title and confidence.
+
+**Step 2: Text Recognition**
+
+A deep  learning model based on residual networks outputs text
+
+**Step 3: Mapping**
+
+An assortment of models(rule based + deep learning ensembles) that maps a value to a field.
+E.g. 63.87 is a 'Total' and 1/27/2018 is a 'Date'
+
+All components were built using microservices architecture.
+
+The Production architecture at Workday consists of an ML platform that supports CI/CD deployment,ML as a Service is built on top of this ML Platform which is consumed by Non ML Services and a UI.
+
+When going from 0 to 1 in a new area such as deploying first ML Application, follow the START framework.
+
+S: Select One Win (Unambiguous Value). Get alignment on success criteria
+T: Team. Smaller teams work best.(< 1 pizza pie) Time bound (3 - 6 months). Focus on Learning
+A: Articulate(Win and Gameplan) and Align(stakeholders)
+R: Rally and Support - Protect team from external noise
+T: Take Shortcuts (tech debt -accrue it). Speedy learning is the focus so this is ok. Target release for only one or two customers.
+
+Finally - GET
+
+G: Get Credit for the win and Gather Capital
+E: Establish repeatable processes and platform
+T: Transfer learnings to scale to 10
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
