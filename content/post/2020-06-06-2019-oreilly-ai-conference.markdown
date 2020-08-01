@@ -1050,6 +1050,184 @@ E: Establish repeatable processes and platform
 T: Transfer learnings to scale to 10
 
 
+## 29) Artifical and Human Intelligence in Healthcare | Google Brain & Cornell University
+
+### Transfer Learning
+
+* Tranfer learning is widely used today. More pretraining data is not necessarily better data. Pre-training on curated data is often better. [Paper](https://arxiv.org/abs/1811.07056) 
+
+
+* Better performance on imagenet does not always mean better performance on the target task. It depends on factors such as regularization and dataset.
+
+
+### Transfer Learning in Medical Imaging
+
+Tasks: Chest X -rays and diagnosing diabetic retinopathy
+Models: Resent 50 and Inception v3. Also considered smaller lightweight architectries which consisted of sets of CBR (convolution+batchnorm_relu+maxpool) layers
+
+#### Takeways
+
+* Transfer learning and Random initialization performed comparably in many settings
+* CBRs perform as well as the big imagenet models
+* Imagenet performance is not indicative of medical performance
+* In medical applications, you typically have much smaller datasets for fine tuning. On a smaller dataset of 5,000 images the results are as follows. The lift from transfer learning is not signficant.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/googlebrain1.PNG)
+
+This suggests that the typical imagenet models might be overparameterised for tasks of interest.
+
+
+
+#### Representational Analysis of Transfer
+
+* The goal is to learn  whether irrespective of initialization , pretrained and randomly intialized networks learn the same concepts in the latent layers. However this is difficult as comparing two networks is challenging due to the distributed alignment problem. Features learned by one network don't align with those learned by another network. E.g. one network might learn to reconginze a dog  using a single neuron ,while another network uses concepts learned by three different neurons to identify a dog.
+
+* Was carried out using [CCA](https://github.com/google/svcca)
+
+Results of comparing represntations shown below show that networks trained with random intialization are more similar to each other than those trained with pretrained initializations. 
+
+
+* Even though performance is comparable, the latent representations learned are different.
+* It was also observed large overparametrized models change less through training.
+
+
+**Takeaway: Use pretrained weights for lower layers. Redesign and streamline higher layers of the architecture**
+
+* Having pre-trained weights converges much faster than random initialization. To speed up convergence of random weights, it is shown that keeping the scaling of the pretrained features i.e.draw iid weights with same mean and variance as pretrained features. really helps.
+
+
+### AI for Health in Practice
+ 
+* Need to think about how AI systems work with human experts
+
+* Doctor disagreements occur often. AI can be used to predict doctor disagreements → Direct uncertainty prediction(DUP)
+
+* Thisis not far from predicting doctor error($ P_{herr} $). Uncertainty in prediction also gives a sense of 
+AI error $ P_{AIerr} $
+
+* Can rank cases according to the difference between AI error and doctor error. On end you have cases wehre AI error is very high and doctor error is low while on the other end you have cases where AI error is low and doctor error is high. For cases at the latter end, you can deploy an AI system, abailable human doctor budget can be deployed at other cases.
+
+* In practice you have some fraction of cases being looked at by the AI system, by doctors or by both. Typically a combination of  both works best
+
+
+## 30) Deep Reinforcement Learning to improvise input datasets | Infilect Technologies
+
+* Data augmentation is used widely in for training computer vision models. This talk addresses how to optimally prepare data sets using data augmentation.
+
+* Synthesizing images using GANs is also an option, but GANS are difficult to train and reproduce.
+
+* In the objection detection task being addressed here, there are certain minority classes which might need different types of data augmentation.
+
+* Types of augmentation typically used are:
+1) Color augmentations - Change pixel intensity
+2) Geometric Augmentations - Shear ,Crop, Translation etc,
+3) Bounding Box augmentations - Change a specific object in an image.
+
+You can also  encounter situations where certain types of augmentations should be strictly avoided. E.g. flipping images of digits, or contrasting traffic light images.
+
+The goal is to create an automated data augmentation system so that you don't have to manually try different types of augmentations and iterate to find the best model as shown below.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/RL1.png)
+
+The proposed solution is 
+1) To learn a set of augmentation policies for the tagged dataset
+2) Apply these augmentations to the dataset to create an augmented dataset for training
+
+**Policy**: Apply N augmentations where each augmentation is applied with a magnitude and probability
+
+**Strategy**: A set of policies
+
+At training time, for an image, you sample a policy and apply the policy. Applying two different policies to the same images will result in 2 different augmented images.
+
+### Formulation of Strategy
+
+A: Universe of augmentations
+
+C: Classes in the dataset
+
+$ V_{a,c} $: Magnitude of augmentation a for class c
+
+$ P_{a,c} $: Probability of augmentation a for class c
+
+These are two parameters we want to learn for each possible augmentation.
+
+The solution is as follows:
+
+A controller will generate a sample of a strategy.The environment trains the model using the strategy. The accuracy of the model is the reward based on which the controller is tuned.
+
+[SSD](https://arxiv.org/abs/1512.02325): Single Shot Detector
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/RL2.png)
+
+
+### Controller
+
+This uses an LSTM architecture which each outputs three softmaxes corresponding to
+1) C classes
+2) A augmentations
+3) B buckets indicating magnitude of transformation 
+
+There are four LSTMs where the first proposes the class, the second proposes the augmentation for this class, the third proposed a magnitude for this augmentation while the fourth proposes a probability.
+
+Together it says, for class c, apply augmentation a with magnitude b with a proposed probability. For each additional policy you want to learn, you have to add 4 more LSTMs.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/RL3.PNG)
+
+Training is carried out using proximal policy optimization
+
+Based on the accuracy of the model, positive or negative reinforcement can be carried out to tune up or tune down the probability of a certain augmentation scheme.
+
+The final results are as follows:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/RL4.png)
+
+*The system learned to carry out augmentations like contrast,edge augmentations, image crops and bounding box flips rather than rotation,blur or shear that are typically used.
+
+*Based on auto augment by Google
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
