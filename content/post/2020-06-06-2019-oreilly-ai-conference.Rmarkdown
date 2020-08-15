@@ -1182,19 +1182,151 @@ The final results are as follows:
 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/RL4.png)
 
-*The system learned to carry out augmentations like contrast,edge augmentations, image crops and bounding box flips rather than rotation,blur or shear that are typically used.
+* The system learned to carry out augmentations like contrast,edge augmentations, image crops and bounding box flips rather than rotation,blur or shear that are typically used.
 
-*Based on auto augment by Google
-
-
+* Based on auto augment by Google
 
 
+## 31) Defragmenting the Deep Learning Ecosystem | Determined AI
+
+
+### Challenges in AI Infrastructure
+
+1) Might take days to recover from faults. Training has to start all over again if a session fails
+
+* This is particularly a challenge when training models like GANs that can take a couple of days
+* There are options to save and reload models intermittently e.g. using tf.saved_model.simple_save and tf.saved_model.loader.load in TF.
+* These might be inadequate as TF only saves weights and the optimizer state when the user also needs to save the TF version, random seeds, model definitions  and input read positions which requires custom code. In summary your Deep Learning engineer has to spend a lot of time writing boiler plate code.
+
+
+
+2) Reproducibility 
+
+* Core tenet of science
+* Important for collaboration so that models can be handed off to a colleague
+
+Reproducibility is a challenge in DL because of 
+
+* Architecture
+* Data - New data could be added 
+* Initializations e.g  for hyper parameters
+* Stochastic nature of optimization techniques
+* Non deterministic GPU operations
+* CPU multi-threading meaning operations could be carried out in different orders
+
+Addressing this requires significant engineering expertise and use of containerization to pin versions of all underlying libraries. 
+
+Imperfect solutions are available in PyTorch and TF
+
+3) Hand implemented and slow tuning methods
+
+* Needs cluster management to parallelize testing of multiple combinations of hyper parameters but there is no support for mete data management, fault tolerance or efficient allocation.
+
+
+
+4) Systems are not designed for multi-tenancy and sharing of resources
+
+* Clusters today don't understand the semantics of deep learning
+* DL frameworks are built to train a single model for a single user on a single machine
+
+* Companies often use a calendar schedule to allocate resources between team members or go for fixed assignment.This can lead to low utilization and low scalability.
+
+* Can use tools like kubernetes, Yarn or Mesos but these solutions do not offer job migration or auto scaling and is not much better than a queue
+
+
+
+Only FAMG companies have the necessary infrastructure
+
+Most tools like PyTorch and TF are focused on just the model training component of the modeling life cycle shown below
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/determined1.PNG)
+
+Determined AI is focused on holistic and specialized AI software infrastructure.
 
 
 
 
+### Ideal AI Infrastructure
+
+Ideal AI infrastructure will address these challenges by offering the following
+
+1)
+
+* Check pointing would be taken care of OTB
+* Infrastructure would monitor and retry failed jobs automatically from the latest checkpoints automatically
+* Infrastructure would manage its own checkpoint storage according to user defined rules (e.g. keep models with n best validation errors)
+* Infrastructure could leverage checkpoints to enable reproducibility or distributed training
+* All of this would be transparent
+
+ 
+2) Reproducibility should be addressed by providing the following features
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/determined3.png)
 
 
+3)
+
+* Hyper band is a resource optimized hyper parameter tuning technique that uses active learning and early stopping.It performs far better than conventional techniques
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/determined2.png)
+
+
+* On average, it is 50x faster than Random search, 10x faster than Bayesian optimization
+* Also works really well for Neural Architecture Search. Outperforms Google's internal system by 3x
+
+
+
+A holistic and specialized AI infrastructure that Determined AI has built looks like this:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/determined4.png)
+
+
+## 32) Building autonomous network operation using deep learning and AI | Mist
+
+
+### Challenges facing Enterprise IT Teams
+
+* Growing number of devices with 5G and IOT
+* Cloud driven dynamic and flexible environments
+* Workload and complexity resulting from public/private/hybrid clouds
+
+
+In today's enterprises, employees and customers want to access resources in company's data centers/public cloud and private cloud though home offices, branch offices or even from coffee shops.Ideally they should be able to access what they need from wherever or whenever.
+
+However, accessing these resources means navigating a system with several failure points as shown below.The goal is to automatically detect and fix issues with any of these components before someone has to report the issue.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/mist1.PNG)
+
+In an eCommerce company's warehouse, robots operate through WiFi, a failure in the WiFi system and delays in addressing it can have serious financial repercussions.
+
+Mist developed a self driving network with the following components.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/mist2.png)
+
+
+At the Data stage, data is collected. Each device can send stats and logs to the cloud. User activity is also monitored using stream processing
+
+At the event stage, user impacting events and responsible entities are identified.
+
+At diagnosis stage, events are correlated to diagnose the problem. E.g. a problem with the I-phone OS or WiFi port. Then you need to identify what changes caused the issue e.g. a config change on i-OS (Temporal event correlation)or a change in an upstream device such as a router (Cross entity correlation)
+
+Finally you take actions using automated actions if corrective action can be taken within a device controlled by the cloud network or provide information for manual correction.
+
+
+Mist also has a system to automatically identify issues in firmware. A four step process is used:
+
+1) Collect logs
+2) Use NLP to encode these into embeddings
+3) Cluster these and find important issues
+4) Automatically open JIRA tickets so that these can be addressed by engineers
+
+
+Suggestions for building Enterprise AI Solutions:
+
+1) Start with real business problems
+2) Build a step by step process for continuous improvement
+3) Keep human in the loop
 
 
 
