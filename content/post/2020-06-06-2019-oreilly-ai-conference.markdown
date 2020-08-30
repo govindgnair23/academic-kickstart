@@ -1331,6 +1331,135 @@ Suggestions for building Enterprise AI Solutions:
 
 
 
+## 33) Unlocking the next stage in computer vision with Deep NN | Zillow
+
+* New Zestimate model will factor in home photos to produce a price estimate
+* Typical features such as sq. ft, no of bedrooms don't say anything about a home being renovated or remodeled
+* New Zestimate understands a home's unique interiors, high end features and how they impact a  home's overall value
+* Curated or retouched photos can bias the model
+* View of water increase value but view may not be always relevant e.g. view is accessible only from the order of the balcony
+* Photos may not accurately or comprehensively represent a home
+
+
+### Building Better models
+
+1) Better training and evaluation data
+
+* Introduced new app(Zillow 3D Home) to do a 3D scan/tour of the home
+* Photos cannot be retouched or be taken on drones
+
+
+2) Data annotation at scale
+
+* App captures 3D images when most models are trained on 2D images
+* Build annotation tool to annotate in 3D space but people generally don't do this well on 3D data. Video gamers have a better sense of this and were contracted to do the annotation
+
+
+3) Ground truth data
+
+* Zillow Offers buys and sellers home directly
+* Use LIDAR to get detailed scans of homes
+
+4) New techniques
+
+* Attribute recognition: Identify real estate attributes in listing images using list descriptions as weak supervision
+
+
+5) Respect people's privacy
+
+* Transparency around data collection and sharing
+* Home owner can claim or remove photos
+
+## 34) Introducing Kubeflow| Google & IBM
+
+Kubeflow has a bunch of components including:
+
+* argo: For building pipelines
+* katib: For parallelized hyper parameter tuning
+* pytorch-job, mxnet-job, tf-serving
+
+Model training on along all frameworks is supported
+
+Easiest way to deploy: https://www.kubeflow.org/docs/gke/deploy/deploy-ui/
+
+
+* Kubeflow Pipelines is a platform for building and deploying portable scalable ML workflows based on Docker containers. They are a directed acyclic graph(DAG) of pipeline components(docker containers) each performing a function.
+
+
+E.g.:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/kubeflow1.png)
+
+
+## 35) Industrialized Capsule networks for text analytics| Walmart Labs & Publicis Sapient
+
+
+Broad overview of NLP and Text Analytics
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/capsule1.png)
+
+* LSTMs outperforms CNNs for text classification as there are long term dependencies in text and outputs are not driven by just one or two key words or phrases.LSTMs also care about ordering of features whereas CNNs do not.
+
+To make CNNs work, kernels with large dimensions have to be used meaning number of parameters increase exponentially.
+Pooling also leads to loss of information.
+
+* CNNs are invariant, so input perturbations do not change output . It is unable to recognize transformations
+* Capsules are equivariant. Outputs change when input changes due to perturbations and hence they are able to recognize transformations of input.
+
+
+### Overview of Capsule Networks
+
+**1) Moving from Scalar to Vector. Pooling produces a scalar in CNNs. In a capsule network, the output is a vector instead.**
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/capsule2.png)
+
+* The output vector is able to encode multiple properties of the input region such as color, thickness etc.
+* Vector length also encodes the probability of the output class.
+
+
+**2) Capsule Output Calculation - Forward Pass**
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/capsule4.png)
+
+* Apply an affine transformation (matrix multiplication that preserves lines and parallelism). This is supposed to capture the relationship between various components (e.g. face, nose, ear) to the image (face) in the higher layer. Or how ordering of words affect sentiment
+
+* Coupling coefficient learns the strength of the relationship between two layers
+
+* Squashing function changes the length of the vector so that it is between 0 and 1 so that it encodes a probability
+
+
+**3) Dynamic Routing - Backward Pass**
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/capsule5.png)
+
+Assume there is one lower level capsule and two higher level capsules as shown above.
+If more lower level capsules are in agreement, assign higher coefficients whereas if lower level capsules disagree(e.g. eyes are  spatially co-located), assign higher weights.
+
+
+The Capsule network architecture is shown below.
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/capsule3.png)
+
+Paper on application of capsule networks to text classification: https://arxiv.org/abs/1804.00538
+
+* Capsule networks outperforms other networks for multi-label classification with little additional data
+
+
+
+### Industrialization of Capsule Networks
+
+* Kubeflow has been used to productionize capsule networks
+
+
+
+
+
+
+
+
+
+
+
 
 
 
