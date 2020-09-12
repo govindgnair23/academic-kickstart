@@ -1598,13 +1598,133 @@ Example: If a new backbone(V2) has been developed to generate better embeddings.
 Slide deck available [here](https://docs.google.com/presentation/d/1F_1EzNhkME-qADI71r1UB4F_e8hIPdYZ8p4d5_eUVJs/edit#slide=id.p)
 
 
+## 37) Personalization at Scale | Facebook
+
+
+Personalization using AI is used across Facebook Feed, Instagram Explore, Groups and Marketplace
+
+FB's scale is massive. 1.5 Billion daily users sharing billions of posts shared per day, 100 billion + posts seen per day and trillions of posts ranked every day.
+
+Practical Techniques for Personalization
+
+**1) System Design**
+
+A large scale recommender system typically looks like:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers1.png)
+
+Items to be recommended are very large, so a retrieval state is going to recommend a subset of items with a focus on recall and latency.
+
+
+In the ranking stage a sophisticated model predicts the relevant of an item to the user. Feature store contains features such as no of posts liked or videos shared/viewed by a user.
+
+Finally some business rules are used so as not to show something in a user's disliked list or something that is more than a week old.
+
+Finally the results of the recommender systems are recorded in am impression log. User actions are recorded and fed back to train the model.
+
+The whole process needs to complete in less than 1 second.
+
+
+**2) Candidate Generation**
+
+The challenge here is identifying $ O(10^2) $ items out of $ O(10^6) $ items quickly. A candidate generator is used which:
+
+* Optimized for recall
+* Latency bound
+* Does not optimize for accurate rank (which is addressed later)
+
+A two tower neural net architecture is used to create embeddings and calculate similarities for recommendation.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers2.png)
+
+
+*KNN Offline Indexing**: All item embeddings are populated into a KNN index for fast lookup
+When a query item comes in, most similar items are looked up using a KNN service look up.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers3.png)
+
+
+
+**3) Learning from Sparse Data**
+
+**Challenge**: how to learn from categorical/sparse features and combine with continuous/dense features.
+
+For categorical features, an embeddings table is used to convert each category into a dense vector. For some features that include multiple IDs, some kind of pooling(average or max) is used. Finally pairwise dot products are taken and concatenated.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers4.png)
+
+The complete architecture for this Deep Learning Recommendation Model [DLRM](https://github.com/facebookresearch/dlrm?fbclid=IwAR3_MUcW27zweshZYmOwMBITm6H2iMOeIp5K1zuxY-Vw6heUNXU1AXHICBU) is as follows:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers5.png)
+
+* Feature interaction in simplest from can be concatenating the two vectors.
+* Embeddings tables get really large and may not fit into GPU memory. So data parallelism does not work and requires model parallelism.
+
+
+**4) Keeping Models Fresh**
+
+- Data distributions keep changing as items(videos,posts etc.) change continuously.
+
+- **Online training**: Update model every few minutes after training batches of data collected every few minutes. Fine tune from previous baseline given you don't have to train from scratch
+
+- **Recurring Training**: Deploy updated model every few weeks or days.
 
 
 
 
+## 38) Deep Learning in the Tire Industry | American Tire Distributors (ATRD)
+
+**Characteristic of the Tire industry**:
+- Purchases are rare and so data is sparse
+- Tires are manufactured by certain companies and distributed y ATD to retailers such as Walmart or Costco
+
+
+**Business Problems in Pricing**:
+- Price performance monitoring
+- Pricing opportunity identification
+- Dynamic pricing recommendations
+
+- Addressed using Anomaly detection, time series decomposition, demand modelling(discounts),
+pricing recommendations 
+
+**Business Problems in Operation **
+- Warehouse staffing efficiency
+    - How many people required at a given location and at a given point in time?
+    
+_ Addressed using Labor demand forecasting and labor optimization
+
+
+### Forecasting Staffing requirements
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/tire1.png)
+
+Data collected include each staff associate's activity, number and type of tires being handled.
+The approach uses dynamic weighting of a Prophet model(Traditional time series) and an LSTM model.Forecasts are made for each distribution center.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/tire3.png)
+
+Saved 5-10% in labor costs with this approach.
+
+
+### Pricing Product Demand Model
+
+Combination of a market demand model and MIP optimization to simulate pricing strategies for different products.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/tire2.png)
+
+
+The two green blocks show modules where Deep Learning is used. Given data is sparse, sales were aggregated at a week and distribution center level. An embedding for the time series is generated by an auto encoder which is then clustered. The clustering identifies product buckets such as snow tires and more commonly bought tires with different profiles.
+
+A new model is built for each identified cluster.The final model is obtained by stacking a Random Forest Model, an XG Boost model and a DNN model. The second level stacking model is also a DNN.
+
+Model stacking helped with overfitting and accounting for anomalous behavior.A single model is unable to account for such anomalous behavior. It was also observed that different models perform best for different clusters,so stacking helps avoid manually selecting models for different clusters. DNNs perform best when lots of data are available, tree based models perform better for sparse data.
+
+Data drift is not a concern as tire demand is largely predictable apart from expected seasonality.
 
 
 
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/tire4.PNG)
 
 
 
