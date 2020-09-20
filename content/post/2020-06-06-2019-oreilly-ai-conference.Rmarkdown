@@ -1727,6 +1727,201 @@ Data drift is not a concern as tire demand is largely predictable apart from exp
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/tire4.PNG)
 
 
+## 39) OS for AI: Serverless, Productionized ML
+
+See full presentation [here](https://docs.google.com/presentation/d/1ztrrJ0i8vQlQCpxoRaqsCDTobXYJ9B-XThJ2IGd9VRY/edit#slide=id.g3974aef880_0_0)
+
+- Algorithmia has 9,5000 algorithms on multiple frameworks developed by over 100,000 developers
+The main challenges of deploying ML models in enterprise are as follows
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo1.png)
+
+
+- Machine Learning != Production Machine Learning
+
+An **Operating System** :
+
+* provides common functionality needed by many programs
+* Standardizes conventions to make systems easier to work with
+* Presents a higher level of abstraction of the underlying hardware.
+
+Operating systems evolved from punch cards that was suitable for only one job to to Unix that supported multi-tenancy and composability to DOS that allowed hardware abstraction i.e. you could access the hard disk or floppy disk through the same set of commands. Windows and Mac allowed GUI that democratized computing. Finally we have app stores made available through IOS and Android that made software installation extremely easily.
+
+This is where we want ML to ultimately be - a user should be able to search for an algorithm and use it without having to do cumbersome installations and devops.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo2.png)
+
+
+The most standard way of building and deploying a model involves building a model and putting it on a server while exposing a REST endpoint that can be accessed from any device,building such a system from scratch can be quite laborious involving the following steps:
+
+1. Set Up Server
+
+This requires properly balancing CPU,GPU,memory and cost.
+
+2. Create microservice
+
+You can write an API wrapper using Flask but securing, metering and disseminating this can be challenging.
+
+3. Add scaling
+
+You have to do automation to predict increase in loads and automatically configure a cloud VM to scale to meet the increased loads
+
+4. Repeat for each unique environment
+
+This can be challenging if you are using multiple languages and frameworks.
+
+Deploying models using serverless functions help resolve these challenges to a certain extent as shown below.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo3.png)
+
+
+Even so, all dependencies are supported and you often have to build a container with the dependencies locally and then move it to the cloud service provider.
+
+
+An ideal OS for AI should do the following:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo4.png)
+
+Algorithmia has built a solution that seeks to do all this. Refer to the deck linked to earlier for more details.
+
+
+
+## 40) Towards universal semantic understanding of natural languages | IBM Research
+
+Typically, each language needs separate parsers and separate text analytics to be developed. This means work has to be replicated in each language.
+
+The goal is to come with a unified representation applicable across all languages, so this work does not have to be replicated.
+
+
+The major challenges being faced here include:
+
+1) Annotation: Different annotation schemes are used for different languages and sometimes for the same language.
+2) Training Data: High quality labeled data is required
+3) Models are built for one task at a time
+
+IBM is addressing these challenges by creating an automated annotation scheme combined with smart crowdsourcing coupled with programmable abstractions so that work does not have to be repeated.
+
+
+With semantic parsing we want to identify the key semantic parts of a sentence no matter in which way it is written, these semantic labels are largely stable.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics1.png)
+
+
+[Framenet](https://framenet.icsi.berkeley.edu/fndrupal/about) and [PropBank](https://propbank.github.io/) are commonly used resources for Semantic Role Labeling in English.
+
+
+The challenge is that labels across languages typically do not match even if it conveys the same meaning. For example the same subject in a given sentence can be labelled as an 'orderer' in English and 'buyer' in Chinese.
+
+We want sentences across languages to share the semantic labels as shown below.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics2.png)
+
+
+### Creating cross lingual training data
+
+Typically you find annotators to annotate corpora in each language separately that takes months. The proposed solution is to do annotation in parallel corpora on datasets that re readily available across multiple languages e.g. subtitles of movies, the Bible etc.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics3.png)
+
+However these projections are not always accurate due to translation shifts or error in the source languages that get magnified by projecting it.
+
+
+One way to solve this is the below method where only selected sentences where the projections from the source language (EN) to the target language (TL) are complete and correct. This training data is used to train the SLR which is then used to bootstrap more labelled data and train iteratively.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics4.PNG)
+
+
+There still can be cases where there is a one to many mapping between a single label in one language to multiple labels in another or cases where no mapping exists. Human intervention is required in this case.
+
+
+### Crowd in the Loop Learning
+
+Labeling tasks are classified as hard and easy  by a routing model and assigned to a crowd or an expert accordingly.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics5.PNG)
+
+A query strategy model can also be used to determine if the labels predicted by an SRL model are correct or not. If this model is not confident that the labels are correct, it can be assigned to a human.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics6.PNG)
+
+
+These techniques were used to create a [universal propostion banks](https://github.com/System-T/UniversalPropositions) for 8 languages.
+
+
+### Developing Models for Semantic Annotation
+
+
+The data is characterized by a heavy tail of labels that occur very infrequently. So instance based learning with KNN is used in conjunction with deep learning.
+
+A demo of the final model is available [here](https://vimeo.com/180382223)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
