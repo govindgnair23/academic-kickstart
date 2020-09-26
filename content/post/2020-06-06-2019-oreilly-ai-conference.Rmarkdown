@@ -1858,6 +1858,184 @@ The data is characterized by a heavy tail of labels that occur very infrequently
 A demo of the final model is available [here](https://vimeo.com/180382223)
 
 
+## 41) The holy grail of data science : Rapid model development and deployment | Zepl
+
+* 87% of ML projects don't make it into production
+
+* Zepl data science and analytics platform makes Apache Zepplin enterprise grade
+
+### Data Dependencies
+
+* Model consumes different data sources as well as outputs of other models. Data is subject to input distribution changes, data label mapping changes etc. SO keeping a versioned copy of the data is important.
+
+* Creating a data catalog which is searchable, accessible and annotatable is important. It can capture basin information such as location of data, schema and additional notes. This can be accomplished in a data science notebook.
+
+
+### Reproducibility
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/zepl1.PNG)
+
+Containers deployed on the server side so that every one can access the same resources can help solve reproducibility issues.
+
+###  Prototyping vs Production
+
+Replicating a model in a different language as is typically required in corporate settings is challenging.
+
+
+### Monitoring
+
+
+**Prediction Bias**:
+
+Distributions of predicted labels should be equal to distribution of observed labels.
+E.g. if only 1% of e-mails are spam, only 1 % of e-mails should be predicted as spam
+
+
+**Action Limits**:
+
+Trigger alarms when model performance deteriorates/drifts significantly
+
+### Model Ownership in Production
+
+Developer != Owner
+
+Hand offs between departments tend to result in loss of information. Need thorough documentation to prevent this.
+
+### Testing & Deploying
+
+Use pipelines with Kubeflow or on Sagemaker.
+
+Zepl allows you run tests on developed models. Clicking a test button, it packages a notebook and spins up a container where there tests are carried out.
+
+
+## 42) A framework for Human AI Integration in the enterprise | Rakuten
+
+**Moaravec's paradox**: What is easy for humans  is difficult for machines and what is easy for machines is difficult for machines
+
+* AI can perform well on the head of the distribution while humans work better on the tail.
+* Machines are susceptible to adversarial attacks
+
+### External Factors
+* Regulations sometimes point to AI-human integration. E.g. Article 22 of EU GDPR requires a human in the loop for providing explanations.
+
+* High risk applications like medical diagnosis often require human in the loop to mitigate risk
+
+### Competitive Advantage
+
+Humans in the loop can reduce the need for:
+
+1) Huge volumes of labeled training data
+
+2) Massive amounts of computing resources
+
+3) Armies of data scientists
+
+Human in the loop can overcome limitations in an algorithm's accuracy
+
+### Dialog
+
+Human - AI integration requires a dialogue between AI and humans
+
+* The human participant can be the end user in cases where the risk is low. e.g A/B Testing , Multi armed bandits
+* If the risk is  medium, crowd sourcing can be sued . E.g. product categorization
+* If the risk is high, use your own workforce. E.g. data scientists or legal teams to comply with regulations
+
+Designing a dialogue interface requires an understanding of human psychology, design thinking and paradox of automation. i.e. as automation increases, human skills erode and human intervention cannot be relied upon.
+
+
+### AI Understanding Humans
+
+* Supervised Learning with training labels is the best example of this.
+* Active learning allows AI to ask questions of humans when it is not confident in it's predictions. This also reduces redundancy  and reduces manual labeling effort.
+
+
+### Human Understanding AI - Explainability
+
+Explainability algorithms can be classified along the following dimensions:
+
+1) Model agnostic vs Model specific
+2) Local vs Global
+3) Features vs Instances vs Surrogates
+
+
+E.g. If a bank tells you a loan was rejected because your income was low: It is a local, feature based explanation
+If the explanation for a diagnosis is that the patient is similar to other patients which were diagnosed: it is a local, instance based explanation.
+
+Rakuten has a hierarchical product classifications system that classifies products based on a description. E.g. Electronics → Cell Phone → Smart Phone. The model provides explanations for the classification. E.g. Electronics because it found '256 GB' in the description. Smartphone because it found 'I phone' in the description.
+
+Some of the explanation algorithms provide justifications rather than explanations.
+
+
+**Explainability**: Optimize interpretability given a model
+**Modifiability**: Optimize a model given interpretability. Make interpretability a constraint that needs to be satisfied,and optimize the model.
+
+Define an abstraction layer that humans can understand and modify. E.g. A steering wheel, gear shaft and gas pedal. How this affects the engine is abstracted.
+
+E.g. You can develop a black box model to extract order number form a receipt but this can be hard to debug. Instead, Rakuten build a model that generates a template; a piece of code that can be run to extract the order number. Human operator can modify this template.
+
+
+Benefits of modifiability:
+* Mitigate accuracy - interpretability tradeoff
+* Enable debugging even by non-AI specialists
+* Maintain high quality of end results. Human has to intervene if model is not performing well.
+
+Other example: Stitch fix algorithms that recommends clothes but is modified by stylists. The selection of clothes acts as an abstraction layer.
+
+### System Design with Human- AI Integration
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/rakuten1.png)
+
+Think of humans and AI as components in a system. 
+
+The layer of abstraction is the knowledge graphs which has products and entities and two types of relations. A product can belong to a category and categories are related to each other. The system recommends products from a complementary category to the user.
+
+Product categorization has to be monitored. Manually identifying misclassifications is not possible. This cna be reduced to an anomaly detection problem. e.g. identify a wine product being misclassified in the tire category.
+
+Humans can thus focus on anomalies and label just those.
+
+
+* Rakuten has moved folks who work as humans in the loop to more AI centric roles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
