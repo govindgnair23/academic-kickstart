@@ -1997,6 +1997,161 @@ Humans can thus focus on anomalies and label just those.
 * Rakuten has moved folks who work as humans in the loop to more AI centric roles.
 
 
+## 43) Deep reinforcement learning for industrial robotics | OSARO
+
+
+* OSARO builds edge deployed perception and control software for robots.
+
+Levels of Autonomy:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/osaro1.png)
+
+Most robots used in warehouses are at Level 1, do not take sensory feedback and cannot react to the environment. 
+
+Partial autonomy: At this level, robots can take sensory feedback and react to the environment but cannot react to surprises or new objects.
+
+**Deep RL** enables level 4 and level 5 automation. It allows:
+
+
+1) Moving away from programming robots - from static to dynamic robotic systems
+2) Addressing questions that are "hard to describe to computers"
+3) Handling variabilities and react to changes
+4) Learning at scale
+
+This is necessary as warehouse robots often have to pick objects that are transparent or reflective which poses challenge to computer vision systems as well as objects with deformable surfaces.
+
+This can also be important in countries like Japan with a shrinking labor force.
+
+OSARO has built 'object picking' robots with level 4 automation to staff e-commerce warehouses.
+
+* In robotics industry , each vendor has a proprietary platform and Domain Specific programming language, industry is thus highly fragmented.
+
+## Imitation Learning
+Learning from an expert's demonstration.
+
+* copies behavior, does not necessarily learn problem objective.
+* trained policy only as good as the demonstration.
+
+## Meta Learning 
+
+* Models that can learn new skills or adapt to new environments with few training examples
+
+A meta learner(agent) will train a Learner(model) on a data set with a large number of tasks, and learn common representations across these tasks. The Learner can now adapt to new tasks with very little
+
+## 44) Challenges and future directions in deploying NLP in commercial environments | Intel
+
+Implications of latest developments in NLP include:
+
+1) Pre-training of large Language models is very costly
+2) Shift of focus from lower level training to more application specific tweaking
+3) Loading very large model and heavy fast forward computing during inference
+
+
+[NLP Architect](https://github.com/NervanaSystems/nlp-architect) is Intel's NLP Library for developing DL based NLP applications. It also produces optimized NLP models ready for inference deployment.
+
+
+* Knowledge distillation from BERT/XLNet to small models is supported
+* Q8BERT - Produced by quantization aware training. Quantized 8 bit version of Bert(int) as against 32 bit(floating point). Leads to 4x memory compression. This can be done in just the fine tuning step.
+* Sparse version of Google's NMT model is also available
+
+
+### Model Distillation
+
+Train a small network using the output of a larger model. See details [here](https://arxiv.org/abs/1503.02531)
+
+Using this approach, BERT models with 300 million parameters can be distilled to an LSTM+CRF model with only 3 million parameters.
+
+As seen in the figure below, the performance of these distilled models is on par with the original BERT model. 
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel1.PNG)
+
+Quantized BERT's performance on various tasks is comparable to that of BERT.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel2.png)
+
+
+NLP Architect also supports Aspect based sentiment analysis which identifies the target word a sentiment term qualifies.
+
+E.g. for the sentence: 'service is poor but pizza was great'. 'poor' is a sentiment term which qualifies the target word 'service' while 'great' qualifies the word pizza. There are also semi supervised techniques that can learn domain specific terms or lexicon e.g. movie reviews vs food reviews
+
+NER models that can learn to tag words from any domain when seeded with a few examples is also supported. Example, if seeded with grape fruit and lemon as  examples of citrus fruits, the model will recommend a list of words to the user who can modify/accept it.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel3.PNG)
+
+
+##45) Data Science without seeing the data: Advanced encryption to the rescue | Intuit
+
+* Explosion in data and number of people accessing it poses information security risks.
+
+* Goal is to do ML without seeing the underlying data.
+
+*Fully Homomorphic Encryption(FHE)*: Encrypts for security without losing the information necessary for computation.
+
+Microsoft's [SEAL](https://www.microsoft.com/en-us/research/project/microsoft-seal/) is a popular open source toolkit used for FHE. It abstracts the advanced mathematics for encryption for software engineers.
+
+Also see [here](https://homomorphicencryption.org/introduction/) for a more thorough introduction.
+
+All computations cannot be done using FHE
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intuit1.png)
+
+Not possible to do IF statements i.e. threshold functions.
+
+
+Use case in Medicine:A gives B encrypted medical data. B runs proprietary algorithm and gets an encrypted diagnosis.A accepts this and decrypts it to get diagnosis.
+
+* Intuit wants to encrypt all customer data on AWS and still use the data to run ML.
+* Tree based models are most widely used at Intuit, but you actually need to do branching which is hard with FHE.
+* Thresholding functions required to split decision trees can be approximated using a polynomial function.
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intuit2.PNG)
+
+### Decision Tree Training
+
+Unlike regular decision tree where the data is split and only a partition of the data is handed down to subsequent nodes of the tree,with FHE, the entire data has to be passed down through each layer as the data is encrypted. Only when you decrypt the full expression is an observation assigned to a leaf.
+
+This can be intractable if the trees are very deep.
+
+
+Inference with FHE is still very slow. In 2009, the slowdown was $ 10^7 $, in 2019 it is $ 10^4 $
+
+* Batch training and inference can be done on encrypted data.Not suitable in an online setting.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
