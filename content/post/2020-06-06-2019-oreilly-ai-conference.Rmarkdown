@@ -2119,6 +2119,163 @@ Inference with FHE is still very slow. In 2009, the slowdown was $ 10^7 $, in 20
 * Batch training and inference can be done on encrypted data.Not suitable in an online setting.
 
 
+## 46) Mozart in the Box: Interacting with AI Tools for Music Creation | Midas
+
+
+* Fear of automation is real: Even for an autonomous car, people would like to see the speedometer reading.
+
+
+Complex systems are hard to innovate on, the airplane pilot's complex is still extremely complex despite all the innovation
+
+1) Designed by experts for experts
+2) Have many critical parameters ad controls
+3) Require intense training and learning effort
+4) Mistakes and failures must be avoided at all costs
+5) The users are extremely conservative
+
+Complex systems are also liable to the Active User paradox which reduces user motivation to spend any time just learning about the system. This can manifest in a few ways
+
+1) Production Bias: When situation appear the could be more effectively handled by new procedures,they are likely to stick with procedures they already know regardless of efficacy. You want to start using something without reading the user manual
+
+
+2) Assimilation Bias: People apply what they already know to  new situations. Irrelevant and misleading similarities between new and old information can blind learners to what they are actually experiencing, leading them to draw erroneous comparisons and conclusions.
+
+
+
+Midas launched the world's first AI and cloud based mixing console platform in Aug 2019.Predictably, this triggered a fear of automation from several sound engineers.
+
+To market automation using AI:
+
+1) Explain the purpose of automation
+2) Make clear what the system and do and how well it can do it.
+
+
+### Types of Automation
+
+We can choose to automate along any of these dimensions
+
+1. Information acquisition
+2. Information analysis
+3. Decision selection E.g. Breathing us automated but we can control it to a certain extent
+4. Action implementation E.g. The heartbeat is completely automated
+
+
+### Levels of Automation
+
+0: No Automation
+1: Assistance
+2: Partial Automation
+3: Conditional Automation
+4: High Automation
+5: Total Automation
+
+Refer to this [paper](https://www.researchgate.net/publication/11596569_A_model_for_types_and_levels_of_human_interaction_with_automation_IEEE_Trans_Syst_Man_Cybern_Part_A_Syst_Hum_303_286-297) for more details.
+
+We can build systems with various levels of automation(manual to fully automated) across the candidate stages for automation as shown below.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/music1.PNG)
+
+
+You can also build adaptable systems by allowing ranges of automation for each type of automation, a human in the loop can then interact with the system specifying the right level of automation as shown below.
+
+How the system gives feedback to the user can also be of the following types
+
+1) Optimistic: Show everything as if it were correct
+2) Pessimistic: Show only what is known to be correct
+3) Cautious: Show the uncertainty of the system
+4) Opportunistic: Exploit uncertainty to improve the system (Active learning)
+
+
+The following principles relating to purpose should be kept in mind while designing the system
+
+1. Explain the purpose of the AI
+2. Make clear what the system can do and how well it can do it
+3. Show the performance of the system choosing appropriate feedback strategies
+4. Show when the system is not confident
+5. Design for appropriate trust, not for higher trust.
+
+The following principles relating to interaction should be kept in mind while designing the system
+
+1. Minimize the impact on the existing workflow
+2. Support efficient invocation(of AI system)
+3. Support efficient correction
+4. Support efficient dismissal
+5. Make the level of automation adaptable
+6. Design clear transitions between the different levels of automation
+7. Focus on UX from the early stages of algorithmic research
+
+The following canvas can be used for such system design.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/music3.png)
+
+The following image shows how the AI Music system was designed
+
+
+## 47) What you must know to build AI systems that understand natural language | Pacific AI
+
+Solving Natural Language Understanding would effectively lead to solving hard AGI.
+
+## Many languages spoken. 
+
+Even the type of language spoken at home or in an academic paper are very different. Different domains have different jargon. 
+
+SMS Language will have emojis and use a lot of slang or profanities. Auto correct can often be a problem with informal language.
+
+Legal transcriptions follow a strict procedure that needs to be understood to make sense of it.
+SEC filings will have a lot of boiler plate that can be ignored.
+
+
+Given the varieties of languages, MLP models have to be tailored to the type of language.
+
+
+## Domain specificity
+
+
+Off the shelf models cannot work on all domains as they are typically trained on content like Wikipedia articles.This problem is particularly acute in health care.
+
+E.g. "states started last night, upper abd, took alka seltzer approx 0500, no relief. nausea no vomiting"
+
+In finance, the sentiment towards a stock is not quite the same as sentiment towards a restaurant in a Yelp review.
+
+It is important to train domain specific models. You might have to pair your NLP data scientist with a domain expert who is an expert in the language the model has to understand.
+
+### Use both structured and unstructured data
+
+In a hospital demand forecasting problem, you need to look at medical notes  from doctors and nurses as well as available structured data such as age, reason for visit, wait time etc.
+
+**Best practice**: Unify NLP and ML pipeline as enabled by Spark NLP and Spark ML
+
+
+What is good first NLP project?
+
+Start with an existing model based on structured data that human domain experts usually solve with free text data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
