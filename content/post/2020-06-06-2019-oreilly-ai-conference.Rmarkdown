@@ -2251,6 +2251,7 @@ What is good first NLP project?
 Start with an existing model based on structured data that human domain experts usually solve with free text data
 
 
+> It is interesting to note that with the advent of advanced language models such as GPT3, we may not need to build domain specific models from scratch but only fine tune a language model. Even so, given GPT3 has been licensed exclusively to Microsoft, it may be out fo reach for most organizations in the world.
 
 
 
