@@ -5,8 +5,6 @@ date: '2020-06-06'
 slug: 2019-oreilly-ai-conference
 categories:
   - Conferences
-  - Machine Learning
-  - AI
 tags:
   - Machine Learning
   - Strategy
@@ -2252,6 +2250,241 @@ Start with an existing model based on structured data that human domain experts 
 
 
 > It is interesting to note that with the advent of advanced language models such as GPT3, we may not need to build domain specific models from scratch but only fine tune a language model. Even so, given GPT3 has been licensed exclusively to Microsoft, it may be out fo reach for most organizations in the world.
+
+
+## 48) AI for Cell Shaping in Mobile Networks | Ericsson
+
+Mobile networks present an optimization problem where the network has to provide optimum coverage for a large number of mobile customers using a limited spectrum. Some parameters of an antenna such as power, vertical tilt can be adjusted to modify coverage as shown below.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson1.PNG)
+
+
+You may also wan to control antenna tilt deceptively as special events like a football game and a political rally can cause a sudden increase in the density of people in a location. This is typically done manually by setting rules.
+
+Reinforcement learning can be used to do this.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson2.PNG)
+
+Policies were trained on simulated environments.
+
+Lot of domain knowledge from tuning these antennas over the years are also available that need to be utilized by the AI system.
+
+
+[RLLib](https://docs.ray.io/en/master/rllib.html) framework provided by UC Berkeley's Rise lab was used. The algorithm used for training was [A-pex](https://openreview.net/pdf?id=H1Dy---0Z)
+
+
+### RL Formulation
+
+
+A simulated environment was used . The simulator was plugged in through Open AI gym environment.
+
+The agent was a CNN that takes a state as input and output an action vector.
+
+State is the parameter of antennas,topology of buildings and user hotspots.
+
+Actions determine increase or decrease of tilt of an antenna.
+
+Reward is average increase in throughput for subscribers.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson3.PNG)
+
+
+The image below shows the setup.
+
+The image on the right shows the typology of the city grid being served by the antenna.
+
+The image on the left shows distributions of subscribers with warmer colors showing better coverage.
+
+The image in the middle shows the position of the antenna and tilt with warmer colors again indicating better coverage.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson4.PNG)
+
+
+
+As the RL algorithm learns, you can the the image on the left becoming warmer as their coverage improves.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson5.PNG)
+
+
+### Training Set up
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson6.PNG)
+
+
+### RL Algorithms
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson7.PNG)
+
+The A-pex algorithm used is an extension of the Deep Q Learning algorithm and was found to perform better.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson8.PNG)
+
+
+### Using Historical Data
+
+Given historical records of state of the system and action taken by experts are available, a supervised model or recommender system can be built on this data.You can also extend the historical data to include a reward corresponding to the state,action pair.
+
+This can again be used for RL. Without a simulator you can't do a lot of exploration.
+
+### Transferring from Simulated to Real Environment
+
+Add noise to the simulations to make learning more robust.
+
+
+
+## 49) Language Inference in medicine | IBM Research
+
+* Need to determine if a patient meets eligibility criteria for clinical trials by comparing against doctor and nurse notes.
+
+An example of clinical trial eligibility criteria is shown below
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/clinic1.PNG)
+
+* Need to compare text between medical records and guidelines definitions
+
+* Natural Language Inference is a three way classification problem
+
+Given a premise and a hypothesis, classify the latter as
+
+a) Definitely true (entailment)
+b) Definitely false (contradiction)
+c) Might be true, might be false (neutral)
+
+
+E.g.
+
+**Premise**: A person on a horse jumps over a broken down airplane
+
+**Hypothesis 1**: A person is outdoors, on a horse
+
+This hypothesis is true(hence an entailment)
+
+**Hypothesis 2**: A person is at a diner, ordering an omelet
+
+This hypothesis is a contradiction.
+
+**Hypothesis 3**: A person is training his horse for a competition
+
+This hypothesis is neutral.
+
+
+This can be more complicated in the following example.
+
+**Premise**: The campaigns seem to reach a new pool of contributors.
+
+**Hypothesis**: The campaign drew a new crowd of funders.
+
+An understanding of the meaning of words  (pool = crowd, campaigns is a plural of campaign, funders = contributors) is necessary here.
+
+In medicine this can be even more complicated. 
+
+**Premise**: During the admission he had a paracentesis for ~ 5 liters and started on spironolactone, lasix and protonix
+
+**Hypothesis 1**: The patient has cirrhosis(Entailment)
+
+**Hypothesis 2**:  The patient does not have fluid in the abdomen (Contradiction)
+
+**Hypothesis 3**:  The patient would benefit from a liver transplant (Neutral)
+
+## Datasets
+
+* Stanford Natural Language Inference Dataset (SNLI). Premise here are captions from Flicker photographs, and humans were asked to write a statement that is definitely true, definitely false and might be true/false.
+
+* About 500,000 training pairs
+
+
+* MultiNLI  from NYU: Covers more variety of genres beyond photographs.
+
+
+* Clinical NLI Corpus was created from IBM Research. Premise is a sentence from a patient's history. Clinicians were then asked to write sentences for each of the three classes.
+
+## Models
+
+* GBM classifier performance was limited.
+
+* A stronger deep learning baseline using Bag of Words was created. Embeddings vectors for premise and hypothesis were created by summing the word embeddings for the constituent words.These were concatenated and passed through a fully connected Neural Net.
+
+*Other models considered include:
+
+  * Enhanced Sequential Inference Model[ESIM](https://github.com/coetaur0/ESIM)
+  * [InferSent](https://github.com/facebookresearch/InferSent)
+  
+*Following variations of transfer learning were also explored
+  
+  *Sequential Transfer: Pre train on SNLI and then train on Medical NLI, followed by testing on Medical NLI
+  *Multi target transfer:Some layers were shared between open and medical domains, while other layers were trained 
+  exclusively on the open domain data. Testing was carried out on the medical domain.
+  
+
+* Approach was also designed to leverage existing knowledge graph compiled by domain experts. This relied on developing a matrix which captured the shortest path distance between concepts in the knowledge graph which mirrored the attention matrix developed by the ESIM model from data.   
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/clinic2.PNG)
+  
+
+## 50) Improving OCR quality of documents using GANs | EXL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

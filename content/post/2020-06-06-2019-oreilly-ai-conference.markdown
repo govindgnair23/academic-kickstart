@@ -5,8 +5,6 @@ date: '2020-06-06'
 slug: 2019-oreilly-ai-conference
 categories:
   - Conferences
-  - Machine Learning
-  - AI
 tags:
   - Machine Learning
   - Strategy
@@ -1995,6 +1993,554 @@ Humans can thus focus on anomalies and label just those.
 
 
 * Rakuten has moved folks who work as humans in the loop to more AI centric roles.
+
+
+## 43) Deep reinforcement learning for industrial robotics | OSARO
+
+
+* OSARO builds edge deployed perception and control software for robots.
+
+Levels of Autonomy:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/osaro1.png)
+
+Most robots used in warehouses are at Level 1, do not take sensory feedback and cannot react to the environment. 
+
+Partial autonomy: At this level, robots can take sensory feedback and react to the environment but cannot react to surprises or new objects.
+
+**Deep RL** enables level 4 and level 5 automation. It allows:
+
+
+1) Moving away from programming robots - from static to dynamic robotic systems
+2) Addressing questions that are "hard to describe to computers"
+3) Handling variabilities and react to changes
+4) Learning at scale
+
+This is necessary as warehouse robots often have to pick objects that are transparent or reflective which poses challenge to computer vision systems as well as objects with deformable surfaces.
+
+This can also be important in countries like Japan with a shrinking labor force.
+
+OSARO has built 'object picking' robots with level 4 automation to staff e-commerce warehouses.
+
+* In robotics industry , each vendor has a proprietary platform and Domain Specific programming language, industry is thus highly fragmented.
+
+## Imitation Learning
+Learning from an expert's demonstration.
+
+* copies behavior, does not necessarily learn problem objective.
+* trained policy only as good as the demonstration.
+
+## Meta Learning 
+
+* Models that can learn new skills or adapt to new environments with few training examples
+
+A meta learner(agent) will train a Learner(model) on a data set with a large number of tasks, and learn common representations across these tasks. The Learner can now adapt to new tasks with very little
+
+## 44) Challenges and future directions in deploying NLP in commercial environments | Intel
+
+Implications of latest developments in NLP include:
+
+1) Pre-training of large Language models is very costly
+2) Shift of focus from lower level training to more application specific tweaking
+3) Loading very large model and heavy fast forward computing during inference
+
+
+[NLP Architect](https://github.com/NervanaSystems/nlp-architect) is Intel's NLP Library for developing DL based NLP applications. It also produces optimized NLP models ready for inference deployment.
+
+
+* Knowledge distillation from BERT/XLNet to small models is supported
+* Q8BERT - Produced by quantization aware training. Quantized 8 bit version of Bert(int) as against 32 bit(floating point). Leads to 4x memory compression. This can be done in just the fine tuning step.
+* Sparse version of Google's NMT model is also available
+
+
+### Model Distillation
+
+Train a small network using the output of a larger model. See details [here](https://arxiv.org/abs/1503.02531)
+
+Using this approach, BERT models with 300 million parameters can be distilled to an LSTM+CRF model with only 3 million parameters.
+
+As seen in the figure below, the performance of these distilled models is on par with the original BERT model. 
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel1.PNG)
+
+Quantized BERT's performance on various tasks is comparable to that of BERT.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel2.png)
+
+
+NLP Architect also supports Aspect based sentiment analysis which identifies the target word a sentiment term qualifies.
+
+E.g. for the sentence: 'service is poor but pizza was great'. 'poor' is a sentiment term which qualifies the target word 'service' while 'great' qualifies the word pizza. There are also semi supervised techniques that can learn domain specific terms or lexicon e.g. movie reviews vs food reviews
+
+NER models that can learn to tag words from any domain when seeded with a few examples is also supported. Example, if seeded with grape fruit and lemon as  examples of citrus fruits, the model will recommend a list of words to the user who can modify/accept it.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel3.PNG)
+
+
+##45) Data Science without seeing the data: Advanced encryption to the rescue | Intuit
+
+* Explosion in data and number of people accessing it poses information security risks.
+
+* Goal is to do ML without seeing the underlying data.
+
+*Fully Homomorphic Encryption(FHE)*: Encrypts for security without losing the information necessary for computation.
+
+Microsoft's [SEAL](https://www.microsoft.com/en-us/research/project/microsoft-seal/) is a popular open source toolkit used for FHE. It abstracts the advanced mathematics for encryption for software engineers.
+
+Also see [here](https://homomorphicencryption.org/introduction/) for a more thorough introduction.
+
+All computations cannot be done using FHE
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intuit1.png)
+
+Not possible to do IF statements i.e. threshold functions.
+
+
+Use case in Medicine:A gives B encrypted medical data. B runs proprietary algorithm and gets an encrypted diagnosis.A accepts this and decrypts it to get diagnosis.
+
+* Intuit wants to encrypt all customer data on AWS and still use the data to run ML.
+* Tree based models are most widely used at Intuit, but you actually need to do branching which is hard with FHE.
+* Thresholding functions required to split decision trees can be approximated using a polynomial function.
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intuit2.PNG)
+
+### Decision Tree Training
+
+Unlike regular decision tree where the data is split and only a partition of the data is handed down to subsequent nodes of the tree,with FHE, the entire data has to be passed down through each layer as the data is encrypted. Only when you decrypt the full expression is an observation assigned to a leaf.
+
+This can be intractable if the trees are very deep.
+
+
+Inference with FHE is still very slow. In 2009, the slowdown was $ 10^7 $, in 2019 it is $ 10^4 $
+
+* Batch training and inference can be done on encrypted data.Not suitable in an online setting.
+
+
+## 46) Mozart in the Box: Interacting with AI Tools for Music Creation | Midas
+
+
+* Fear of automation is real: Even for an autonomous car, people would like to see the speedometer reading.
+
+
+Complex systems are hard to innovate on, the airplane pilot's complex is still extremely complex despite all the innovation
+
+1) Designed by experts for experts
+2) Have many critical parameters ad controls
+3) Require intense training and learning effort
+4) Mistakes and failures must be avoided at all costs
+5) The users are extremely conservative
+
+Complex systems are also liable to the Active User paradox which reduces user motivation to spend any time just learning about the system. This can manifest in a few ways
+
+1) Production Bias: When situation appear the could be more effectively handled by new procedures,they are likely to stick with procedures they already know regardless of efficacy. You want to start using something without reading the user manual
+
+
+2) Assimilation Bias: People apply what they already know to  new situations. Irrelevant and misleading similarities between new and old information can blind learners to what they are actually experiencing, leading them to draw erroneous comparisons and conclusions.
+
+
+
+Midas launched the world's first AI and cloud based mixing console platform in Aug 2019.Predictably, this triggered a fear of automation from several sound engineers.
+
+To market automation using AI:
+
+1) Explain the purpose of automation
+2) Make clear what the system and do and how well it can do it.
+
+
+### Types of Automation
+
+We can choose to automate along any of these dimensions
+
+1. Information acquisition
+2. Information analysis
+3. Decision selection E.g. Breathing us automated but we can control it to a certain extent
+4. Action implementation E.g. The heartbeat is completely automated
+
+
+### Levels of Automation
+
+0: No Automation
+1: Assistance
+2: Partial Automation
+3: Conditional Automation
+4: High Automation
+5: Total Automation
+
+Refer to this [paper](https://www.researchgate.net/publication/11596569_A_model_for_types_and_levels_of_human_interaction_with_automation_IEEE_Trans_Syst_Man_Cybern_Part_A_Syst_Hum_303_286-297) for more details.
+
+We can build systems with various levels of automation(manual to fully automated) across the candidate stages for automation as shown below.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/music1.PNG)
+
+
+You can also build adaptable systems by allowing ranges of automation for each type of automation, a human in the loop can then interact with the system specifying the right level of automation as shown below.
+
+How the system gives feedback to the user can also be of the following types
+
+1) Optimistic: Show everything as if it were correct
+2) Pessimistic: Show only what is known to be correct
+3) Cautious: Show the uncertainty of the system
+4) Opportunistic: Exploit uncertainty to improve the system (Active learning)
+
+
+The following principles relating to purpose should be kept in mind while designing the system
+
+1. Explain the purpose of the AI
+2. Make clear what the system can do and how well it can do it
+3. Show the performance of the system choosing appropriate feedback strategies
+4. Show when the system is not confident
+5. Design for appropriate trust, not for higher trust.
+
+The following principles relating to interaction should be kept in mind while designing the system
+
+1. Minimize the impact on the existing workflow
+2. Support efficient invocation(of AI system)
+3. Support efficient correction
+4. Support efficient dismissal
+5. Make the level of automation adaptable
+6. Design clear transitions between the different levels of automation
+7. Focus on UX from the early stages of algorithmic research
+
+The following canvas can be used for such system design.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/music3.png)
+
+The following image shows how the AI Music system was designed
+
+
+## 47) What you must know to build AI systems that understand natural language | Pacific AI
+
+Solving Natural Language Understanding would effectively lead to solving hard AGI.
+
+## Many languages spoken. 
+
+Even the type of language spoken at home or in an academic paper are very different. Different domains have different jargon. 
+
+SMS Language will have emojis and use a lot of slang or profanities. Auto correct can often be a problem with informal language.
+
+Legal transcriptions follow a strict procedure that needs to be understood to make sense of it.
+SEC filings will have a lot of boiler plate that can be ignored.
+
+
+Given the varieties of languages, MLP models have to be tailored to the type of language.
+
+
+## Domain specificity
+
+
+Off the shelf models cannot work on all domains as they are typically trained on content like Wikipedia articles.This problem is particularly acute in health care.
+
+E.g. "states started last night, upper abd, took alka seltzer approx 0500, no relief. nausea no vomiting"
+
+In finance, the sentiment towards a stock is not quite the same as sentiment towards a restaurant in a Yelp review.
+
+It is important to train domain specific models. You might have to pair your NLP data scientist with a domain expert who is an expert in the language the model has to understand.
+
+### Use both structured and unstructured data
+
+In a hospital demand forecasting problem, you need to look at medical notes  from doctors and nurses as well as available structured data such as age, reason for visit, wait time etc.
+
+**Best practice**: Unify NLP and ML pipeline as enabled by Spark NLP and Spark ML
+
+
+What is good first NLP project?
+
+Start with an existing model based on structured data that human domain experts usually solve with free text data
+
+
+> It is interesting to note that with the advent of advanced language models such as GPT3, we may not need to build domain specific models from scratch but only fine tune a language model. Even so, given GPT3 has been licensed exclusively to Microsoft, it may be out fo reach for most organizations in the world.
+
+
+## 48) AI for Cell Shaping in Mobile Networks | Ericsson
+
+Mobile networks present an optimization problem where the network has to provide optimum coverage for a large number of mobile customers using a limited spectrum. Some parameters of an antenna such as power, vertical tilt can be adjusted to modify coverage as shown below.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson1.PNG)
+
+
+You may also wan to control antenna tilt deceptively as special events like a football game and a political rally can cause a sudden increase in the density of people in a location. This is typically done manually by setting rules.
+
+Reinforcement learning can be used to do this.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson2.PNG)
+
+Policies were trained on simulated environments.
+
+Lot of domain knowledge from tuning these antennas over the years are also available that need to be utilized by the AI system.
+
+
+[RLLib](https://docs.ray.io/en/master/rllib.html) framework provided by UC Berkeley's Rise lab was used. The algorithm used for training was [A-pex](https://openreview.net/pdf?id=H1Dy---0Z)
+
+
+### RL Formulation
+
+
+A simulated environment was used . The simulator was plugged in through Open AI gym environment.
+
+The agent was a CNN that takes a state as input and output an action vector.
+
+State is the parameter of antennas,topology of buildings and user hotspots.
+
+Actions determine increase or decrease of tilt of an antenna.
+
+Reward is average increase in throughput for subscribers.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson3.PNG)
+
+
+The image below shows the setup.
+
+The image on the right shows the typology of the city grid being served by the antenna.
+
+The image on the left shows distributions of subscribers with warmer colors showing better coverage.
+
+The image in the middle shows the position of the antenna and tilt with warmer colors again indicating better coverage.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson4.PNG)
+
+
+
+As the RL algorithm learns, you can the the image on the left becoming warmer as their coverage improves.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson5.PNG)
+
+
+### Training Set up
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson6.PNG)
+
+
+### RL Algorithms
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson7.PNG)
+
+The A-pex algorithm used is an extension of the Deep Q Learning algorithm and was found to perform better.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ericsson8.PNG)
+
+
+### Using Historical Data
+
+Given historical records of state of the system and action taken by experts are available, a supervised model or recommender system can be built on this data.You can also extend the historical data to include a reward corresponding to the state,action pair.
+
+This can again be used for RL. Without a simulator you can't do a lot of exploration.
+
+### Transferring from Simulated to Real Environment
+
+Add noise to the simulations to make learning more robust.
+
+
+
+## 49) Language Inference in medicine | IBM Research
+
+* Need to determine if a patient meets eligibility criteria for clinical trials by comparing against doctor and nurse notes.
+
+An example of clinical trial eligibility criteria is shown below
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/clinic1.PNG)
+
+* Need to compare text between medical records and guidelines definitions
+
+* Natural Language Inference is a three way classification problem
+
+Given a premise and a hypothesis, classify the latter as
+
+a) Definitely true (entailment)
+b) Definitely false (contradiction)
+c) Might be true, might be false (neutral)
+
+
+E.g.
+
+**Premise**: A person on a horse jumps over a broken down airplane
+
+**Hypothesis 1**: A person is outdoors, on a horse
+
+This hypothesis is true(hence an entailment)
+
+**Hypothesis 2**: A person is at a diner, ordering an omelet
+
+This hypothesis is a contradiction.
+
+**Hypothesis 3**: A person is training his horse for a competition
+
+This hypothesis is neutral.
+
+
+This can be more complicated in the following example.
+
+**Premise**: The campaigns seem to reach a new pool of contributors.
+
+**Hypothesis**: The campaign drew a new crowd of funders.
+
+An understanding of the meaning of words  (pool = crowd, campaigns is a plural of campaign, funders = contributors) is necessary here.
+
+In medicine this can be even more complicated. 
+
+**Premise**: During the admission he had a paracentesis for ~ 5 liters and started on spironolactone, lasix and protonix
+
+**Hypothesis 1**: The patient has cirrhosis(Entailment)
+
+**Hypothesis 2**:  The patient does not have fluid in the abdomen (Contradiction)
+
+**Hypothesis 3**:  The patient would benefit from a liver transplant (Neutral)
+
+## Datasets
+
+* Stanford Natural Language Inference Dataset (SNLI). Premise here are captions from Flicker photographs, and humans were asked to write a statement that is definitely true, definitely false and might be true/false.
+
+* About 500,000 training pairs
+
+
+* MultiNLI  from NYU: Covers more variety of genres beyond photographs.
+
+
+* Clinical NLI Corpus was created from IBM Research. Premise is a sentence from a patient's history. Clinicians were then asked to write sentences for each of the three classes.
+
+## Models
+
+* GBM classifier performance was limited.
+
+* A stronger deep learning baseline using Bag of Words was created. Embeddings vectors for premise and hypothesis were created by summing the word embeddings for the constituent words.These were concatenated and passed through a fully connected Neural Net.
+
+*Other models considered include:
+
+  * Enhanced Sequential Inference Model[ESIM](https://github.com/coetaur0/ESIM)
+  * [InferSent](https://github.com/facebookresearch/InferSent)
+  
+*Following variations of transfer learning were also explored
+  
+  *Sequential Transfer: Pre train on SNLI and then train on Medical NLI, followed by testing on Medical NLI
+  *Multi target transfer:Some layers were shared between open and medical domains, while other layers were trained 
+  exclusively on the open domain data. Testing was carried out on the medical domain.
+  
+
+* Approach was also designed to leverage existing knowledge graph compiled by domain experts. This relied on developing a matrix which captured the shortest path distance between concepts in the knowledge graph which mirrored the attention matrix developed by the ESIM model from data.   
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/clinic2.PNG)
+  
+
+## 50) Improving OCR quality of documents using GANs | EXL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
