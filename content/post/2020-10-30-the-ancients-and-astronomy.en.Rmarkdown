@@ -30,19 +30,29 @@ In this blog post, I lay out these triumphs and will seek to explain how using o
 
 The journey starts with Eratosthenes of Cyene, a Greek scholar born in 276 BC. In order to fulfill his ambition of making a map of the entire world, he realized he needed to measure the circumference of the earth.
 
-Based in Alexandria, he heard from travelers that the sun illuminated the entire bottom of the well in Syene(now Aswan, Egypt), without casting shadows at noon on the summer solistice,indicating that the sun was directly overhead. We moderns now know that Syene lies on the Tropic of Cancer ($  23.5^\circ N  $), and the sun appears directly overhead on Summer Solstice that typically falls on June 21 as shown below.
+Based in Alexandria, he heard from travelers that the sun illuminated the entire bottom of the well in Syene(now Aswan, Egypt), without casting shadows at noon on the summer solstice,indicating that the sun was directly overhead. We moderns now know that Syene lies on the Tropic of Cancer ($  23.5^\circ N  $), and the sun appears directly overhead on Summer Solstice that typically falls on June 21 as shown below.
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Trop_Cancer.png)
+
+
+```{r echo = FALSE, fig.cap = "Summer Solistice"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/Trop_Cancer.png',error = FALSE)
+```
+
 
 
 He then measured the angle of the shadow cast by a stick at noon on the summer solstice in Alexandria and found it made an angle of 7.2 degrees ($ \theta $ in the figure below). Note that Eratosthenes deduced this angle using a form of trigonometry as modern trigonometry had not been invented yet.
 
 Now, all that needed to be done was measure the distance from Alexandria to Syene ($ \textbf{BI} $  in the figure below)and the problem becomes one that can be solved by simple geometry as shown below.
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Earth_circumference.PNG)
+
+```{r echo = FALSE, fig.cap = "Measuring the circumference of the earth"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/Earth_circumference.PNG',error = FALSE)
+```
 
 
-Given the arc $ \textbf{BI} $ subtends an angle $ \theta $ and the circumference of the circle $ \textbf{C} $ subtends an angle $ 360^\circ $ at the centre, the circumference of the circle $ \textbf{C} $
+Given the arc $ \textbf{BI} $ subtends an angle $ \theta $ and the circumference of the circle $ \textbf{C} $ subtends an angle $ 360^\circ $ at the center, the circumference of the circle $ \textbf{C} $
 
 $$ \textbf{C} = \frac{360 \times BI}{\theta} $$
 
@@ -55,13 +65,24 @@ estimate of 40,000 km.
 
 [Aristarchus](https://en.wikipedia.org/wiki/Aristarchus_of_Samos) of Samos measured the size of the moon by making observations about the shadow cast by the earth during the lunar eclipse (shown below)
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/lunar_eclipse.png)
 
-Aristachrus knew this happened on average twice a year and realized that the angular size of the shadow cast by the earth at a distance to the moon (The angle $ \beta $ between the purple dashed lines) can be measured by noting the difference in the position of the moon before and after the eclipse as shown below. Note the two postions of the green circle representing the moon before and after the eclipse.
+
+```{r echo = FALSE, fig.cap = "Lunar Eclipse"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/lunar_eclipse.png',error = FALSE)
+```
+
+Aristarchus knew this happened on average twice a year and realized that the angular size of the shadow cast by the earth at a distance to the moon (The angle $ \beta $ between the purple dashed lines) can be measured by noting the difference in the position of the moon before and after the eclipse as shown below. Note the two positions of the green circle representing the moon before and after the eclipse.
 
 The angular size of the moon (The angle $ \alpha $ between the red dotted lines) could be measured at any time and is approximately $ 0.5^\circ $.
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Size_of_the_Moon.png)
+
+
+```{r echo = FALSE, fig.cap = "Size of the Moon - 1"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/Size_of_the_Moon.png',error = FALSE)
+```
+
 
 
 Aristarchus calculated the ratio between these two angular sizes
@@ -71,7 +92,12 @@ $$ \frac{\beta}{\alpha} = 2.7 \ \ \ \ \ \ Eq(1)$$
 
 Before we proceed,it is helpful to know the **Observer's Triangle Relation**
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/triangle_relationship.PNG)
+```{r echo = FALSE, fig.cap = "Observer's Traingle Relation"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/triangle_relationship.PNG',error = FALSE)
+```
+
+
 
 In a nutshell this relation says the Diameter of a planet $ D $, the distance to the planet $ L $ from the observation point (B) and the angle subtended by the planet at the observer's position $ \alpha $ are related as given by the following expression. 
 You can see the derivation of this expression [here](http://www.eg.bucknell.edu/physics/astronomy/as102-spr99/specials/obstri.html).
@@ -81,18 +107,26 @@ $$ \frac{\alpha}{57.3} = \frac{D}{L} $$
 
 
 
-This means
+This means, referring to Figure 4
 
 $$ \frac{D_{moon}}{\alpha} = \frac{D_{earth\_shadow}}{\beta} = \frac{L}{57.3}\ \ \ \ \ \ Eq(2) $$
+where $ D_{moon} $ is the diameter of the moon and $ D_{earth\_shadow} $ is the diameter of the earth's shadow at the distance to the moon ($ L $)
 
-From the above expression it is clear that if two objects are at the same distance (L), their diameters should have the same ratio as their angular distance.
+
+From the above expression it is clear that if two objects are at the same distance (L), their diameters should have the same ratio as their angular size.
 
 $$ \frac{D_{moon}}{D_{earth\_shadow}}  = \frac{\alpha}{\beta}$$   
 
 
 This meant that he just needed to estimate the diameter of the earth's shadow at the distance to the moon to calculate the diameter of the moon. This again reduces to a geometry problem.
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_moon.PNG)
+
+```{r echo = FALSE, fig.cap = "Size of the moon - 2"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_moon.PNG',error = FALSE)
+```
+
+
 
 
 In the figure above, let A be the center of the sun, G the center of the earth and L the center of the moon as it revolves around the earth in what is assumed to be a perfect circle, represented by the dashed circle.
@@ -157,11 +191,11 @@ Substituting this in $ Eq(6) $ gives:
 
 $$ \frac{R_e}{R_m} = 3.7 $$
 
-The circumference of the earth had been established as approximately 39,700 kms by Eratosthenes, the radius can be easily calculated from this : 6,318 kms
+The circumference of the earth had been established as approximately 39,700 km by Eratosthenes, the radius can be easily calculated from this : 6,318 km
 
 The radius of the moon is then given by 
 $$ \frac{R_e}{3.7} = \frac{6318}{3.7} = 1,707 kms $$
-This is remarkably close to the modern estimate of 1,736 kms
+This is remarkably close to the modern estimate of 1,736 km
 
 ## Distance to the Moon
 
@@ -171,7 +205,11 @@ Consider an object JQ of size $ L $ , which has an angular size of $ \alpha $ fr
 
 You can construct a circle with center at $ I $ and passing through both ends of the object as shown below
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/parallax.png)
+```{r echo = FALSE, fig.cap = "The parallax method"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/parallax.png',error = FALSE)
+```
+
 
 
 If $ 360^\circ $ corresponds to an arc length of $ 2\pi r $(the circumference of the circle), and the arc length $ L $ corresponds to the angle $ \alpha $
@@ -189,7 +227,7 @@ earth ($ \alpha $)is roughly $ 0.5^\circ $. Substituting these values in the abo
 
 The distance to the moon is roughly 115 times the diameter of the moon. i.e. $ 115 \times 2 \times 1707 = 392,610\ kms $
 
-This is close to the modern estimate of 384,400 kms.
+This is close to the modern estimate of 384,400 km.
 
 Note that according to certain sources, Aristarchus measured the angle $ \alpha $ as $ 2^\circ $ and hence ended up under estimating this distance by a factor of 4
 
@@ -199,7 +237,11 @@ Aristarchus again used intelligent geometry to estimate the distance to the sun,
 
 Consider the sun in yellow with center at B, earth in green with center at A and the moon in red with center at G.
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_to_the_sun.PNG)
+```{r echo = FALSE, fig.cap = "Distance to the sun"}
+library(knitr)
+knitr::include_graphics('/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_to_the_sun.PNG',error = FALSE)
+```
+
 
 
 Aristarchus realized that the sun , earth and moon $ \Delta BGA $ formed a right triangle when the moon is half illuminated by the sun as shown above.
