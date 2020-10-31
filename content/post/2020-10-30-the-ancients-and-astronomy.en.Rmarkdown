@@ -8,7 +8,7 @@ categories:
 tags:
   - Science
 subtitle: ''
-summary: 'How the ancients sued simple observations and geometry to understand our place in the solar system'
+summary: 'How the ancients used simple observations and geometry to understand our place in the solar system'
 authors: []
 lastmod: '2020-10-30T16:13:00-04:00'
 featured: no
@@ -30,14 +30,14 @@ In this blog post, I lay out these triumphs and will seek to explain how using o
 
 The journey starts with Eratosthenes of Cyene, a Greek scholar born in 276 BC. In order to fulfill his ambition of making a map of the entire world, he realized he needed to measure the circumference of the earth.
 
-Based in Alexandria, he heard from travelers that the sun illuminated the entire bottom of the well in Syene(now Aswan, Egypt) without casting shadows at noon on the summer solistice,indicating that the sun was directly overhead. We moderns now know that Syene lies on the Tropic of Cancer ($  23.5^\circ N  $), and the sun appears directly overhead on Summer Solstice that typically falls on June 21 as shown below.
+Based in Alexandria, he heard from travelers that the sun illuminated the entire bottom of the well in Syene(now Aswan, Egypt), without casting shadows at noon on the summer solistice,indicating that the sun was directly overhead. We moderns now know that Syene lies on the Tropic of Cancer ($  23.5^\circ N  $), and the sun appears directly overhead on Summer Solstice that typically falls on June 21 as shown below.
 
 ![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Trop_Cancer.png)
 
 
 He then measured the angle of the shadow cast by a stick at noon on the summer solstice in Alexandria and found it made an angle of 7.2 degrees ($ \theta $ in the figure below). Note that Eratosthenes deduced this angle using a form of trigonometry as modern trigonometry had not been invented yet.
 
-Now, all that needed to be done was measure the distance from Alexandria to Syene ($ \textbf{BI} $)  in the figure below)and the problem becomes one that can be solved by simple geometry as shown below.
+Now, all that needed to be done was measure the distance from Alexandria to Syene ($ \textbf{BI} $  in the figure below)and the problem becomes one that can be solved by simple geometry as shown below.
 
 ![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Earth_circumference.PNG)
 
@@ -45,7 +45,7 @@ Now, all that needed to be done was measure the distance from Alexandria to Syen
 Given the arc $ \textbf{BI} $ subtends an angle $ \theta $ and the circumference of the circle $ \textbf{C} $ subtends an angle $ 360^\circ $ at the centre, the circumference of the circle $ \textbf{C} $
 
 $$ \textbf{C} = \frac{360 \times BI}{\theta} $$
-![](/post/2020-10-24-the-ancients-and-astronomy.en_files/lunar_eclipse.png)
+
 
 
 Eratosthenes hired professional surveyors to measure the distance between the two cities by walking equal length steps. They found this distance to be 5,000 stadia which is approximately  794 km. Using the formula above he determined the circumference of the earth to be about 250,000 stadia ,approximately 39,700 km. This is remarkably close to the modern
@@ -53,11 +53,11 @@ estimate of 40,000 km.
 
 ## Size of the Moon
 
-[Aristarchus](https://en.wikipedia.org/wiki/Aristarchus_of_Samos) of Samos measured the size of the moon by making observations about the shadow cast by the earth during the lunar eclipse.
+[Aristarchus](https://en.wikipedia.org/wiki/Aristarchus_of_Samos) of Samos measured the size of the moon by making observations about the shadow cast by the earth during the lunar eclipse (shown below)
 
+![](/post/2020-10-24-the-ancients-and-astronomy.en_files/lunar_eclipse.png)
 
-
-Aristachrus knew this happened on average twice a year and realized that the angular distance of the shadow cast by the earth at a distance to the moon (The angle $ \beta $ between the purple dashed lines) can be measured by noting the difference in the position of the moon before and after the eclipse as shown below . The angular distance of the moon (The angle $ \alpha $ between the red dotted lines) could be measured at any time and is approximately $ 0.5^\circ $.
+Aristachrus knew this happened on average twice a year and realized that the angular size of the shadow cast by the earth at a distance to the moon (The angle $ \beta $ between the purple dashed lines) can be measured by noting the difference in the position of the moon before and after the eclipse as shown below . The angular size of the moon (The angle $ \alpha $ between the red dotted lines) could be measured at any time and is approximately $ 0.5^\circ $.
 
 ![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Size_of_the_Moon.png)
 
@@ -69,12 +69,16 @@ $$ \frac{\beta}{\alpha} = 2.7 \ \ \ \ \ \ Eq(1)$$
 
 Before we proceed,it is helpful to know the **Observer's Triangle Relation**
 
+![](/post/2020-10-30-the-ancients-and-astronomy.en_files/triangle_relationship.PNG)
 
 In a nutshell this relation says the Diameter of a planet $ D $, the distance to the planet $ L $ from the observation point (B) and the angle subtended by the planet at the observer's position $ \alpha $ are related as given by the following expression. 
 You can see the derivation of this expression [here](http://www.eg.bucknell.edu/physics/astronomy/as102-spr99/specials/obstri.html).
 
 
 $$ \frac{\alpha}{57.3} = \frac{D}{L} $$
+
+
+
 This means
 
 $$ \frac{D_{moon}}{\alpha} = \frac{D_{earth\_shadow}}{\beta} = \frac{L}{57.3}\ \ \ \ \ \ Eq(2) $$
@@ -86,7 +90,7 @@ $$ \frac{D_{moon}}{D_{earth\_shadow}}  = \frac{\alpha}{\beta}$$
 
 This meant that he just needed to estimate the diameter of the earth's shadow at the distance to the moon to calculate the diameter of the moon. This again reduces to a geometry problem.
 
-![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_to_the moon.PNG)
+![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_moon.PNG)
 
 
 In the figure above, let A be the center of the sun, G the center of the earth and L the center of the moon as it revolves around the earth in what is assumed to be a perfect circle, represented by the dashed circle.
@@ -95,7 +99,7 @@ From the above figure, given AGF is a straight line
 
 $$ \alpha1 + \beta1 + \gamma1 = 180^\circ $$
 
-Also, given DGL is a traingle,
+Also, given DGL is a triangle,
 
 $$ \delta1 + \beta1 + \theta1 = 180^\circ $$
 
@@ -214,6 +218,7 @@ However he had estimated $ \angle CAB $ incorrectly without any modern telescopi
 
 After these discoveries, more than 1500 years would go by before Copernicus and Galileo would transform our understanding of our solar system. Although we take scientific progress granted today, this shows that our civilization is fragile and progress is not a foregone conclusion.
 
+{{<tweet 946916197693472769>}}
 
 Our understanding of our place in the cosmos has evolved rapidly over the last two hundred years. The invention of the spectrograph  by Fraunhofer in 1814 has allowed us to infer the properties,distance and mass of even distant stars by analyzing the light they emit.
 
