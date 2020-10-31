@@ -23,7 +23,7 @@ projects: []
 
 Man figuring out his place in the cosmos represents a stunning triumph of imagination and ingenuity. What the ancient Greeks were able to accomplish over 2000 years ago with nothing more than their mental acuity puts civilization's stunning progress into perspective. How could we, the descendants of such brilliant ancestors, not go on and accomplish the remarkable things we have done. The apple doesn't fall far from the tree.
 
-In this blog post, I lay out these triumphs and will seek to explain how using only observations perceptible to the naked eye and clever geometry, the ancient Greeks  our address in the solar system.
+In this blog post, I lay out these triumphs and will seek to explain how using only observations perceptible to the naked eye, clever geometry and a fertile imagination, the ancient Greeks unlocked the door to understanding our place in the cosmos.
 
 
 ## Size of the Earth
@@ -55,9 +55,11 @@ estimate of 40,000 km.
 
 [Aristarchus](https://en.wikipedia.org/wiki/Aristarchus_of_Samos) of Samos measured the size of the moon by making observations about the shadow cast by the earth during the lunar eclipse (shown below)
 
-![](/post/2020-10-24-the-ancients-and-astronomy.en_files/lunar_eclipse.png)
+![](/post/2020-10-30-the-ancients-and-astronomy.en_files/lunar_eclipse.png)
 
-Aristachrus knew this happened on average twice a year and realized that the angular size of the shadow cast by the earth at a distance to the moon (The angle $ \beta $ between the purple dashed lines) can be measured by noting the difference in the position of the moon before and after the eclipse as shown below . The angular size of the moon (The angle $ \alpha $ between the red dotted lines) could be measured at any time and is approximately $ 0.5^\circ $.
+Aristachrus knew this happened on average twice a year and realized that the angular size of the shadow cast by the earth at a distance to the moon (The angle $ \beta $ between the purple dashed lines) can be measured by noting the difference in the position of the moon before and after the eclipse as shown below. Note the two postions of the green circle representing the moon before and after the eclipse.
+
+The angular size of the moon (The angle $ \alpha $ between the red dotted lines) could be measured at any time and is approximately $ 0.5^\circ $.
 
 ![](/post/2020-10-30-the-ancients-and-astronomy.en_files/Size_of_the_Moon.png)
 
@@ -230,6 +232,14 @@ In the space of a few hundred years, we have gone from thinking the solar system
 Our ancestors would be truly proud.
 
 
+## References
+
+1) https://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307599809
+2) https://www.aps.org/publications/apsnews/200606/history.cfm
+3) https://www.youtube.com/watch?v=O6KOSvYHAmA
+4) http://www.eg.bucknell.edu/physics/astronomy/astr101/specials/aristarchus.html
+5) http://www.phy6.org/stargaze/Sparalax.htm
+6) https://pwg.gsfc.nasa.gov/stargaze/Shipprc2.htm
 
 
 
