@@ -174,7 +174,7 @@ $$\frac{R_m}{L_m} + \frac{R_{em}}{L_m} = \frac{R_e}{L_m} +\frac{R_e}{L_s} $$
 Multiplying throughout by $ L_m $ gives
 
 $$ R_m + R_{em} = R_e + R_e \times \frac{L_m}{L_s}\ \ \ \ \ Eq(5)$$
-Given the distance to the sun is much greater than the distance to the sun, Aristarchus concluded that he could ignore the last term giving the final expression
+Given the distance to the sun is much greater than the distance to the moon, Aristarchus concluded that he could ignore the last term giving the final expression
 
 $$ R_{em} = R_{e} - R_{m} $$
 
