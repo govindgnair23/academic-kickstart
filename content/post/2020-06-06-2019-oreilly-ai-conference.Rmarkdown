@@ -2429,6 +2429,78 @@ In medicine this can be even more complicated.
 
 ## 50) Improving OCR quality of documents using GANs | EXL
 
+The modern OCR pipeline is as follows.
+
+1) Input documents are fed into an OCR engine which converts the documents into machine understandable format
+2) Automated processing using ML/NLP 
+3) Manual validation to ensure 100 % accuracy
+
+
+* This may not work well if the input documents are highly unstructured i.e. have incorrect layouts, low resolutions or is very noisy with wrinkles,watermarks etc. This can be addressed either by improving the OCR engine or by improving the input documents fed into the OCR engine.
+
+
+The enhanced pipeline is as follows:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl1.PNG)
+
+Although traditional image enhancement techniques are effective in addressing some problems, GAN based enhancements can improve the quality of input documents even further,
+
+
+Below is an overview of a GAN. It consists of a generator and a discriminator acting in an adversarial fashion, one trying make real and fake images indistinguishable while the other trying to distinguish between the two. 
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl2.PNG)
+
+## Resolution Enhancement
+
+### Data Creation
+
+* High resolution English documents with different font-types, sizes and spacing were first converted to standard resolution(300 dots per inch (DPI)) using standard image processing tools and then converted to low resolution images at 75 DPU using random subsampling and bicubic Downsampling. The high-resolution and low-resolution image pairs are used for training the GANs
+
+
+* Data sets were also created by scanning high resolution English documents at high (300 DPI) and (low) resolution.
+
+### Training
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl3.PNG)
+
+
+
+* The generator will not have a max-pooling layer as max-pooling layers lower the resolution of an image.Upsampling layers such as un-pooling (reverse of max-pooling) or de-convolution layers are used.
+
+* Custom loss with two terms are used
+  * Adversarial loss looks just at the performance of the discriminator
+  * Content loss captures the performance of the generator which again has two terms
+    
+    1) MSE between generated image and ground truth image
+    2) MSE between the ground truth image and image generated using a VGG network
+    
+    Although some use cases would require only the first of these two terms, for the OCR use case, this was found to     perform better.
+
+Given the generator is very sensitive to initialization, the model is trained on imagenet and the weights are transferred.
+
+### Evaluation
+
+In terms of character level accuracy, the GAN enhanced images resulted in an improvement of 7 percentage points for enterprise grade OCR systems and an improvement of 80 percentage points for open source OCR systems.
+
+In terms of word level accuracy, the GAN enhanced images resulted in an improvement of 9 percentage points for enterprise grade OCR systems and an improvement of 79 percentage points for open source OCR systems.
+
+
+## Document De-noising
+
+### Data
+
+* Clean documents with different font types, sizes and spacing were collected. Noise( Random noise, Gaussian noise, pattern noise) were added to these documents to create noisy documents
+
+* Clean datasets from kaggle were taken and synthetic noise was added to this to create noisy documents.
+
+### Training
+
+The training process was identical to the one above and as seen below, the documents were de-noised effectively over successive epochs.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl4.PNG)
+
+In other use cases, a Mask-RCNN was used to identify parts of documents that had address like texts,these regions were then enhanced using a GAN. 
+
 
 
 
