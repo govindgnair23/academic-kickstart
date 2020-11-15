@@ -31,7 +31,7 @@ Use of graphs to fight financial crime has been getting a lot of traction recent
 
 Algorithms like node2vec and deepwalk have been used to create embeddings that capture the topology of a network, but these algorithms cannot capture the node attributes that might have rich information.
 
-GraphSage is a Graph convolutional network algorithm that allows you to capture both the topology of a network as well as useful node attributes.Besides this is an **inductive"" algorithm meaning that it does not need to be trained on whole graphs and can be used for inference on unseen nodes and graphs.
+GraphSage is a Graph convolutional network algorithm that allows you to capture both the topology of a network as well as useful node attributes.Besides this is an **inductive** algorithm meaning that it does not need to be trained on whole graphs and can be used for inference on unseen nodes and graphs.
 
 More useful information is available [here](http://snap.stanford.edu/graphsage/) and [here](https://blogs.oracle.com/datascience/graphwise-graph-convolutional-networks-in-pgx)
 
@@ -165,9 +165,12 @@ Undesired bias can be split into two conceptual pieces
 
 Explainability is key to:
 
-a) Identify and evaluate undesirable biases
-b) To meet regulatory requirements such as GDPR
-c) For compliance of processes
+a) Identify and evaluate undesirable biases  
+
+b) To meet regulatory requirements such as GDPR  
+
+c) For compliance of processes  
+
 d) To identify and reduce risks (FP vs FN)
 
 **Interpretability != Explainability**
@@ -197,7 +200,7 @@ Counterfactual: How would the input/features have to change for the prediction t
 
 - Establish a benchmark using a simple model from which to gauge improvements in accuracy, fairness, interpretability or privacy
 
--  Overly complicated featured are hard to explain. Features should provide business intuition.(More relevant for regulated industries)
+-  Overly complicated features are hard to explain. Features should provide business intuition.(More relevant for regulated industries)
 
 - For fairness, it is important to evaluate if different sub groups of people are being treated differently by your ML model (Disparate Impact). Need to do appropriate data processing. OSS:  [AIF360](https://github.com/IBM/AIF360), [aequitas](https://github.com/dssg/aequitas)
 
@@ -287,9 +290,9 @@ In model parallelism, the model is split across workers and there has to be comm
 Data parallelism is more fault tolerant and common.
 
 * When to use distributed training?
- - Your model us too big to fit a sufficiently large batch size
- - Your data is large
- - Your model requires significant GPU computation
+   - Your model us too big to fit a sufficiently large batch size
+  - Your data is large
+  - Your model requires significant GPU computation
 
 You do not need distributed training if:
  - You want to run hyperparameter tuning
@@ -393,21 +396,21 @@ RNNs can be memory based (GRU and LSTM) or attention based (Transformers).
 
 **Considerations for getting accurate TS forecasts:**
 1. Discovering influencing metrics and events
- - Look at correlations between target and time series features
+  - Look at correlations between target and time series features
  
 2. Ensemble of models - Usually require multiple algorithms
 
 3. Identify and account for unexplainable data anomalies
- - Identify anomalies and use this to create new features
- - Enhance anomalies that can be explained by external factors
- - Weight down anomalies that can't be explained by external factors
+   - Identify anomalies and use this to create new features
+   - Enhance anomalies that can be explained by external factors
+   - Weight down anomalies that can't be explained by external factors
  
  
 
 4. Identify and account for different time series behaviors
- - Training a single model for multiple time series does not work if each series shows a different seasonality. 
+   - Training a single model for multiple time series does not work if each series shows a different seasonality. 
    Difference can be in frequency or strength.
- - Mixing stationary and non stationary time series also does not work
+   - Mixing stationary and non stationary time series also does not work
 
 
 ## 15) Transfer Learning NLP: Machine Reading comprehension for question answering | Microsoft
@@ -453,11 +456,16 @@ In instances where no breach occurred, the image would show authorizations(green
 
 A CNN is trained on the available labelled data to extract features that are indicative of a data breach. This model is used as a 'feature classifier' (in image below) to label the unlabeled data. The enriched data with labels is then used to train a second classifier to actually detect fraud. 
 
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/visa1_5.png)
+
 The second classifier uses more near time features to enable early detection of breaches.Time series features are prominently used. Multi channel time series that combine multiple time series are created and this is fed into a CNN, The features extracted by the CNN along with more static features such as type of merchant or location of merchant are fed into a deep neural network with the labels being those generated by the first CNN.
 
 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/visa2.PNG)
 
+The final solution looks as follows
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/visa3.png)
 
 ## 17) Generative Models for fixing image defects| Adobe
 
@@ -575,9 +583,7 @@ Model averaging is done at different training end points to correct for misleadi
 
 ### Modelling Seasonality
 
-Seasonal holidays can shift from year to year that can cause problems. Uber uses the a Day to Month model to account for this. 
-
-Uber  uses FB's prophet and python holiday library.
+Seasonal holidays can shift from year to year that can cause problems. Uber uses Prophet's Day to Month(DTM) forecast model  and python holiday library to account for this.
 
 The sophistication of the systems used by Uber's financial planning team is truly remarkable. There was a lot more content in this talk that I didn't fully follow given my familiarity with this domain is limited.
 
@@ -589,14 +595,14 @@ The sophistication of the systems used by Uber's financial planning team is trul
 
 ### Word embeddings
 
-Skip Gram: Take a word and predict the surrounding words
+Skip Gram: Take a word and predict the surrounding words <br />
 CBOW: Take surrounding words and predict the target word
 
 Glove word embeddings are based on matrix factorization of a matrix with entries corresponding to frequency of their co-occurence.
 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings1.PNG)
 
-TFIDF is a simple type of an embedding, but they are sparse adn high dimensional. 
+TFIDF is a simple type of an embedding, but they are sparse and high dimensional. 
 
 
 
@@ -609,7 +615,8 @@ Can use fully connected layers before the softmax layer of a CNN built for class
 
 Topic models give lower dimensional embeddings of documents.
 
-Below is a way to get document embeddings from a word embeddings.$d_{test}$ in the image below is the id for a document inserted as  a word into the document.
+Below is a way to get document embeddings from a word embeddings.<br />
+`\(d_{test}\)` in the image below is the id for a document inserted as  a word into the document.
 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings2.PNG)
 
@@ -622,12 +629,12 @@ Graph CNNs can be used to create embeddings.
 
 Recommendation systems can be content based, collaborative filtering driven or a hybrid of the two.
 
-* Given twitter has user follows, collaborative filtering is a more natural approach
+* Given twitter has user follows as a signal, collaborative filtering is a more natural approach
 * Content based approaches are more challenging  given short document length, multi lingual content and multiple languages within the same tweet.
 * Recommendations served include 
-- user-user: Who to follow
-- user-item: Home timeline with tweets. Which tweet  to follow 
-- item-item : Recommend new trends/tweets etc.
+  - user-user: Who to follow
+  - user-item: Home timeline with tweets. Which tweet  to follow 
+  - item-item : Recommend new trends/tweets etc.
 
 An item at twitter can be tweets,events,trends,moments or live video/broadcast.
 
@@ -727,8 +734,8 @@ Agile principles for ML:
 
 The challenges Verta focuses on tackling are in the lower half of the model lifecycle:
 
-1)How do you run and manage ML Experiments? Need a git equivalent for ML models
-2)Deploying Models in Production
+1)How do you run and manage ML Experiments? Need a git equivalent for ML models <br />
+2)Deploying Models in Production <br />
 3)Monitoring Model Performance
 
 * Model versioning requires code versioning, data versioning, config versioning and environment versioning
@@ -807,9 +814,9 @@ Image selection can be based on behavioral data or through content understanding
 Real Estate images can vary widely in quality and content. Zillow needs to select a primary image(hero image) to display along with the listing.Typically, exterior images are selected as the primary image which may not be appropriate.
 
 A good hero image must be:
-*Attractive
-*Relevant - Informative of the listing
-*Appropriate - No irrelevant advertisements
+  * Attractive
+  * Relevant - Informative of the listing
+  * Appropriate - No irrelevant advertisements
 
 
 
@@ -865,11 +872,11 @@ Also, gaussian kernel smoothing is used to account for the fact the models are t
 The aggregate score from the 3 models is used to compute overall salience score per viewpoint.
 
 
-## Training Sail ency Models
+## Training Sailency Models
 
 * Resent/Inception architectures pretrained on Imagenet/Places365 are fine tuned on internal Scenes60 data set.
 * This model is then fine tuned on Trulia's Appropriateness and Attractiveness data sets.
-* Binary Cross Entropy loss is used fro the Appropriateness and Attractiveness data sets while a 60 way categorical cross entropy loss is used for the scene understanding model.
+* Binary Cross Entropy loss is used for the Appropriateness and Attractiveness data sets while a 60 way categorical cross entropy loss is used for the scene understanding model.
 
 
 ## Estimating Image Attractiveness
@@ -923,7 +930,7 @@ The architecture used by Twitter is a Char - BiLSTM -CRF.
 
 A character representation is used to supplement the word representation if a token is unknown.Other features indicate if the token was a hashtag or other twitter specific characteristics.
 
-Twitter chose not to use the LM approach because of the size of the model and latency demands in production.
+Twitter chose not to use the Language Model approach because of the size of the model and latency demands in production.
 
 ### Confidence Estimation
 
@@ -937,7 +944,7 @@ Using a CRF based approach proposed in a 2004 [paper](https://people.cs.umass.ed
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER4.PNG)
 
 
-## 26) Behavior Analytics for Enterprise Security using NLP Approached | Aruba Networks
+## 26) Behavior Analytics for Enterprise Security using NLP Approaches | Aruba Networks
 
 * Need to identify relevant anomalies in a network. Malware more of a threat than adware
 * For supervised learning to work, you need a list of all possible access to the network tagged as safe or anomalous. However what is available are large volumes of diverse unlabeled data
@@ -964,7 +971,7 @@ Capture the likelihood of using a second server given you use first server.
 
 Given the workforce is inexperienced, the goal of the project is to be able to identify assessments (health assessments documents of patients) as Hard,Medium or Easy based on degree of effort and perceived level of difficulty so that a manager can delegate the assessments appropriately.
 
-Feedback on difficulty was gathered subjectively from workers a while effort was quantified in terms of time spent within a record (which also validates the subjective assessment.
+Feedback on difficulty was gathered subjectively from workers, while effort was quantified in terms of time spent within a record (which also validates the subjective assessment.)
 
 
 **Challenges**:
@@ -993,7 +1000,7 @@ The document assembler (part of Spark NLP) takes the text from the OCR and creat
 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/samplepipeline2.PNG)
 
-Layout Analysis: Identify related regions of text that belong together in the image.
+Layout Analysis: Identify related regions of text that belong together in the image.<br />
 Annotations of a document: Contains the text extracted from the image and relevant metadata.
 
 
@@ -1018,16 +1025,16 @@ Deep learning framework chosen was MXNet for its Scala and Python support.
 
 **Step 1: Bounding Box Detection**
 
-A deep learning model based on residual networks outputs center of the box, height,width ,angle of title and confidence.
+  * A deep learning model based on residual networks outputs center of the box, height,width ,angle of title and        confidence.
 
 **Step 2: Text Recognition**
 
-A deep  learning model based on residual networks outputs text
+  * A deep  learning model based on residual networks outputs text
 
 **Step 3: Mapping**
 
-An assortment of models(rule based + deep learning ensembles) that maps a value to a field.
-E.g. 63.87 is a 'Total' and 1/27/2018 is a 'Date'
+  * An assortment of models(rule based + deep learning ensembles) that maps a value to a field.
+    E.g. 63.87 is a 'Total' and 1/27/2018 is a 'Date'
 
 All components were built using microservices architecture.
 
@@ -1035,16 +1042,16 @@ The Production architecture at Workday consists of an ML platform that supports 
 
 When going from 0 to 1 in a new area such as deploying first ML Application, follow the START framework.
 
-S: Select One Win (Unambiguous Value). Get alignment on success criteria
-T: Team. Smaller teams work best.(< 1 pizza pie) Time bound (3 - 6 months). Focus on Learning
-A: Articulate(Win and Gameplan) and Align(stakeholders)
-R: Rally and Support - Protect team from external noise
+S: Select One Win (Unambiguous Value). Get alignment on success criteria < br />
+T: Team. Smaller teams work best.(< 1 pizza pie) Time bound (3 - 6 months). Focus on Learning < br />
+A: Articulate(Win and Gameplan) and Align(stakeholders) <br />
+R: Rally and Support - Protect team from external noise < br />
 T: Take Shortcuts (tech debt -accrue it). Speedy learning is the focus so this is ok. Target release for only one or two customers.
 
 Finally - GET
 
-G: Get Credit for the win and Gather Capital
-E: Establish repeatable processes and platform
+G: Get Credit for the win and Gather Capital < br />
+E: Establish repeatable processes and platform < br />
 T: Transfer learnings to scale to 10
 
 
@@ -1060,7 +1067,7 @@ T: Transfer learnings to scale to 10
 
 ### Transfer Learning in Medical Imaging
 
-Tasks: Chest X -rays and diagnosing diabetic retinopathy
+Tasks: Chest X -rays and diagnosing diabetic retinopathy <br />
 Models: Resent 50 and Inception v3. Also considered smaller lightweight architectries which consisted of sets of CBR (convolution+batchnorm_relu+maxpool) layers
 
 #### Takeways
@@ -1078,11 +1085,11 @@ This suggests that the typical imagenet models might be overparameterised for ta
 
 #### Representational Analysis of Transfer
 
-* The goal is to learn  whether irrespective of initialization , pretrained and randomly intialized networks learn the same concepts in the latent layers. However this is difficult as comparing two networks is challenging due to the distributed alignment problem. Features learned by one network don't align with those learned by another network. E.g. one network might learn to reconginze a dog  using a single neuron ,while another network uses concepts learned by three different neurons to identify a dog.
+* The goal is to learn  whether irrespective of initialization , pretrained and randomly intialized networks learn the same concepts in the latent layers. However this is difficult as comparing two networks is challenging due to the distributed alignment problem. Features learned by one network don't align with those learned by another network. E.g. one network might learn to recognize a dog  using a single neuron ,while another network uses concepts learned by three different neurons to identify a dog.
 
 * Was carried out using [CCA](https://github.com/google/svcca)
 
-Results of comparing represntations shown below show that networks trained with random intialization are more similar to each other than those trained with pretrained initializations. 
+Results of comparing representations shown below show that networks trained with random intialization are more similar to each other than those trained with pretrained initializations. 
 
 
 * Even though performance is comparable, the latent representations learned are different.
@@ -1091,7 +1098,7 @@ Results of comparing represntations shown below show that networks trained with 
 
 **Takeaway: Use pretrained weights for lower layers. Redesign and streamline higher layers of the architecture**
 
-* Having pre-trained weights converges much faster than random initialization. To speed up convergence of random weights, it is shown that keeping the scaling of the pretrained features i.e.draw iid weights with same mean and variance as pretrained features. really helps.
+* Having pre-trained weights converges much faster than random initialization. To speed up convergence of random weights, it is shown that keeping the scaling of the pretrained features,i.e.draw iid weights with same mean and variance as pretrained features, really helps.
 
 
 ### AI for Health in Practice
@@ -1100,10 +1107,10 @@ Results of comparing represntations shown below show that networks trained with 
 
 * Doctor disagreements occur often. AI can be used to predict doctor disagreements → Direct uncertainty prediction(DUP)
 
-* Thisis not far from predicting doctor error($ P_{herr} $). Uncertainty in prediction also gives a sense of 
+* This is not far from predicting doctor error($ P_{herr} $). Uncertainty in prediction also gives a sense of 
 AI error $ P_{AIerr} $
 
-* Can rank cases according to the difference between AI error and doctor error. On end you have cases wehre AI error is very high and doctor error is low while on the other end you have cases where AI error is low and doctor error is high. For cases at the latter end, you can deploy an AI system, abailable human doctor budget can be deployed at other cases.
+* Can rank cases according to the difference between AI error and doctor error. On one end you have cases where AI error is very high and doctor error is low while on the other end you have cases where AI error is low and doctor error is high. For cases at the latter end, you can deploy an AI system, available human doctor budget can be deployed on other cases.
 
 * In practice you have some fraction of cases being looked at by the AI system, by doctors or by both. Typically a combination of  both works best
 
@@ -1182,7 +1189,7 @@ The final results are as follows:
 
 * The system learned to carry out augmentations like contrast,edge augmentations, image crops and bounding box flips rather than rotation,blur or shear that are typically used.
 
-* Based on auto augment by Google
+* Based on [auto augment](https://research.google/pubs/pub47890/) by Google
 
 
 ## 31) Defragmenting the Deep Learning Ecosystem | Determined AI
