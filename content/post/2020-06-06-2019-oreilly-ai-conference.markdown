@@ -20,23 +20,9 @@ image:
 projects: []
 ---
 
-These are the notes covering my learning from the talks at the O'Reilly Artificial Intelligence Conference held in San Jose in 2019.There are over a hundred hours of content from this conference so I will be continually updating this post as I consume it.
+These are the notes covering my learning from the talks at the O'Reilly Artificial Intelligence Conference held in San Jose in 2019. 
 
-Also note that, I have only included content that was new or interesting to me. It is not a comprehensive report on these talks.
-
-
-## 1) Fighting Crime with Graphs | (MIT + IBM)
-
-Use of graphs to fight financial crime has been getting a lot of traction recently. This talk emphasized the use of Graph Convolutional Networks to create node embeddings that can be consumed by traditional machine learning models or standard neural nets.
-
-Algorithms like node2vec and deepwalk have been used to create embeddings that capture the topology of a network, but these algorithms cannot capture the node attributes that might have rich information.
-
-GraphSage is a Graph convolutional network algorithm that allows you to capture both the topology of a network as well as useful node attributes.Besides this is an **inductive** algorithm meaning that it does not need to be trained on whole graphs and can be used for inference on unseen nodes and graphs.
-
-More useful information is available [here](http://snap.stanford.edu/graphsage/) and [here](https://blogs.oracle.com/datascience/graphwise-graph-convolutional-networks-in-pgx)
-
-
-## 2) Facebook Keynote -  Going beyond supervised learning
+## 1) Facebook Keynote -  Going beyond supervised learning
 
 
 Broad classes of Machine Learning outside the classical supervised approaches used at Facebook:
@@ -80,135 +66,7 @@ Facebook uses RL to recommend notifications to users on Instagram.
 FB also has created a platform called [Habitat](https://aihabitat.org/) 'a research platform for embodied AI agents to operate in real world-like environments and solve tasks like navigation, question-answering, et cetera'.
 
 
-## 3) Data Science + Design Thinking  - A Perfect blend to achieve the best user experience  | Intuit
-
-Design for delight by
-1) Demonstrating deep customer empathy - Know customers deeply by observing them and define problems in human centric terms
-2) Go broad to go narrow - Generate lots of ideas before winnowing them. Quantity first then focus on quality.
-3) Perform rapid experiments with customers - Rapid prototyping and AB testing
-
-
-## 4) Explaining Machine Learning Models | Fiddler Labs
-
-Attribution problem : Attribute a prediction to input features. Solving this is the key goals of Explaining ML Models
-
-Naive approaches to do this include:
-
-1) Ablation: Drop each feature and note the change in prediction
-2) Feature Gradient: $ x_i \times  \frac {dy}{dx_i}$ where $ x_i $ is feature and $ y $ is the output
-
-**Integrated Gradients** -  This is a technique for attributing a differentiable model's prediction to the input features
-
-A popular method for non-differentiable models is Shapley values. 
-
-
-Both Integrated Gradients and Shapley Values come with some axiomatic guaranteed.The former uniquely satisfies 6 axioms while the latter uniquely satisfies 4. Side note: [This](https://christophm.github.io/interpretable-ml-book/)
-is my go to reference for interpretability techniques.
-
-
-Example of an axiom is the sensitivity axiom:
-
-> All else being equal, if changing a feature changes the output, then that feature should get an attribution. Similarly if changing a feature does not change the output, it should not get an attribution.
-
-Integrated Gradients is the unique path integral method that satisfies: Sensitivity, Insensitivity, Linearity preservation, Implementation invariance, Completeness and Symmetry
-
-
-Another problem related to interpretability that remains an open problem for many classes of black box models is 
-**Influence** - i.e. Which data points in the training data influenced the model the most.
-
-
-
-## 5) Snorkel
-
-Snorkel is a weak supervised learning approach that came out of Stanford. More information available [here](https://www.snorkel.org/)
-
-The key operations in the Snorkel workflow include:
-
-1) Labeling Functions: Heuristics to label data provided by experts
-2) Transformation Functions: Data Augmentations
-3) Slicing Functions: Partition the data specifying critical subsets where model performance needs to be high
-
-For this approach to work at least 50% of the labeling functions need to be better than random.
-
-
-## 6) Managing AI Products | Salesforce
-
-To demonstrate value to business stakeholders, which is the ultimate goal of anyone who works in a corporation, it is essential to tie business metrics to model metrics. This should ultimately inform what kind of ML we decide to use.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/acceptance_criteria.PNG)
-
-The figure above demonstrates the accuracy of the model(x-axis) required to provide a material lift in the business metric(y-axis) e.g. conversion rate. If the base line improvement rate in conversion that we need to deliver is only 2%, a model that has accuracy in the range 50 - 75% is sufficient. This means we could rule out sophisticated models like Neural Nets that are harder to deploy and maintain and focus on simpler models that are easier to build or maintain. 
-
-
-## 7) Explainability and Bias in AI and ML| Institute for Ethical AI and ML
-
-Undesired bias can be split into two conceptual pieces
-
-**1) Statistical Bias (Project Bias)** : The error between where you ARE and where you could get caused by modeling/project decisions
-
-  * Sub optimal choices of accuracy metrics/cost functions
-  * Sub optimal choices of ML models chosen for the task
-  * Lack of infrastructure required to monitor model performance in production
-  * Lack of human in the loop where necessary
-
-
-
-**2) A-priori bias (Societal Bias)** : The error between the best you can practically get, and the idealistic best possible scenario - caused by a-priori constraints
-
-  * Sub optimal business objectives
-  * Lack of understanding of the project
-  * Incomplete resources (data, domain experts etc)
-  * Incorrectly labelled data (accident or otherwise)
-  * Lack of relevant skill sets
-  * Societal shifts in perception
-  
-
-Explainability is key to:
-
-a) Identify and evaluate undesirable biases  
-
-b) To meet regulatory requirements such as GDPR  
-
-c) For compliance of processes  
-
-d) To identify and reduce risks (FP vs FN)
-
-**Interpretability != Explainability**
-
- * Having a model that can be interpreted doesn't mean in can be explained
- * Explainability requires us to go beyond algorithms
- * Undesired bias cannot be tackled without explainability
-
-Library for Explainable AI: [xAI](https://github.com/EthicalML/XAI) [alibi](https://github.com/SeldonIO/alibi)
-
-
-
-Anchor points: What are features that influenced a specific prediction for a data instance? This can be evaluated by roughly by pulling out a feature and estimating its impact on the model prediction.
-
-Counterfactual: How would the input/features have to change for the prediction to change?
-
-
-## 8) Usable Machine Learning - Lessons from Stanford and beyond | Stanford University
-
-- For deep learning, improvement in performance requires exponential increase in data
-- Deep learning still doesn't work very well with structured data
-- Don't look for a perfect model right out of the gate, instead iterate towards higher quality models
-- Measure implicit signals where possible. e.g. Is a user spending time on a page or closing a window
-
-
-## 9) Human Centered Machine Learning | H2O.ai
-
-- Establish a benchmark using a simple model from which to gauge improvements in accuracy, fairness, interpretability or privacy
-
--  Overly complicated features are hard to explain. Features should provide business intuition.(More relevant for regulated industries)
-
-- For fairness, it is important to evaluate if different sub groups of people are being treated differently by your ML model (Disparate Impact). Need to do appropriate data processing. OSS:  [AIF360](https://github.com/IBM/AIF360), [aequitas](https://github.com/dssg/aequitas)
-
-- Model Debugging for Accuracy, Privacy or Security: This involves eliminating errors in model predictions by testing using adversarial examples, explaining residuals, random attacks and what if analysis. Useful OSS: [cleverhans](https://github.com/tensorflow/cleverhans), [pdpbox](https://github.com/SauceCat/PDPbox),
-[what-if-tool](https://github.com/pair-code/what-if-tool)
-
-
-## 10) Operationalizing AI at Scale: From drift detection to monitoring business impact | IBM Watson
+## 2) Operationalizing AI at Scale: From drift detection to monitoring business impact | IBM Watson
 
 Note: See my post on [concept drift](https://www.govindgnair.com/post/detecting-concept-drift/) for a general understanding of the problem.
 
@@ -240,199 +98,7 @@ E.g. % of married people applying for your loan has increased from 15% to 80%. T
 - Open scale can map a drop in business KPI to the model responsible for the drop and identify the samples of data that has changed.
 
 
-## 11) Monitoring production ML Systems | DataVisor
-
-Datavizor is a company that specializes in unsupervised ML for fraud detection.
-
-There are potentially several issues that can occur in a production ML systems as shown below. Robust monitoring systems are required to be able to detect and resolve these issues in a timely fashion.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/DataVizor.PNG)
-
-You can react to these issues by having the ability to roll back your system to the previous stable build or by auto scaling to a bigger cluster but it is more cost effective to be able to detect and prevent these issues.
-
-Some approaches to monitoring model quality:
-
-1) Build a surrogate model(offline) to monitor the performance of the deployed model(online)
-2) Track model drift
-3) Carry out anomaly detection on model outputs and metadata
-
-Anomaly detection using Time series decomposition is a suitable approach.
-
-Additive decomposition of a time series:
-
-$$ Y_t = T_t + S_t + R_t $$
-
-where $ T_t $ is the trend component, $ S_t $ is the seasonal component and $ R_t $ is the residual component.
-
-Subtract the trend and seasonal components from the signal to get the residual component.You should be able to use the residual component to track anomalies.
-
-$$ R_t = Y_t - T_t - S_t $$             
-
-This approach can create unexpected drops in the residual component as shown in red in the image below.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/anomdetection2.PNG)
-
-To resolve this, obtain the residual component by subtracting the median instead of the trend.
-
-The mean absolute deviation (MAD) can then be used to identify anomalies.
-
-$$ If\ Distance\ to\ Median > x \times MAD : anomaly $$
-
-
-## 12) Reference Architectures for AI and Machine Learning | Microsoft
-
-Distributed training of models can be implemented via data parallelism or model parallelism.
-
-In data parallelism, the entire model is copied to each worker that processes a subset of the total data. The batch size can hence be scaled up to the number of workers you have. Very large batch sizes can cause issues with convergence of the network.
-
-In model parallelism, the model is split across workers and there has to be communication of gradients between the nodes during the forward and backward pass.
-
-Data parallelism is more fault tolerant and common.
-
-* When to use distributed training?
-   - Your model us too big to fit a sufficiently large batch size
-  - Your data is large
-  - Your model requires significant GPU computation
-
-You do not need distributed training if:
- - You want to run hyperparameter tuning
- - Your model is small
- 
-
-### Reference Architecture for Distributed Training
-
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/distributed_training.PNG)
-
-Azure ML supports distributed training for TF, Pytorch and Keras. The dependencies are placed in a docker container that runs on the host machine. The storage can be mounted to each of the nodes where training happens.
-
-Azure ML will create the appropriate docker containers and configure the Message Passing interface (MPI) which is essential for distributed training. Azure ML will run the script on the nodes and push the results to blob storage.
-
-
-### Architecture for Real Time Scoring with DL Models
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/realtimescoring.PNG)
-
-- Model served as a REST endpoint
-- Should handle requests from multiple clients and respond near instantaneously
-- Timing of requests are unknown
-- Solution should have low latency, scalable and elastic to seasonal variations
-
-Best practices for deploying an image classification system:
-
-- Use GPU for efficient inferencing (faster than CPU)
-- Send multiple images with a single request (GPUs process batches more efficiently)
-- Use HTTP 2.0 (allows you to accept multiple request)
-- Send image as file within HTTP request
-
-### Architecture for Batch Scoring with DL Models
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/Batchscoring.PNG)
-
-* Scoring can be triggered (by appearance of new data) or scheduled (at recurring intervals)
-* Large scale jobs that run asynchronously
-* Optimize for cost, wall clock time and scalability
-
-The way Azure implements this is given [here](https://github.com/Azure/batch-scoring-for-dl-model)
-
-
-## 13) Semi Supervised Learning for ML | Rocket ML
-
-Three important considerations:
-
-1) Total cost - May not be possible to acquire the volume of labels needed to build a good model
-2) Social Accountability - Interpretability, Explainability, Traceability
-3) Robustness - Should not be vulnerable to to easy adversarial attacks
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/rocketml1.PNG)
-
-
-
-### Anomaly Detection Problem
-
-* Labels are rare and expensive to acquire
-
-Types of Anomalies:
-
-1) Point Anomalies : E.g. a point In a time series
-2) Contextual Anomalies : Anomalous in a given context but not in another
-3) Collective Anomalies: Group of points constitute and anomaly
-
-
-* KNN is parameterized by the no of neighbors(K) and the distance metric.
-
-* In an unsupervised setting, use the [Local outlier Factor](https://en.wikipedia.org/wiki/Local_outlier_factor) to identify outliers.
-
-#### Anomaly detection performance
-
-* Build KNN for different values of K
-* Compute LOF for the neighboring k points
-* Use threshold on LOF to determine anomaly vs normal
-
-
-* As k increases the performance of the model increases. This is because for small k, by looking at really close neighbors, density is not too different and hence anomalies are not found. i.e. you miss the forest for the trees.
-For larger k, by looking beyond the clusters into normal areas, density differences stand out.
-
-* Possible methods to generate better features: Matrix Factorization, Pre-trained models, Auto Encoders.
-* Reducing dimensionality using SVD can improve accuracy by addressing the curse of dimensionality problem
-
-* KNN is computationally intensive so need highly efficient, parallelized implementations for this approach to work.
-
-
-## 14) Sequence to Sequence Learning for Time Series Forecasting | Anodot
-
-
-Structural Characteristics that affect the choice and performance of your Time Series forecasting algorithm:
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/TimeSeries1.PNG)
-
-Existing techniques are unable to address situations when many of these structural characteristics co-occur.
-
-Key development that allowed the application of Neural Nets to time Series: Recurrent Neural Nets and Back Propagation Through Time
-
-RNNs can be memory based (GRU and LSTM) or attention based (Transformers).
-
-**Considerations for getting accurate TS forecasts:**
-1. Discovering influencing metrics and events
-  - Look at correlations between target and time series features
- 
-2. Ensemble of models - Usually require multiple algorithms
-
-3. Identify and account for unexplainable data anomalies
-   - Identify anomalies and use this to create new features
-   - Enhance anomalies that can be explained by external factors
-   - Weight down anomalies that can't be explained by external factors
- 
- 
-
-4. Identify and account for different time series behaviors
-   - Training a single model for multiple time series does not work if each series shows a different seasonality. 
-   Difference can be in frequency or strength.
-   - Mixing stationary and non stationary time series also does not work
-
-
-## 15) Transfer Learning NLP: Machine Reading comprehension for question answering | Microsoft
-
-Attention can be content based or location based. Question Answering requires content based attention.
-
-Machine Reading Comprehension systems should be capable of summarizing key points in a piece of texts, it can answer questions and also do reply (e.g Gmail auto suggestion)and comment.
-
-Machine reading comprises (in increasing order of complexity) Extraction, Synthesis & Generation and Reasoning & Inference.
-
-Open Source datasets available: SQUAD (Stanford) and Marco (Microsoft)
-
-Best performing algorithms:
-
-For extraction: BIDAF(for small paragraphs) , DOCQA(large documents), S-NET (small multiple paragraphs)
-
-For reasoning and inference: SynNet ( multiple small paragraphs) and Open NMT (multiple small or large paragraphs)
-
-BIDAF: Bi Direction Attention Flow for Machine Comprehension
-
-
-## 16) Applying AI to secure the Payments Ecosystem | Visa Research
+## 3) Applying AI to secure the Payments Ecosystem | Visa Research
 
 Data Exfiltration: Unauthorized copying, transfer or retrieval of data
 
@@ -467,165 +133,8 @@ The final solution looks as follows
 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/visa3.png)
 
-## 17) Generative Models for fixing image defects| Adobe
 
-Traditional approach is to manually retouch the image. Auto tune functions exist that can enhance global features such as exposure, saturation and lighting but not local features (e.g. color of specific objects in an image.)
-
-### Popular GANS
-
-1) Style GAN for Face generation at NVIDIA
-2) Cycle GAN for Style Transfer at UC Berkeley
-3) Dual GAN
-4) Disco GAN
-
-Neural Style Transfer: Transform a given image in the style of a reference(domain) image.This uses only two images.It does not require paired image - a single image of the domain e.g. an art piece is required.
-
-Style Transfer (with GAN):  Uses a collection of images. E.g. 500 image in domain A and 500 images in domain B. This again does not require paired data.
-
-The benefit of this approach is that it does not require paired data i.e. the pre and post image of the same object.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/adobe1.PNG)
-
-
-
-### GAN based Image Enhancer
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/adobe2.PNG)
-
-
-
-There are two generators and discriminators, hence the name DUAL GAN.
-Learning to create a superior image G2(Defective) is difficult, hence the system is trained to optimize G1(G2(defective)) - this is the cycle in Cycle GAN.
-
-The UNET segmentation model helps to learn which part of the image is a tree, sky or some specific object. The regions identified by the UNET model are then locally enhanced.
-
-
-
-### Challenges
-
-* Weak features
-* Subjective, Noisy, Mislabeled Data - Humans determine whether an image is good or not
-* Small Dataset
-* Batch size used is smaller given there are four models to train, hence harder for models to converge
-* Training GANs is hard and time consuming
-* GAN inference is time consuming and does not scale
-
-
-### GAN Model Evaluation
-
-Creating ground truth labels is a manual process requiring an artists to retouch the images, this is not feasible.
-In the absence of ground truth labels:
-
-* Train Discriminative models (VGG or Resnet) on good and bad images. Score of the model is the metric.
-
-
-## 18) Supercharging business decisions with AI | Uber
-
-The finance planning department at Uber carries out rolling 12 month forecasts for Uber trips. Some of the challenges involved here are:
-
-* Time series of trips vary considerably across cities based on economy, geography, quality of public transport etc.
-* Shape of time series can change over time. It can grow rapidly initially but then flatten
-* Affected by holidays,e vents, weather etc.
-* Newly launched cities have little or no data
-
-### Planning
-
-Below is a planning model used by Uber. The goals of the first part of the system here is to generate cost curves that track the relationship between money spent on driver and rider promotions and no of sign ups. the goals is to find the optimal point maximizing ROI.
-
-The levers available are:
-
-$ \\$_{Ref} \rightarrow $  Dollars spent on Referrals <br />
-$ \\$_{DPaid} \rightarrow $ Dollars paid to drivers <br />
-$ \\$_{Promo} \rightarrow $ Dollars paid in promotions to riders <br />
-$ SU_D \rightarrow $ Sign Ups from drivers <br />
-$ SU_R \rightarrow $ Sign Ups from riders
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber0.PNG)
-
-
-
-The second part of the system is the **trips models**
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber1.PNG)
-
-$ FT_D \rightarrow $ First trip per rider <br />
-$ FT_R \rightarrow $ First trip per driver <br />
-$ RR_D \rightarrow $ Retention Rate pf drivers <br />
-$ RR_R \rightarrow $ Retentions rate of riders <br />
-$ TPA_D \rightarrow $ Trips per active driver <br />
-$ TPA_R \rightarrow $ Trips per active rider <br />
-$ RES_D \rightarrow $ Resurrected drivers <br />
-$ RESR_R \rightarrow $ Resurrected Riders
-
-Active drivers are those that are active at least once per month.
-
-This a classic funnel. Promotions lead to sign ups and first rides, but many churn at this point looking for new promotions.
-
-This variables are used to calculate the no of trips, active riders, active drivers, resurrected drivers, resurrected riders and per trip metrics.
-
-Resurrected riders /drivers are those who haven't been active in the previous three months. 
-
-
-### Forecasting Models
-
-Riders and Drivers are cohorted based on month of joining for each city.
-
-For each cohort, three models as shown below are used. A black box model ensembles these three models by assigning weights to the predictions of each. Evaluation Metric is MAPE and SMAPE.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber2.PNG)
-
-
-Models used include ETS, ARIMA and TBATS.
-
-Model averaging is done at different training end points to correct for misleading volatility in recent data points.
-
-
-### Modelling Seasonality
-
-Seasonal holidays can shift from year to year that can cause problems. Uber uses Prophet's Day to Month(DTM) forecast model  and python holiday library to account for this.
-
-The sophistication of the systems used by Uber's financial planning team is truly remarkable. There was a lot more content in this talk that I didn't fully follow given my familiarity with this domain is limited.
-
-
-## 19) An age of embeddings| USC Information Sciences Institute
-
-> 'You shall know a word by the company it keeps' - JR Firth(1957)
-
-
-### Word embeddings
-
-Skip Gram: Take a word and predict the surrounding words <br />
-CBOW: Take surrounding words and predict the target word
-
-Glove word embeddings are based on matrix factorization of a matrix with entries corresponding to frequency of their co-occurence.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings1.PNG)
-
-TFIDF is a simple type of an embedding, but they are sparse and high dimensional. 
-
-
-
-### Image Embeddings
-
-Can use fully connected layers before the softmax layer of a CNN built for classification. Auto encoders are also a popular choice to create embeddings.
-
-
-### Document Embeddings
-
-Topic models give lower dimensional embeddings of documents.
-
-Below is a way to get document embeddings from a word embeddings.<br />
-`\(d_{test}\)` in the image below is the id for a document inserted as  a word into the document.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings2.PNG)
-
-### Graph and Network Embedding
-
-Graph CNNs can be used to create embeddings.
-
-
-# 20) Recommendation system challenges at Twitter scale | Twitter
+# 4) Recommendation system challenges at Twitter scale | Twitter
 
 Recommendation systems can be content based, collaborative filtering driven or a hybrid of the two.
 
@@ -668,142 +177,7 @@ Twitter is trying to map users and items into more stable spaces where learning 
 
 Co-occurrence of entities yields information about topics. e.g. LeCun + CNN vs White House + CNN
 
-
-## 21) PyTorch at Scale for translation and NLP | Facebook
-
-Common NLP Tasks:
-
-* Classification
-* Word Tagging E.g. Part of Speech
-* Sequence Classification
-* Sequence to Sequence E.g. Translation
-
-Model should be able to take additional input features such as relevant metadata
-
-### Inference
-
-* Python is not good for inference. Scaling up to multiple CPUs is often necessary for inference which is challenging in Python due to the [global interpreter lock](https://docs.python.org/3/c-api/init.html#thread-state-and-the-global-interpreter-lock)
-
-* Saving models by saving the weights as in TF or PyTorch is not very resilient as you need to reconstruct the model and reload the weights for  for inference. Small changes such as change in internal variable names can break the model. ONNX and TorchScript are resilient model formats for PyTorch.
-
-* If models are of  reasonable  size, they can be duplicated in multiple replicas and scaled up according to traffic needs.
-* If models are very large, you need intra model parallelism or sharding. This might be necessary if vocabularies are very large.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/pytext1.PNG)
-
-
-An alternative to sharding is BPE (Byte Pair Encoding). You look over a corpus of text and learn sub word units and tokenize into these sub word units. This reduces the vocabulary size and can work across languages and hence is a good choice for large multilingual models.
-
-### Training
-
-A training framework needs:
-* Data
-* Model
-* Metrics
-* Trainer - Might make sense to fold this into the model in some cases. e.g. PyTorch ignite
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/pytext2.PNG)
-
-
-
-Training a Classifier in Pytext comprises the following steps
-
-1) Get data
-2) Tokenize and Numericalize
-3) Convert to Tensor and pad to equalize lengths
-4) Get  Model outputs
-5) Compute Loss and Optimize using Backprop
-
-
-## 22) Turning AI research into a revenue engine | Verta.ai
-
-ModelDB: Model Life Cycle Management System built at MIT. Tracks hyperparameters, metrics and other model metadata
-
-You need to be agile with ML/AI for it to make a revenue impact with ML. The new model lifecyle is
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai1.PNG)
-
-Agile principles for ML:
-
-1) Good enough vs best models
-2) Constant iteration: Build, deploy, repeat
-3) Monitoring: gather feedback and repeat
-
-
-The challenges Verta focuses on tackling are in the lower half of the model lifecycle:
-
-1)How do you run and manage ML Experiments? Need a git equivalent for ML models <br />
-2)Deploying Models in Production <br />
-3)Monitoring Model Performance
-
-* Model versioning requires code versioning, data versioning, config versioning and environment versioning
-
-* Automated Model deployment for models equivalent to Jenkins is missing. Automated Monitoring and Collaboration are also required
-
-Verta's solution includes:
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai2.PNG)
-
-Auto scaling is accomplished through containers and Kubernetes
-
-For a sales engineering client, it resulted in the following improvements.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai3.PNG)
-
-
-
-## 23) Deep Learning Applications in NLP and Conversational AI | Uber
-
-The right problem to tackle with AI
-* Involves decision making under uncertainty
-* Within reach of AI Tech
-* Touches customer pain point
-* Delivers business value
-
-The best model depends on data available and the data required depends on task complexity.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp1.PNG)
-
-Uber has deployed ML systems for their customer support platform. Based on the customer questions,the system recommends templates to the customer service agent for replies.
-
-Uber also has developed one click chat reply templates for drivers.This is similar to Gmail's auto reply features.
-The major challenge here is that the chats are often informal and have lots of typos. However, the task complexity is lower compared to Gmail as the variety of conversations is lower.
-
-To solve this Uber has used a two step algorithm.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp2.PNG)
-
-Given the types of responses are limited depending on the intent of the question, intent detection is the primary focus.
-
-Intent detection is carried out as follows
-
-1. Train Doc2vec model to get dense embedding for each message (Self Supervised Learning)
-2. Map labelled data to embedding space (You should have labelled data giving intent of various messages)
-3. Calculate centroid of each intent cluster
-4. Calculate distance between incoming message and intent cluster centroid
-5. Classify into Nearest Neighbor Intent Cluster.
-
-
-Another use case allows Uber drivers to converse with the Uber App without touching their phones.
-
-Conversational AI can be done with two approaches as shown below. The first one uses a modular approach with different modules carrying out specific sub tasks while the second uses an end  to end model.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp3.PNG)
-
-
-For task oriented conversations, the first is preferred.
-
-Uber also has created a system that combines the strengths of Spark which is CPU driven and Deep Learning frameworks such as Tensorflow that rely on GPUs.
-
-The pre-processing of data is done on Spark Clusters and are transferred to GPU clusters where the models are trained.
-
-For inference - Apache Spark and Java are used for both batch and real time requests. The tensorflow model is converted into a spark transformer in a Spark pipeline.
-
-
-## 24) Using Deep Learning model to extract the most value from 360-degree images | Trulia
+## 5) Using Deep Learning model to extract the most value from 360-degree images | Trulia
 
 Trulia needs to rank candidate images based on an objective which can be quality, relevance, informativeness, engagement, diversity or personalization. If there are multiple images, a few need to be selected to be displayed to the user.
 
@@ -893,118 +267,7 @@ The Grad CAM approach is used to visualize saliency to ensure the model is learn
 
 To ensure diversity in top N recommendation, maximal marginal relevance - [MMR](https://medium.com/tech-that-works/maximal-marginal-relevance-to-rerank-results-in-unsupervised-keyphrase-extraction-22d95015c7c5#:~:text=Maximal%20Marginal%20Relevance%20a.k.a.%20MMR,already%20ranked%20documents%2Fphrases%20etc.) is used
 
-
-## 25) Named Entity Recognition at Scale with DL | Twitter
-
-Applications of NER at Twitter include Trends which have to be meaningful words , Event detection, Recommending User Interests.
-
-Twitter has opted for in-house NER due to the unique linguistic features of Twitter besides other reasons.
-
-### Generating Training Data
-
-* Tweets were sampled based on tweet engagement
-* Sampling has to carried out over a longer time span to capture temporal signals. e.g. A soccer game lasts 90 minutes
-* Normalization has to be carried out based on countries and spoken language
-* Character based Labeling is carried out on a crowd sourcing platform
-* Character labels have then to be processed into token labels to train the model
-* Deleted tweets have to expunged to comply with GDPR
-
-
-### Model
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER1.PNG)
-
-
-Historically, Conditional Random Fields were used for NER. Deep Learning and Language models are now the most popular approaches.
-
-The Deep Learning approach uses a multi layered approach as shown below.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER2.PNG)
-
-
-The architecture used by Twitter is a Char - BiLSTM -CRF.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER3.PNG)
-
-A character representation is used to supplement the word representation if a token is unknown.Other features indicate if the token was a hashtag or other twitter specific characteristics.
-
-Twitter chose not to use the Language Model approach because of the size of the model and latency demands in production.
-
-### Confidence Estimation
-
-The output of the NER model is typically consumed by other models so confidence estimates are also provided along with NER tags. Some downstream applications might require high precision in the NER tags.
-
-This confidence estimation also has to be at the entity level rather than token level. Simple softmax decoder gives confidence at the token level i.e. confidence in "San" and "Jose" separately rather than the single entity "San Jose". 
-
-Using a CRF based approach proposed in a 2004 [paper](https://people.cs.umass.edu/~mccallum/papers/crfcp-hlt04.pdf), the correct confidence can be computed.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER4.PNG)
-
-
-## 26) Behavior Analytics for Enterprise Security using NLP Approaches | Aruba Networks
-
-* Need to identify relevant anomalies in a network. Malware more of a threat than adware
-* For supervised learning to work, you need a list of all possible access to the network tagged as safe or anomalous. However what is available are large volumes of diverse unlabeled data
-* Need to explain to an admin why something has been identified as an anomaly
-* Most anomalies tend to be multi-dimensional
-* Different employees in the network go about differently using network resources in different sequences. A seasoned employee and a first timer also go about accessing network resources in different sequences.
-
-* Capture embeddings capturing the 'semantic meaning' of  a server. Can you create embeddings for servers hosting Perforce and Git (code repositories) and Jira and Bugzilla (Bug repositories) such that
-
-$$ Perforce - Git + Jira = Bugzilla $$
-
-Capture the likelihood of using a second server given you use first server.
-
-
-* Label servers as QA/Finance/Dev based on workflows or departments used by them.Evaluating whether servers belonging to a specific group or workflow is being used by someone outside of it can reveal anomalies or breaches.
-
-**Corpus Used**: Access sequences of servers
-
-
-
-## 27) Interpreting millions of patient stories with deep learned OCR and NLP | SelectDara & John Snow Labs
-
-**Home Health**: Healthcare delivered at home primarily to elderly or those with multiple chronic conditions. Industry expected to grow by 6.7% each year as more baby boomers retire. However this is reducing the workforce available to the industry. Most payments to the industry comes from Medicare which is under pressure and reducing amounts of payments.
-
-Given the workforce is inexperienced, the goal of the project is to be able to identify assessments (health assessments documents of patients) as Hard,Medium or Easy based on degree of effort and perceived level of difficulty so that a manager can delegate the assessments appropriately.
-
-Feedback on difficulty was gathered subjectively from workers, while effort was quantified in terms of time spent within a record (which also validates the subjective assessment.)
-
-
-**Challenges**:
-*Different layouts, scales , fonts etc
-*High number of records and pages
-*Need processing in clusters
-
-
-Spark OCR and Spark NLP were used.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/sparkOCR.PNG)
-
-
-Spark NLP is built on Spark ML APIs.Apache project being actively developed. Proven to be better than spacy in accuracy and training time.
-
-Spark NLP also scales to large clusters of machines and can process many documents in parallel.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/samplepipeline1.PNG)
-
-
-
-The document assembler (part of Spark NLP) takes the text from the OCR and creates an annotation that represents a document.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/samplepipeline2.PNG)
-
-Layout Analysis: Identify related regions of text that belong together in the image.<br />
-Annotations of a document: Contains the text extracted from the image and relevant metadata.
-
-
-## 28) A framework to bootstrap and scale a machine learning function | Workday
+## 6) A framework to bootstrap and scale a machine learning function | Workday
 
 Workday uses a single platform on top of which all applications such as payroll, HCM live. The platform simply exposes API for the application teams to use.
 
@@ -1055,7 +318,7 @@ E: Establish repeatable processes and platform < br />
 T: Transfer learnings to scale to 10
 
 
-## 29) Artifical and Human Intelligence in Healthcare | Google Brain & Cornell University
+## 7) Artifical and Human Intelligence in Healthcare | Google Brain & Cornell University
 
 ### Transfer Learning
 
@@ -1115,7 +378,7 @@ AI error $ P_{AIerr} $
 * In practice you have some fraction of cases being looked at by the AI system, by doctors or by both. Typically a combination of  both works best
 
 
-## 30) Deep Reinforcement Learning to improvise input datasets | Infilect Technologies
+## 8) Deep Reinforcement Learning to improvise input datasets | Infilect Technologies
 
 * Data augmentation is used widely in for training computer vision models. This talk addresses how to optimally prepare data sets using data augmentation.
 
@@ -1192,7 +455,7 @@ The final results are as follows:
 * Based on [auto augment](https://research.google/pubs/pub47890/) by Google
 
 
-## 31) Defragmenting the Deep Learning Ecosystem | Determined AI
+## 9) Defragmenting the Deep Learning Ecosystem | Determined AI
 
 
 ### Challenges in AI Infrastructure
@@ -1286,117 +549,7 @@ A holistic and specialized AI infrastructure that Determined AI has built looks 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/determined4.png)
 
 
-## 32) Building autonomous network operation using deep learning and AI | Mist
-
-
-### Challenges facing Enterprise IT Teams
-
-* Growing number of devices with 5G and IOT
-* Cloud driven dynamic and flexible environments
-* Workload and complexity resulting from public/private/hybrid clouds
-
-
-In today's enterprises, employees and customers want to access resources in company's data centers/public cloud and private cloud though home offices, branch offices or even from coffee shops.Ideally they should be able to access what they need from wherever or whenever.
-
-However, accessing these resources means navigating a system with several failure points as shown below.The goal is to automatically detect and fix issues with any of these components before someone has to report the issue.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/mist1.PNG)
-
-In an eCommerce company's warehouse, robots operate through WiFi, a failure in the WiFi system and delays in addressing it can have serious financial repercussions.
-
-Mist developed a self driving network with the following components.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/mist2.png)
-
-
-At the Data stage, data is collected. Each device can send stats and logs to the cloud. User activity is also monitored using stream processing
-
-At the event stage, user impacting events and responsible entities are identified.
-
-At diagnosis stage, events are correlated to diagnose the problem. E.g. a problem with the I-phone OS or WiFi port. Then you need to identify what changes caused the issue e.g. a config change on i-OS (Temporal event correlation)or a change in an upstream device such as a router (Cross entity correlation)
-
-Finally you take actions using automated actions if corrective action can be taken within a device controlled by the cloud network or provide information for manual correction.
-
-
-Mist also has a system to automatically identify issues in firmware. A four step process is used:
-
-1) Collect logs
-2) Use NLP to encode these into embeddings
-3) Cluster these and find important issues
-4) Automatically open JIRA tickets so that these can be addressed by engineers
-
-
-Suggestions for building Enterprise AI Solutions:
-
-1) Start with real business problems
-2) Build a step by step process for continuous improvement
-3) Keep human in the loop
-
-
-
-
-## 33) Unlocking the next stage in computer vision with Deep NN | Zillow
-
-* New Zestimate model will factor in home photos to produce a price estimate
-* Typical features such as sq. ft, no of bedrooms don't say anything about a home being renovated or remodeled
-* New Zestimate understands a home's unique interiors, high end features and how they impact a  home's overall value
-* Curated or retouched photos can bias the model
-* View of water increase value but view may not be always relevant e.g. view is accessible only from the order of the balcony
-* Photos may not accurately or comprehensively represent a home
-
-
-### Building Better models
-
-1) Better training and evaluation data
-
-* Introduced new app(Zillow 3D Home) to do a 3D scan/tour of the home
-* Photos cannot be retouched or be taken on drones
-
-
-2) Data annotation at scale
-
-* App captures 3D images when most models are trained on 2D images
-* Build annotation tool to annotate in 3D space but people generally don't do this well on 3D data. Video gamers have a better sense of this and were contracted to do the annotation
-
-
-3) Ground truth data
-
-* Zillow Offers buys and sellers home directly
-* Use LIDAR to get detailed scans of homes
-
-4) New techniques
-
-* Attribute recognition: Identify real estate attributes in listing images using list descriptions as weak supervision
-
-
-5) Respect people's privacy
-
-* Transparency around data collection and sharing
-* Home owner can claim or remove photos
-
-## 34) Introducing Kubeflow| Google & IBM
-
-Kubeflow has a bunch of components including:
-
-* argo: For building pipelines
-* katib: For parallelized hyper parameter tuning
-* pytorch-job, mxnet-job, tf-serving
-
-Model training on along all frameworks is supported
-
-Easiest way to deploy: https://www.kubeflow.org/docs/gke/deploy/deploy-ui/
-
-
-* Kubeflow Pipelines is a platform for building and deploying portable scalable ML workflows based on Docker containers. They are a directed acyclic graph(DAG) of pipeline components(docker containers) each performing a function.
-
-
-E.g.:
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/kubeflow1.png)
-
-
-## 35) Industrialized Capsule networks for text analytics| Walmart Labs & Publicis Sapient
+## 10) Industrialized Capsule networks for text analytics| Walmart Labs & Publicis Sapient
 
 
 Broad overview of NLP and Text Analytics
@@ -1456,7 +609,7 @@ Paper on application of capsule networks to text classification: https://arxiv.o
 * Kubeflow has been used to productionize capsule networks
 
 
-## 36) Building Facebook's visual cortex | Facebook
+## 11) Building Facebook's visual cortex | Facebook
 
 Facebook platform has evolved from being a text heavy platform to a photo and video heavy platform including AR/VR.
 
@@ -1603,82 +756,7 @@ Example: If a new backbone(V2) has been developed to generate better embeddings.
 Slide deck available [here](https://docs.google.com/presentation/d/1F_1EzNhkME-qADI71r1UB4F_e8hIPdYZ8p4d5_eUVJs/edit#slide=id.p)
 
 
-## 37) Personalization at Scale | Facebook
-
-
-Personalization using AI is used across Facebook Feed, Instagram Explore, Groups and Marketplace
-
-FB's scale is massive. 1.5 Billion daily users sharing billions of posts shared per day, 100 billion + posts seen per day and trillions of posts ranked every day.
-
-### Practical Techniques for Personalization:
-
-**1) System Design**
-
-A large scale recommender system typically looks like:
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers1.png)
-
-Items to be recommended are very large, so a retrieval state is going to recommend a subset of items with a focus on recall and latency.
-
-
-In the ranking stage a sophisticated model predicts the relevant of an item to the user. Feature store contains features such as no of posts liked or videos shared/viewed by a user.
-
-Finally some business rules are used so as not to show something in a user's disliked list or something that is more than a week old.
-
-Finally the results of the recommender systems are recorded in an impression log. User actions are recorded and fed back to train the model.
-
-The whole process needs to complete in less than 1 second.
-
-
-**2) Candidate Generation**
-
-The challenge here is identifying $ O(10^2) $ items out of $ O(10^6) $ items quickly. A candidate generator is used which:
-
-* Optimized for recall
-* Latency bound
-* Does not optimize for accurate rank (which is addressed later)
-
-A two tower neural net architecture is used to create embeddings and calculate similarities for recommendation.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers2.png)
-
-
-*KNN Offline Indexing**: All item embeddings are populated into a KNN index for fast lookup
-When a query item comes in, most similar items are looked up using a KNN service look up.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers3.png)
-
-
-
-**3) Learning from Sparse Data**
-
-**Challenge**: how to learn from categorical/sparse features and combine with continuous/dense features.
-
-For categorical features, an embeddings table is used to convert each category into a dense vector. For some features that include multiple IDs, some kind of pooling(average or max) is used. Finally pairwise dot products are taken and concatenated.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers4.png)
-
-The complete architecture for this Deep Learning Recommendation Model [DLRM](https://github.com/facebookresearch/dlrm?fbclid=IwAR3_MUcW27zweshZYmOwMBITm6H2iMOeIp5K1zuxY-Vw6heUNXU1AXHICBU) is as follows:
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers5.png)
-
-* Feature interaction in simplest from can be concatenating the two vectors.
-* Embeddings tables get really large and may not fit into GPU memory. So data parallelism does not work and requires model parallelism.
-
-
-**4) Keeping Models Fresh**
-
-- Data distributions keep changing as items(videos,posts etc.) change continuously.
-
-- **Online training**: Update model every few minutes after training batches of data collected every few minutes. Fine tune from previous baseline given you don't have to train from scratch
-
-- **Recurring Training**: Deploy updated model every few weeks or days.
-
-
-
-
-## 38) Deep Learning in the Tire Industry | American Tire Distributors (ATRD)
+## 12) Deep Learning in the Tire Industry | American Tire Distributors (ATRD)
 
 **Characteristic of the Tire industry**:
 - Purchases are rare and so data is sparse
@@ -1732,188 +810,7 @@ Data drift is not a concern as tire demand is largely predictable apart from exp
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/tire4.PNG)
 
 
-## 39) OS for AI: Serverless, Productionized ML
-
-See full presentation [here](https://docs.google.com/presentation/d/1ztrrJ0i8vQlQCpxoRaqsCDTobXYJ9B-XThJ2IGd9VRY/edit#slide=id.g3974aef880_0_0)
-
-- Algorithmia has 9,5000 algorithms on multiple frameworks developed by over 100,000 developers
-The main challenges of deploying ML models in enterprise are as follows
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo1.png)
-
-
-- Machine Learning != Production Machine Learning
-
-An **Operating System** :
-
-* provides common functionality needed by many programs
-* Standardizes conventions to make systems easier to work with
-* Presents a higher level of abstraction of the underlying hardware.
-
-Operating systems evolved from punch cards that was suitable for only one job to to Unix that supported multi-tenancy and composability to DOS that allowed hardware abstraction i.e. you could access the hard disk or floppy disk through the same set of commands. Windows and Mac allowed GUI that democratized computing. Finally we have app stores made available through IOS and Android that made software installation extremely easily.
-
-This is where we want ML to ultimately be - a user should be able to search for an algorithm and use it without having to do cumbersome installations and devops.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo2.png)
-
-
-The most standard way of building and deploying a model involves building a model and putting it on a server while exposing a REST endpoint that can be accessed from any device,building such a system from scratch can be quite laborious involving the following steps:
-
-1. Set Up Server
-
-This requires properly balancing CPU,GPU,memory and cost.
-
-2. Create microservice
-
-You can write an API wrapper using Flask but securing, metering and disseminating this can be challenging.
-
-3. Add scaling
-
-You have to do automation to predict increase in loads and automatically configure a cloud VM to scale to meet the increased loads
-
-4. Repeat for each unique environment
-
-This can be challenging if you are using multiple languages and frameworks.
-
-Deploying models using serverless functions help resolve these challenges to a certain extent as shown below.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo3.png)
-
-
-Even so, all dependencies are supported and you often have to build a container with the dependencies locally and then move it to the cloud service provider.
-
-
-An ideal OS for AI should do the following:
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo4.png)
-
-Algorithmia has built a solution that seeks to do all this. Refer to the deck linked to earlier for more details.
-
-
-
-## 40) Towards universal semantic understanding of natural languages | IBM Research
-
-Typically, each language needs separate parsers and separate text analytics to be developed. This means work has to be replicated in each language.
-
-The goal is to come with a unified representation applicable across all languages, so this work does not have to be replicated.
-
-
-The major challenges being faced here include:
-
-1) Annotation: Different annotation schemes are used for different languages and sometimes for the same language.
-2) Training Data: High quality labeled data is required
-3) Models are built for one task at a time
-
-IBM is addressing these challenges by creating an automated annotation scheme combined with smart crowdsourcing coupled with programmable abstractions so that work does not have to be repeated.
-
-
-With semantic parsing we want to identify the key semantic parts of a sentence no matter in which way it is written, these semantic labels are largely stable.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics1.png)
-
-
-[Framenet](https://framenet.icsi.berkeley.edu/fndrupal/about) and [PropBank](https://propbank.github.io/) are commonly used resources for Semantic Role Labeling in English.
-
-
-The challenge is that labels across languages typically do not match even if it conveys the same meaning. For example the same subject in a given sentence can be labelled as an 'orderer' in English and 'buyer' in Chinese.
-
-We want sentences across languages to share the semantic labels as shown below.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics2.png)
-
-
-### Creating cross lingual training data
-
-Typically you find annotators to annotate corpora in each language separately that takes months. The proposed solution is to do annotation in parallel corpora on datasets that are readily available across multiple languages e.g. subtitles of movies, the Bible etc.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics3.png)
-
-However these projections are not always accurate due to translation shifts or error in the source languages that get magnified by projecting it.
-
-
-One way to solve this is the below method where only selected sentences where the projections from the source language (EN) to the target language (TL) are complete and correct. This training data is used to train the SRL model which is then used to bootstrap more labelled data and train iteratively.
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics4.PNG)
-
-
-There still can be cases where there is a one to many mapping between a single label in one language to multiple labels in another or cases where no mapping exists. Human intervention is required in this case.
-
-
-### Crowd in the Loop Learning
-
-Labeling tasks are classified as hard and easy  by a routing model and assigned to a crowd or an expert accordingly.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics5.PNG)
-
-A query strategy model can also be used to determine if the labels predicted by an SRL model are correct or not. If this model is not confident that the labels are correct, it can be assigned to a human.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics6.PNG)
-
-
-These techniques were used to create a [universal propostion banks](https://github.com/System-T/UniversalPropositions) for 8 languages.
-
-
-### Developing Models for Semantic Annotation
-
-
-The data is characterized by a heavy tail of labels that occur very infrequently. So instance based learning with KNN is used in conjunction with deep learning.
-
-A demo of the final model is available [here](https://vimeo.com/180382223)
-
-
-## 41) The holy grail of data science : Rapid model development and deployment | Zepl
-
-* 87% of ML projects don't make it into production
-
-* Zepl data science and analytics platform makes Apache Zepplin enterprise grade
-
-### Data Dependencies
-
-* Model consumes different data sources as well as outputs of other models. Data is subject to input distribution changes, data label mapping changes etc. So keeping a versioned copy of the data is important.
-
-* Creating a data catalog which is searchable, accessible and annotatable is important. It can capture basic information such as location of data, schema and additional notes. This can be accomplished in a data science notebook.
-
-
-### Reproducibility
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/zepl1.PNG)
-
-Containers deployed on the server side so that every one can access the same resources can help solve reproducibility issues.
-
-###  Prototyping vs Production
-
-Replicating a model in a different language as is typically required in corporate settings is challenging.
-
-
-### Monitoring
-
-
-**Prediction Bias**:
-
-Distributions of predicted labels should be equal to distribution of observed labels.
-E.g. if only 1% of e-mails are spam, only 1 % of e-mails should be predicted as spam
-
-
-**Action Limits**:
-
-Trigger alarms when model performance deteriorates/drifts significantly
-
-### Model Ownership in Production
-
-Developer != Owner
-
-Hand offs between departments tend to result in loss of information. Need thorough documentation to prevent this.
-
-### Testing & Deploying
-
-Use pipelines with Kubeflow or on Sagemaker.
-
-Zepl allows you run tests on developed models. Clicking a test button, it packages a notebook and spins up a container where there tests are carried out.
-
-
-## 42) A framework for Human AI Integration in the enterprise | Rakuten
+## 13) A framework for Human AI Integration in the enterprise | Rakuten
 
 **Moaravec's paradox**: What is easy for humans  is difficult for machines and what is easy for machines is difficult for humans
 
@@ -2003,90 +900,7 @@ Humans can thus focus on anomalies and label just those.
 * Rakuten has moved folks who work as humans in the loop to more AI centric roles.
 
 
-## 43) Deep reinforcement learning for industrial robotics | OSARO
-
-
-* OSARO builds edge deployed perception and control software for robots.
-
-Levels of Autonomy:
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/osaro1.png)
-
-Most robots used in warehouses are at Level 1, do not take sensory feedback and cannot react to the environment. 
-
-Partial autonomy: At this level, robots can take sensory feedback and react to the environment but cannot react to surprises or new objects.
-
-**Deep RL** enables level 4 and level 5 automation. It allows:
-
-
-1) Moving away from programming robots - from static to dynamic robotic systems
-2) Addressing questions that are "hard to describe to computers"
-3) Handling variabilities and react to changes
-4) Learning at scale
-
-This is necessary as warehouse robots often have to pick objects that are transparent or reflective which poses challenge to computer vision systems as well as objects with deformable surfaces.
-
-This can also be important in countries like Japan with a shrinking labor force.
-
-OSARO has built 'object picking' robots with level 4 automation to staff e-commerce warehouses.
-
-* In robotics industry , each vendor has a proprietary platform and Domain Specific programming language, industry is thus highly fragmented.
-
-## Imitation Learning
-Learning from an expert's demonstration.
-
-* Copies behavior, does not necessarily learn problem objective.
-* Trained policy only as good as the demonstration.
-
-## Meta Learning 
-
-* Models that can learn new skills or adapt to new environments with few training examples
-
-A meta learner(agent) will train a Learner(model) on a data set with a large number of tasks, and learn common representations across these tasks. The Learner can now adapt to new tasks with very little
-
-## 44) Challenges and future directions in deploying NLP in commercial environments | Intel
-
-Implications of latest developments in NLP include:
-
-1) Pre-training of large Language models is very costly
-2) Shift of focus from lower level training to more application specific tweaking
-3) Loading very large model and heavy fast forward computing during inference
-
-
-[NLP Architect](https://github.com/NervanaSystems/nlp-architect) is Intel's NLP Library for developing DL based NLP applications. It also produces optimized NLP models ready for inference deployment.
-
-
-* Knowledge distillation from BERT/XLNet to small models is supported
-* Q8BERT - Produced by quantization aware training. Quantized 8 bit version of Bert(int) as against 32 bit(floating point). Leads to 4x memory compression. This can be done in just the fine tuning step.
-* Sparse version of Google's NMT model is also available
-
-
-### Model Distillation
-
-Train a small network using the output of a larger model. See details [here](https://arxiv.org/abs/1503.02531)
-
-Using this approach, BERT models with 300 million parameters can be distilled to an LSTM+CRF model with only 3 million parameters.
-
-As seen in the figure below, the performance of these distilled models is on par with the original BERT model. 
-
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel1.PNG)
-
-Quantized BERT's performance on various tasks is comparable to that of BERT.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel2.png)
-
-
-NLP Architect also supports Aspect based sentiment analysis which identifies the target word a sentiment term qualifies.
-
-E.g. for the sentence: 'service is poor but pizza was great'. 'poor' is a sentiment term which qualifies the target word 'service' while 'great' qualifies the word 'pizza'. There are also semi supervised techniques that can learn domain specific terms or lexicon e.g. movie reviews vs food reviews
-
-NER models that can learn to tag words from any domain when seeded with a few examples is also supported. Example, if seeded with grape fruit and lemon as  examples of citrus fruits, the model will recommend a list of words to the user who can modify/accept it.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel3.PNG)
-
-
-## 45) Data Science without seeing the data: Advanced encryption to the rescue | Intuit
+## 14) Data Science without seeing the data: Advanced encryption to the rescue | Intuit
 
 * Explosion in data and number of people accessing it poses information security risks.
 
@@ -2125,7 +939,7 @@ Inference with FHE is still very slow. In 2009, the slowdown was $ 10^7 $, in 20
 * Batch training and inference can be done on encrypted data.Not suitable in an online setting.
 
 
-## 46) Mozart in the Box: Interacting with AI Tools for Music Creation | Midas
+## 15) Mozart in the Box: Interacting with AI Tools for Music Creation | Midas
 
 
 * Fear of automation is real: Even for an autonomous car, people would like to see the speedometer reading.
@@ -2217,50 +1031,7 @@ The following canvas can be used for such system design.
 The following image shows how the AI Music system was designed
 
 
-## 47) What you must know to build AI systems that understand natural language | Pacific AI
-
-Solving Natural Language Understanding would effectively lead to solving hard AGI.
-
-## Many languages spoken. 
-
-Even the type of language spoken at home or in an academic paper are very different. Different domains have different jargon. 
-
-SMS Language will have emojis and use a lot of slang or profanities. Auto correct can often be a problem with informal language.
-
-Legal transcriptions follow a strict procedure that needs to be understood to make sense of it.
-SEC filings will have a lot of boiler plate that can be ignored.
-
-
-Given the varieties of languages, NLP models have to be tailored to the type of language.
-
-
-## Domain specificity
-
-
-Off the shelf models cannot work on all domains as they are typically trained on content like Wikipedia articles.This problem is particularly acute in health care.
-
-E.g. "states started last night, upper abd, took alka seltzer approx 0500, no relief. nausea no vomiting"
-
-In finance, the sentiment towards a stock is not quite the same as sentiment towards a restaurant in a Yelp review.
-
-It is important to train domain specific models. You might have to pair your NLP data scientist with a domain expert who is an expert in the language the model has to understand.
-
-### Use both structured and unstructured data
-
-In a hospital demand forecasting problem, you need to look at medical notes  from doctors and nurses as well as available structured data such as age, reason for visit, wait time etc.
-
-**Best practice**: Unify NLP and ML pipeline as enabled by Spark NLP and Spark ML
-
-
-What is good first NLP project?
-
-Start with an existing model based on structured data that human domain experts usually solve with free text data
-
-
-> It is interesting to note that with the advent of advanced language models such as GPT3, we may not need to build domain specific models from scratch but only fine tune a language model. Even so, given GPT3 has been licensed exclusively to Microsoft, it may be out fo reach for most organizations in the world.
-
-
-## 48) AI for Cell Shaping in Mobile Networks | Ericsson
+## 16) AI for Cell Shaping in Mobile Networks | Ericsson
 
 Mobile networks present an optimization problem where the network has to provide optimum coverage for a large number of mobile customers using a limited spectrum. Some parameters of an antenna such as power, vertical tilt can be adjusted to modify coverage as shown below.
 
@@ -2346,7 +1117,1311 @@ Add noise to the simulations to make learning more robust.
 
 
 
-## 49) Language Inference in medicine | IBM Research
+## 17) Improving OCR quality of documents using GANs | EXL
+
+The modern OCR pipeline is as follows.
+
+1) Input documents are fed into an OCR engine which converts the documents into machine understandable format
+2) Automated processing using ML/NLP 
+3) Manual validation to ensure 100 % accuracy
+
+
+* This may not work well if the input documents are highly unstructured i.e. have incorrect layouts, low resolutions or is very noisy with wrinkles,watermarks etc. This can be addressed either by improving the OCR engine or by improving the input documents fed into the OCR engine.
+
+
+The enhanced pipeline is as follows:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl1.PNG)
+
+Although traditional image enhancement techniques are effective in addressing some problems, GAN based enhancements can improve the quality of input documents even further,
+
+
+Below is an overview of a GAN. It consists of a generator and a discriminator acting in an adversarial fashion, one trying make real and fake images indistinguishable while the other trying to distinguish between the two. 
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl2.PNG)
+
+## Resolution Enhancement
+
+### Data Creation
+
+* High resolution English documents with different font-types, sizes and spacing were first converted to standard resolution(300 dots per inch (DPI)) using standard image processing tools and then converted to low resolution images at 75 DPU using random subsampling and bicubic Downsampling. The high-resolution and low-resolution image pairs are used for training the GANs
+
+
+* Data sets were also created by scanning high resolution English documents at high (300 DPI) and (low) resolution.
+
+### Training
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl3.PNG)
+
+
+
+* The generator will not have a max-pooling layer as max-pooling layers lower the resolution of an image.Upsampling layers such as un-pooling (reverse of max-pooling) or de-convolution layers are used.
+
+* Custom loss with two terms are used
+  * Adversarial loss looks just at the performance of the discriminator
+  * Content loss captures the performance of the generator which again has two terms
+    
+    1) MSE between generated image and ground truth image
+    2) MSE between the ground truth image and image generated using a VGG network
+    
+    Although some use cases would require only the first of these two terms, for the OCR use case, this was found to     perform better.
+
+Given the generator is very sensitive to initialization, the model is trained on imagenet and the weights are transferred.
+
+### Evaluation
+
+In terms of character level accuracy, the GAN enhanced images resulted in an improvement of 7 percentage points for enterprise grade OCR systems and an improvement of 80 percentage points for open source OCR systems.
+
+In terms of word level accuracy, the GAN enhanced images resulted in an improvement of 9 percentage points for enterprise grade OCR systems and an improvement of 79 percentage points for open source OCR systems.
+
+
+## Document De-noising
+
+### Data
+
+* Clean documents with different font types, sizes and spacing were collected. Noise( Random noise, Gaussian noise, pattern noise) were added to these documents to create noisy documents
+
+* Clean datasets from kaggle were taken and synthetic noise was added to this to create noisy documents.
+
+### Training
+
+The training process was identical to the one above and as seen below, the documents were de-noised effectively over successive epochs.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl4.PNG)
+
+In other use cases, a Mask-RCNN was used to identify parts of documents that had address like texts,these regions were then enhanced using a GAN. 
+
+
+## 18) Fighting Crime with Graphs | (MIT + IBM)
+
+Use of graphs to fight financial crime has been getting a lot of traction recently. This talk emphasized the use of Graph Convolutional Networks to create node embeddings that can be consumed by traditional machine learning models or standard neural nets.
+
+Algorithms like node2vec and deepwalk have been used to create embeddings that capture the topology of a network, but these algorithms cannot capture the node attributes that might have rich information.
+
+GraphSage is a Graph convolutional network algorithm that allows you to capture both the topology of a network as well as useful node attributes.Besides this is an **inductive** algorithm meaning that it does not need to be trained on whole graphs and can be used for inference on unseen nodes and graphs.
+
+More useful information is available [here](http://snap.stanford.edu/graphsage/) and [here](https://blogs.oracle.com/datascience/graphwise-graph-convolutional-networks-in-pgx)
+
+
+
+
+## 19) Data Science + Design Thinking  - A Perfect blend to achieve the best user experience  | Intuit
+
+Design for delight by
+1) Demonstrating deep customer empathy - Know customers deeply by observing them and define problems in human centric terms
+2) Go broad to go narrow - Generate lots of ideas before winnowing them. Quantity first then focus on quality.
+3) Perform rapid experiments with customers - Rapid prototyping and AB testing
+
+
+## 20) Explaining Machine Learning Models | Fiddler Labs
+
+Attribution problem : Attribute a prediction to input features. Solving this is the key goals of Explaining ML Models
+
+Naive approaches to do this include:
+
+1) Ablation: Drop each feature and note the change in prediction
+2) Feature Gradient: $ x_i \times  \frac {dy}{dx_i}$ where $ x_i $ is feature and $ y $ is the output
+
+**Integrated Gradients** -  This is a technique for attributing a differentiable model's prediction to the input features
+
+A popular method for non-differentiable models is Shapley values. 
+
+
+Both Integrated Gradients and Shapley Values come with some axiomatic guaranteed.The former uniquely satisfies 6 axioms while the latter uniquely satisfies 4. Side note: [This](https://christophm.github.io/interpretable-ml-book/)
+is my go to reference for interpretability techniques.
+
+
+Example of an axiom is the sensitivity axiom:
+
+> All else being equal, if changing a feature changes the output, then that feature should get an attribution. Similarly if changing a feature does not change the output, it should not get an attribution.
+
+Integrated Gradients is the unique path integral method that satisfies: Sensitivity, Insensitivity, Linearity preservation, Implementation invariance, Completeness and Symmetry
+
+
+Another problem related to interpretability that remains an open problem for many classes of black box models is 
+**Influence** - i.e. Which data points in the training data influenced the model the most.
+
+
+
+## 21) Snorkel
+
+Snorkel is a weak supervised learning approach that came out of Stanford. More information available [here](https://www.snorkel.org/)
+
+The key operations in the Snorkel workflow include:
+
+1) Labeling Functions: Heuristics to label data provided by experts
+2) Transformation Functions: Data Augmentations
+3) Slicing Functions: Partition the data specifying critical subsets where model performance needs to be high
+
+For this approach to work at least 50% of the labeling functions need to be better than random.
+
+
+## 22) Managing AI Products | Salesforce
+
+To demonstrate value to business stakeholders, which is the ultimate goal of anyone who works in a corporation, it is essential to tie business metrics to model metrics. This should ultimately inform what kind of ML we decide to use.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/acceptance_criteria.PNG)
+
+The figure above demonstrates the accuracy of the model(x-axis) required to provide a material lift in the business metric(y-axis) e.g. conversion rate. If the base line improvement rate in conversion that we need to deliver is only 2%, a model that has accuracy in the range 50 - 75% is sufficient. This means we could rule out sophisticated models like Neural Nets that are harder to deploy and maintain and focus on simpler models that are easier to build or maintain. 
+
+
+## 23) Explainability and Bias in AI and ML| Institute for Ethical AI and ML
+
+Undesired bias can be split into two conceptual pieces
+
+**1) Statistical Bias (Project Bias)** : The error between where you ARE and where you could get caused by modeling/project decisions
+
+  * Sub optimal choices of accuracy metrics/cost functions
+  * Sub optimal choices of ML models chosen for the task
+  * Lack of infrastructure required to monitor model performance in production
+  * Lack of human in the loop where necessary
+
+
+
+**2) A-priori bias (Societal Bias)** : The error between the best you can practically get, and the idealistic best possible scenario - caused by a-priori constraints
+
+  * Sub optimal business objectives
+  * Lack of understanding of the project
+  * Incomplete resources (data, domain experts etc)
+  * Incorrectly labelled data (accident or otherwise)
+  * Lack of relevant skill sets
+  * Societal shifts in perception
+  
+
+Explainability is key to:
+
+a) Identify and evaluate undesirable biases  
+
+b) To meet regulatory requirements such as GDPR  
+
+c) For compliance of processes  
+
+d) To identify and reduce risks (FP vs FN)
+
+**Interpretability != Explainability**
+
+ * Having a model that can be interpreted doesn't mean in can be explained
+ * Explainability requires us to go beyond algorithms
+ * Undesired bias cannot be tackled without explainability
+
+Library for Explainable AI: [xAI](https://github.com/EthicalML/XAI) [alibi](https://github.com/SeldonIO/alibi)
+
+
+
+Anchor points: What are features that influenced a specific prediction for a data instance? This can be evaluated by roughly by pulling out a feature and estimating its impact on the model prediction.
+
+Counterfactual: How would the input/features have to change for the prediction to change?
+
+
+## 24) Usable Machine Learning - Lessons from Stanford and beyond | Stanford University
+
+- For deep learning, improvement in performance requires exponential increase in data
+- Deep learning still doesn't work very well with structured data
+- Don't look for a perfect model right out of the gate, instead iterate towards higher quality models
+- Measure implicit signals where possible. e.g. Is a user spending time on a page or closing a window
+
+
+## 25) Human Centered Machine Learning | H2O.ai
+
+- Establish a benchmark using a simple model from which to gauge improvements in accuracy, fairness, interpretability or privacy
+
+-  Overly complicated features are hard to explain. Features should provide business intuition.(More relevant for regulated industries)
+
+- For fairness, it is important to evaluate if different sub groups of people are being treated differently by your ML model (Disparate Impact). Need to do appropriate data processing. OSS:  [AIF360](https://github.com/IBM/AIF360), [aequitas](https://github.com/dssg/aequitas)
+
+- Model Debugging for Accuracy, Privacy or Security: This involves eliminating errors in model predictions by testing using adversarial examples, explaining residuals, random attacks and what if analysis. Useful OSS: [cleverhans](https://github.com/tensorflow/cleverhans), [pdpbox](https://github.com/SauceCat/PDPbox),
+[what-if-tool](https://github.com/pair-code/what-if-tool)
+
+## 26) Monitoring production ML Systems | DataVisor
+
+Datavizor is a company that specializes in unsupervised ML for fraud detection.
+
+There are potentially several issues that can occur in a production ML systems as shown below. Robust monitoring systems are required to be able to detect and resolve these issues in a timely fashion.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/DataVizor.PNG)
+
+You can react to these issues by having the ability to roll back your system to the previous stable build or by auto scaling to a bigger cluster but it is more cost effective to be able to detect and prevent these issues.
+
+Some approaches to monitoring model quality:
+
+1) Build a surrogate model(offline) to monitor the performance of the deployed model(online)
+2) Track model drift
+3) Carry out anomaly detection on model outputs and metadata
+
+Anomaly detection using Time series decomposition is a suitable approach.
+
+Additive decomposition of a time series:
+
+$$ Y_t = T_t + S_t + R_t $$
+
+where $ T_t $ is the trend component, $ S_t $ is the seasonal component and $ R_t $ is the residual component.
+
+Subtract the trend and seasonal components from the signal to get the residual component.You should be able to use the residual component to track anomalies.
+
+$$ R_t = Y_t - T_t - S_t $$             
+
+This approach can create unexpected drops in the residual component as shown in red in the image below.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/anomdetection2.PNG)
+
+To resolve this, obtain the residual component by subtracting the median instead of the trend.
+
+The mean absolute deviation (MAD) can then be used to identify anomalies.
+
+$$ If\ Distance\ to\ Median > x \times MAD : anomaly $$
+
+
+## 27) Reference Architectures for AI and Machine Learning | Microsoft
+
+Distributed training of models can be implemented via data parallelism or model parallelism.
+
+In data parallelism, the entire model is copied to each worker that processes a subset of the total data. The batch size can hence be scaled up to the number of workers you have. Very large batch sizes can cause issues with convergence of the network.
+
+In model parallelism, the model is split across workers and there has to be communication of gradients between the nodes during the forward and backward pass.
+
+Data parallelism is more fault tolerant and common.
+
+* When to use distributed training?
+   - Your model us too big to fit a sufficiently large batch size
+  - Your data is large
+  - Your model requires significant GPU computation
+
+You do not need distributed training if:
+ - You want to run hyperparameter tuning
+ - Your model is small
+ 
+
+### Reference Architecture for Distributed Training
+
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/distributed_training.PNG)
+
+Azure ML supports distributed training for TF, Pytorch and Keras. The dependencies are placed in a docker container that runs on the host machine. The storage can be mounted to each of the nodes where training happens.
+
+Azure ML will create the appropriate docker containers and configure the Message Passing interface (MPI) which is essential for distributed training. Azure ML will run the script on the nodes and push the results to blob storage.
+
+
+### Architecture for Real Time Scoring with DL Models
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/realtimescoring.PNG)
+
+- Model served as a REST endpoint
+- Should handle requests from multiple clients and respond near instantaneously
+- Timing of requests are unknown
+- Solution should have low latency, scalable and elastic to seasonal variations
+
+Best practices for deploying an image classification system:
+
+- Use GPU for efficient inferencing (faster than CPU)
+- Send multiple images with a single request (GPUs process batches more efficiently)
+- Use HTTP 2.0 (allows you to accept multiple request)
+- Send image as file within HTTP request
+
+### Architecture for Batch Scoring with DL Models
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Batchscoring.PNG)
+
+* Scoring can be triggered (by appearance of new data) or scheduled (at recurring intervals)
+* Large scale jobs that run asynchronously
+* Optimize for cost, wall clock time and scalability
+
+The way Azure implements this is given [here](https://github.com/Azure/batch-scoring-for-dl-model)
+
+
+## 28) Semi Supervised Learning for ML | Rocket ML
+
+Three important considerations:
+
+1) Total cost - May not be possible to acquire the volume of labels needed to build a good model
+2) Social Accountability - Interpretability, Explainability, Traceability
+3) Robustness - Should not be vulnerable to to easy adversarial attacks
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/rocketml1.PNG)
+
+
+
+### Anomaly Detection Problem
+
+* Labels are rare and expensive to acquire
+
+Types of Anomalies:
+
+1) Point Anomalies : E.g. a point In a time series
+2) Contextual Anomalies : Anomalous in a given context but not in another
+3) Collective Anomalies: Group of points constitute and anomaly
+
+
+* KNN is parameterized by the no of neighbors(K) and the distance metric.
+
+* In an unsupervised setting, use the [Local outlier Factor](https://en.wikipedia.org/wiki/Local_outlier_factor) to identify outliers.
+
+#### Anomaly detection performance
+
+* Build KNN for different values of K
+* Compute LOF for the neighboring k points
+* Use threshold on LOF to determine anomaly vs normal
+
+
+* As k increases the performance of the model increases. This is because for small k, by looking at really close neighbors, density is not too different and hence anomalies are not found. i.e. you miss the forest for the trees.
+For larger k, by looking beyond the clusters into normal areas, density differences stand out.
+
+* Possible methods to generate better features: Matrix Factorization, Pre-trained models, Auto Encoders.
+* Reducing dimensionality using SVD can improve accuracy by addressing the curse of dimensionality problem
+
+* KNN is computationally intensive so need highly efficient, parallelized implementations for this approach to work.
+
+
+## 29) Sequence to Sequence Learning for Time Series Forecasting | Anodot
+
+
+Structural Characteristics that affect the choice and performance of your Time Series forecasting algorithm:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/TimeSeries1.PNG)
+
+Existing techniques are unable to address situations when many of these structural characteristics co-occur.
+
+Key development that allowed the application of Neural Nets to time Series: Recurrent Neural Nets and Back Propagation Through Time
+
+RNNs can be memory based (GRU and LSTM) or attention based (Transformers).
+
+**Considerations for getting accurate TS forecasts:**
+1. Discovering influencing metrics and events
+  - Look at correlations between target and time series features
+ 
+2. Ensemble of models - Usually require multiple algorithms
+
+3. Identify and account for unexplainable data anomalies
+   - Identify anomalies and use this to create new features
+   - Enhance anomalies that can be explained by external factors
+   - Weight down anomalies that can't be explained by external factors
+ 
+ 
+
+4. Identify and account for different time series behaviors
+   - Training a single model for multiple time series does not work if each series shows a different seasonality. 
+   Difference can be in frequency or strength.
+   - Mixing stationary and non stationary time series also does not work
+
+
+## 30) Transfer Learning NLP: Machine Reading comprehension for question answering | Microsoft
+
+Attention can be content based or location based. Question Answering requires content based attention.
+
+Machine Reading Comprehension systems should be capable of summarizing key points in a piece of texts, it can answer questions and also do reply (e.g Gmail auto suggestion)and comment.
+
+Machine reading comprises (in increasing order of complexity) Extraction, Synthesis & Generation and Reasoning & Inference.
+
+Open Source datasets available: SQUAD (Stanford) and Marco (Microsoft)
+
+Best performing algorithms:
+
+For extraction: BIDAF(for small paragraphs) , DOCQA(large documents), S-NET (small multiple paragraphs)
+
+For reasoning and inference: SynNet ( multiple small paragraphs) and Open NMT (multiple small or large paragraphs)
+
+BIDAF: Bi Direction Attention Flow for Machine Comprehension
+
+
+## 31) Generative Models for fixing image defects| Adobe
+
+Traditional approach is to manually retouch the image. Auto tune functions exist that can enhance global features such as exposure, saturation and lighting but not local features (e.g. color of specific objects in an image.)
+
+### Popular GANS
+
+1) Style GAN for Face generation at NVIDIA
+2) Cycle GAN for Style Transfer at UC Berkeley
+3) Dual GAN
+4) Disco GAN
+
+Neural Style Transfer: Transform a given image in the style of a reference(domain) image.This uses only two images.It does not require paired image - a single image of the domain e.g. an art piece is required.
+
+Style Transfer (with GAN):  Uses a collection of images. E.g. 500 image in domain A and 500 images in domain B. This again does not require paired data.
+
+The benefit of this approach is that it does not require paired data i.e. the pre and post image of the same object.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/adobe1.PNG)
+
+
+
+### GAN based Image Enhancer
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/adobe2.PNG)
+
+
+
+There are two generators and discriminators, hence the name DUAL GAN.
+Learning to create a superior image G2(Defective) is difficult, hence the system is trained to optimize G1(G2(defective)) - this is the cycle in Cycle GAN.
+
+The UNET segmentation model helps to learn which part of the image is a tree, sky or some specific object. The regions identified by the UNET model are then locally enhanced.
+
+
+
+### Challenges
+
+* Weak features
+* Subjective, Noisy, Mislabeled Data - Humans determine whether an image is good or not
+* Small Dataset
+* Batch size used is smaller given there are four models to train, hence harder for models to converge
+* Training GANs is hard and time consuming
+* GAN inference is time consuming and does not scale
+
+
+### GAN Model Evaluation
+
+Creating ground truth labels is a manual process requiring an artists to retouch the images, this is not feasible.
+In the absence of ground truth labels:
+
+* Train Discriminative models (VGG or Resnet) on good and bad images. Score of the model is the metric.
+
+
+## 32) Supercharging business decisions with AI | Uber
+
+The finance planning department at Uber carries out rolling 12 month forecasts for Uber trips. Some of the challenges involved here are:
+
+* Time series of trips vary considerably across cities based on economy, geography, quality of public transport etc.
+* Shape of time series can change over time. It can grow rapidly initially but then flatten
+* Affected by holidays,e vents, weather etc.
+* Newly launched cities have little or no data
+
+### Planning
+
+Below is a planning model used by Uber. The goals of the first part of the system here is to generate cost curves that track the relationship between money spent on driver and rider promotions and no of sign ups. the goals is to find the optimal point maximizing ROI.
+
+The levers available are:
+
+$ \\$_{Ref} \rightarrow $  Dollars spent on Referrals <br />
+$ \\$_{DPaid} \rightarrow $ Dollars paid to drivers <br />
+$ \\$_{Promo} \rightarrow $ Dollars paid in promotions to riders <br />
+$ SU_D \rightarrow $ Sign Ups from drivers <br />
+$ SU_R \rightarrow $ Sign Ups from riders
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber0.PNG)
+
+
+
+The second part of the system is the **trips models**
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber1.PNG)
+
+$ FT_D \rightarrow $ First trip per rider <br />
+$ FT_R \rightarrow $ First trip per driver <br />
+$ RR_D \rightarrow $ Retention Rate pf drivers <br />
+$ RR_R \rightarrow $ Retentions rate of riders <br />
+$ TPA_D \rightarrow $ Trips per active driver <br />
+$ TPA_R \rightarrow $ Trips per active rider <br />
+$ RES_D \rightarrow $ Resurrected drivers <br />
+$ RESR_R \rightarrow $ Resurrected Riders
+
+Active drivers are those that are active at least once per month.
+
+This a classic funnel. Promotions lead to sign ups and first rides, but many churn at this point looking for new promotions.
+
+This variables are used to calculate the no of trips, active riders, active drivers, resurrected drivers, resurrected riders and per trip metrics.
+
+Resurrected riders /drivers are those who haven't been active in the previous three months. 
+
+
+### Forecasting Models
+
+Riders and Drivers are cohorted based on month of joining for each city.
+
+For each cohort, three models as shown below are used. A black box model ensembles these three models by assigning weights to the predictions of each. Evaluation Metric is MAPE and SMAPE.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/Uber2.PNG)
+
+
+Models used include ETS, ARIMA and TBATS.
+
+Model averaging is done at different training end points to correct for misleading volatility in recent data points.
+
+
+### Modelling Seasonality
+
+Seasonal holidays can shift from year to year that can cause problems. Uber uses Prophet's Day to Month(DTM) forecast model  and python holiday library to account for this.
+
+The sophistication of the systems used by Uber's financial planning team is truly remarkable. There was a lot more content in this talk that I didn't fully follow given my familiarity with this domain is limited.
+
+
+## 33) An age of embeddings| USC Information Sciences Institute
+
+> 'You shall know a word by the company it keeps' - JR Firth(1957)
+
+
+### Word embeddings
+
+Skip Gram: Take a word and predict the surrounding words <br />
+CBOW: Take surrounding words and predict the target word
+
+Glove word embeddings are based on matrix factorization of a matrix with entries corresponding to frequency of their co-occurence.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings1.PNG)
+
+TFIDF is a simple type of an embedding, but they are sparse and high dimensional. 
+
+
+
+### Image Embeddings
+
+Can use fully connected layers before the softmax layer of a CNN built for classification. Auto encoders are also a popular choice to create embeddings.
+
+
+### Document Embeddings
+
+Topic models give lower dimensional embeddings of documents.
+
+Below is a way to get document embeddings from a word embeddings.<br />
+`\(d_{test}\)` in the image below is the id for a document inserted as  a word into the document.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/embeddings2.PNG)
+
+### Graph and Network Embedding
+
+Graph CNNs can be used to create embeddings.
+
+## 34) PyTorch at Scale for translation and NLP | Facebook
+
+Common NLP Tasks:
+
+* Classification
+* Word Tagging E.g. Part of Speech
+* Sequence Classification
+* Sequence to Sequence E.g. Translation
+
+Model should be able to take additional input features such as relevant metadata
+
+### Inference
+
+* Python is not good for inference. Scaling up to multiple CPUs is often necessary for inference which is challenging in Python due to the [global interpreter lock](https://docs.python.org/3/c-api/init.html#thread-state-and-the-global-interpreter-lock)
+
+* Saving models by saving the weights as in TF or PyTorch is not very resilient as you need to reconstruct the model and reload the weights for  for inference. Small changes such as change in internal variable names can break the model. ONNX and TorchScript are resilient model formats for PyTorch.
+
+* If models are of  reasonable  size, they can be duplicated in multiple replicas and scaled up according to traffic needs.
+* If models are very large, you need intra model parallelism or sharding. This might be necessary if vocabularies are very large.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/pytext1.PNG)
+
+
+An alternative to sharding is BPE (Byte Pair Encoding). You look over a corpus of text and learn sub word units and tokenize into these sub word units. This reduces the vocabulary size and can work across languages and hence is a good choice for large multilingual models.
+
+### Training
+
+A training framework needs:
+* Data
+* Model
+* Metrics
+* Trainer - Might make sense to fold this into the model in some cases. e.g. PyTorch ignite
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/pytext2.PNG)
+
+
+
+Training a Classifier in Pytext comprises the following steps
+
+1) Get data
+2) Tokenize and Numericalize
+3) Convert to Tensor and pad to equalize lengths
+4) Get  Model outputs
+5) Compute Loss and Optimize using Backprop
+
+
+## 35) Turning AI research into a revenue engine | Verta.ai
+
+ModelDB: Model Life Cycle Management System built at MIT. Tracks hyperparameters, metrics and other model metadata
+
+You need to be agile with ML/AI for it to make a revenue impact with ML. The new model lifecyle is
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai1.PNG)
+
+Agile principles for ML:
+
+1) Good enough vs best models
+2) Constant iteration: Build, deploy, repeat
+3) Monitoring: gather feedback and repeat
+
+
+The challenges Verta focuses on tackling are in the lower half of the model lifecycle:
+
+1)How do you run and manage ML Experiments? Need a git equivalent for ML models <br />
+2)Deploying Models in Production <br />
+3)Monitoring Model Performance
+
+* Model versioning requires code versioning, data versioning, config versioning and environment versioning
+
+* Automated Model deployment for models equivalent to Jenkins is missing. Automated Monitoring and Collaboration are also required
+
+Verta's solution includes:
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai2.PNG)
+
+Auto scaling is accomplished through containers and Kubernetes
+
+For a sales engineering client, it resulted in the following improvements.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/vertaai3.PNG)
+
+
+
+## 36) Deep Learning Applications in NLP and Conversational AI | Uber
+
+The right problem to tackle with AI
+* Involves decision making under uncertainty
+* Within reach of AI Tech
+* Touches customer pain point
+* Delivers business value
+
+The best model depends on data available and the data required depends on task complexity.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp1.PNG)
+
+Uber has deployed ML systems for their customer support platform. Based on the customer questions,the system recommends templates to the customer service agent for replies.
+
+Uber also has developed one click chat reply templates for drivers.This is similar to Gmail's auto reply features.
+The major challenge here is that the chats are often informal and have lots of typos. However, the task complexity is lower compared to Gmail as the variety of conversations is lower.
+
+To solve this Uber has used a two step algorithm.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp2.PNG)
+
+Given the types of responses are limited depending on the intent of the question, intent detection is the primary focus.
+
+Intent detection is carried out as follows
+
+1. Train Doc2vec model to get dense embedding for each message (Self Supervised Learning)
+2. Map labelled data to embedding space (You should have labelled data giving intent of various messages)
+3. Calculate centroid of each intent cluster
+4. Calculate distance between incoming message and intent cluster centroid
+5. Classify into Nearest Neighbor Intent Cluster.
+
+
+Another use case allows Uber drivers to converse with the Uber App without touching their phones.
+
+Conversational AI can be done with two approaches as shown below. The first one uses a modular approach with different modules carrying out specific sub tasks while the second uses an end  to end model.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/ubernlp3.PNG)
+
+
+For task oriented conversations, the first is preferred.
+
+Uber also has created a system that combines the strengths of Spark which is CPU driven and Deep Learning frameworks such as Tensorflow that rely on GPUs.
+
+The pre-processing of data is done on Spark Clusters and are transferred to GPU clusters where the models are trained.
+
+For inference - Apache Spark and Java are used for both batch and real time requests. The tensorflow model is converted into a spark transformer in a Spark pipeline.
+
+
+
+
+## 37) Named Entity Recognition at Scale with DL | Twitter
+
+Applications of NER at Twitter include Trends which have to be meaningful words , Event detection, Recommending User Interests.
+
+Twitter has opted for in-house NER due to the unique linguistic features of Twitter besides other reasons.
+
+### Generating Training Data
+
+* Tweets were sampled based on tweet engagement
+* Sampling has to carried out over a longer time span to capture temporal signals. e.g. A soccer game lasts 90 minutes
+* Normalization has to be carried out based on countries and spoken language
+* Character based Labeling is carried out on a crowd sourcing platform
+* Character labels have then to be processed into token labels to train the model
+* Deleted tweets have to expunged to comply with GDPR
+
+
+### Model
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER1.PNG)
+
+
+Historically, Conditional Random Fields were used for NER. Deep Learning and Language models are now the most popular approaches.
+
+The Deep Learning approach uses a multi layered approach as shown below.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER2.PNG)
+
+
+The architecture used by Twitter is a Char - BiLSTM -CRF.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER3.PNG)
+
+A character representation is used to supplement the word representation if a token is unknown.Other features indicate if the token was a hashtag or other twitter specific characteristics.
+
+Twitter chose not to use the Language Model approach because of the size of the model and latency demands in production.
+
+### Confidence Estimation
+
+The output of the NER model is typically consumed by other models so confidence estimates are also provided along with NER tags. Some downstream applications might require high precision in the NER tags.
+
+This confidence estimation also has to be at the entity level rather than token level. Simple softmax decoder gives confidence at the token level i.e. confidence in "San" and "Jose" separately rather than the single entity "San Jose". 
+
+Using a CRF based approach proposed in a 2004 [paper](https://people.cs.umass.edu/~mccallum/papers/crfcp-hlt04.pdf), the correct confidence can be computed.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/twitterNER4.PNG)
+
+
+## 38) Behavior Analytics for Enterprise Security using NLP Approaches | Aruba Networks
+
+* Need to identify relevant anomalies in a network. Malware more of a threat than adware
+* For supervised learning to work, you need a list of all possible access to the network tagged as safe or anomalous. However what is available are large volumes of diverse unlabeled data
+* Need to explain to an admin why something has been identified as an anomaly
+* Most anomalies tend to be multi-dimensional
+* Different employees in the network go about differently using network resources in different sequences. A seasoned employee and a first timer also go about accessing network resources in different sequences.
+
+* Capture embeddings capturing the 'semantic meaning' of  a server. Can you create embeddings for servers hosting Perforce and Git (code repositories) and Jira and Bugzilla (Bug repositories) such that
+
+$$ Perforce - Git + Jira = Bugzilla $$
+
+Capture the likelihood of using a second server given you use first server.
+
+
+* Label servers as QA/Finance/Dev based on workflows or departments used by them.Evaluating whether servers belonging to a specific group or workflow is being used by someone outside of it can reveal anomalies or breaches.
+
+**Corpus Used**: Access sequences of servers
+
+
+
+## 39) Interpreting millions of patient stories with deep learned OCR and NLP | SelectDara & John Snow Labs
+
+**Home Health**: Healthcare delivered at home primarily to elderly or those with multiple chronic conditions. Industry expected to grow by 6.7% each year as more baby boomers retire. However this is reducing the workforce available to the industry. Most payments to the industry comes from Medicare which is under pressure and reducing amounts of payments.
+
+Given the workforce is inexperienced, the goal of the project is to be able to identify assessments (health assessments documents of patients) as Hard,Medium or Easy based on degree of effort and perceived level of difficulty so that a manager can delegate the assessments appropriately.
+
+Feedback on difficulty was gathered subjectively from workers, while effort was quantified in terms of time spent within a record (which also validates the subjective assessment.)
+
+
+**Challenges**:
+*Different layouts, scales , fonts etc
+*High number of records and pages
+*Need processing in clusters
+
+
+Spark OCR and Spark NLP were used.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/sparkOCR.PNG)
+
+
+Spark NLP is built on Spark ML APIs.Apache project being actively developed. Proven to be better than spacy in accuracy and training time.
+
+Spark NLP also scales to large clusters of machines and can process many documents in parallel.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/samplepipeline1.PNG)
+
+
+
+The document assembler (part of Spark NLP) takes the text from the OCR and creates an annotation that represents a document.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/samplepipeline2.PNG)
+
+Layout Analysis: Identify related regions of text that belong together in the image.<br />
+Annotations of a document: Contains the text extracted from the image and relevant metadata.
+
+
+
+## 40) Building autonomous network operation using deep learning and AI | Mist
+
+
+### Challenges facing Enterprise IT Teams
+
+* Growing number of devices with 5G and IOT
+* Cloud driven dynamic and flexible environments
+* Workload and complexity resulting from public/private/hybrid clouds
+
+
+In today's enterprises, employees and customers want to access resources in company's data centers/public cloud and private cloud though home offices, branch offices or even from coffee shops.Ideally they should be able to access what they need from wherever or whenever.
+
+However, accessing these resources means navigating a system with several failure points as shown below.The goal is to automatically detect and fix issues with any of these components before someone has to report the issue.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/mist1.PNG)
+
+In an eCommerce company's warehouse, robots operate through WiFi, a failure in the WiFi system and delays in addressing it can have serious financial repercussions.
+
+Mist developed a self driving network with the following components.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/mist2.png)
+
+
+At the Data stage, data is collected. Each device can send stats and logs to the cloud. User activity is also monitored using stream processing
+
+At the event stage, user impacting events and responsible entities are identified.
+
+At diagnosis stage, events are correlated to diagnose the problem. E.g. a problem with the I-phone OS or WiFi port. Then you need to identify what changes caused the issue e.g. a config change on i-OS (Temporal event correlation)or a change in an upstream device such as a router (Cross entity correlation)
+
+Finally you take actions using automated actions if corrective action can be taken within a device controlled by the cloud network or provide information for manual correction.
+
+
+Mist also has a system to automatically identify issues in firmware. A four step process is used:
+
+1) Collect logs
+2) Use NLP to encode these into embeddings
+3) Cluster these and find important issues
+4) Automatically open JIRA tickets so that these can be addressed by engineers
+
+
+Suggestions for building Enterprise AI Solutions:
+
+1) Start with real business problems
+2) Build a step by step process for continuous improvement
+3) Keep human in the loop
+
+
+
+
+## 41) Unlocking the next stage in computer vision with Deep NN | Zillow
+
+* New Zestimate model will factor in home photos to produce a price estimate
+* Typical features such as sq. ft, no of bedrooms don't say anything about a home being renovated or remodeled
+* New Zestimate understands a home's unique interiors, high end features and how they impact a  home's overall value
+* Curated or retouched photos can bias the model
+* View of water increase value but view may not be always relevant e.g. view is accessible only from the order of the balcony
+* Photos may not accurately or comprehensively represent a home
+
+
+### Building Better models
+
+1) Better training and evaluation data
+
+* Introduced new app(Zillow 3D Home) to do a 3D scan/tour of the home
+* Photos cannot be retouched or be taken on drones
+
+
+2) Data annotation at scale
+
+* App captures 3D images when most models are trained on 2D images
+* Build annotation tool to annotate in 3D space but people generally don't do this well on 3D data. Video gamers have a better sense of this and were contracted to do the annotation
+
+
+3) Ground truth data
+
+* Zillow Offers buys and sellers home directly
+* Use LIDAR to get detailed scans of homes
+
+4) New techniques
+
+* Attribute recognition: Identify real estate attributes in listing images using list descriptions as weak supervision
+
+
+5) Respect people's privacy
+
+* Transparency around data collection and sharing
+* Home owner can claim or remove photos
+
+## 42) Introducing Kubeflow| Google & IBM
+
+Kubeflow has a bunch of components including:
+
+* argo: For building pipelines
+* katib: For parallelized hyper parameter tuning
+* pytorch-job, mxnet-job, tf-serving
+
+Model training on along all frameworks is supported
+
+Easiest way to deploy: https://www.kubeflow.org/docs/gke/deploy/deploy-ui/
+
+
+* Kubeflow Pipelines is a platform for building and deploying portable scalable ML workflows based on Docker containers. They are a directed acyclic graph(DAG) of pipeline components(docker containers) each performing a function.
+
+
+E.g.:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/kubeflow1.png)
+
+
+## 43) Personalization at Scale | Facebook
+
+
+Personalization using AI is used across Facebook Feed, Instagram Explore, Groups and Marketplace
+
+FB's scale is massive. 1.5 Billion daily users sharing billions of posts shared per day, 100 billion + posts seen per day and trillions of posts ranked every day.
+
+### Practical Techniques for Personalization:
+
+**1) System Design**
+
+A large scale recommender system typically looks like:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers1.png)
+
+Items to be recommended are very large, so a retrieval state is going to recommend a subset of items with a focus on recall and latency.
+
+
+In the ranking stage a sophisticated model predicts the relevant of an item to the user. Feature store contains features such as no of posts liked or videos shared/viewed by a user.
+
+Finally some business rules are used so as not to show something in a user's disliked list or something that is more than a week old.
+
+Finally the results of the recommender systems are recorded in an impression log. User actions are recorded and fed back to train the model.
+
+The whole process needs to complete in less than 1 second.
+
+
+**2) Candidate Generation**
+
+The challenge here is identifying $ O(10^2) $ items out of $ O(10^6) $ items quickly. A candidate generator is used which:
+
+* Optimized for recall
+* Latency bound
+* Does not optimize for accurate rank (which is addressed later)
+
+A two tower neural net architecture is used to create embeddings and calculate similarities for recommendation.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers2.png)
+
+
+*KNN Offline Indexing**: All item embeddings are populated into a KNN index for fast lookup
+When a query item comes in, most similar items are looked up using a KNN service look up.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers3.png)
+
+
+
+**3) Learning from Sparse Data**
+
+**Challenge**: how to learn from categorical/sparse features and combine with continuous/dense features.
+
+For categorical features, an embeddings table is used to convert each category into a dense vector. For some features that include multiple IDs, some kind of pooling(average or max) is used. Finally pairwise dot products are taken and concatenated.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers4.png)
+
+The complete architecture for this Deep Learning Recommendation Model [DLRM](https://github.com/facebookresearch/dlrm?fbclid=IwAR3_MUcW27zweshZYmOwMBITm6H2iMOeIp5K1zuxY-Vw6heUNXU1AXHICBU) is as follows:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/fbpers5.png)
+
+* Feature interaction in simplest from can be concatenating the two vectors.
+* Embeddings tables get really large and may not fit into GPU memory. So data parallelism does not work and requires model parallelism.
+
+
+**4) Keeping Models Fresh**
+
+- Data distributions keep changing as items(videos,posts etc.) change continuously.
+
+- **Online training**: Update model every few minutes after training batches of data collected every few minutes. Fine tune from previous baseline given you don't have to train from scratch
+
+- **Recurring Training**: Deploy updated model every few weeks or days.
+
+
+
+## 44) OS for AI: Serverless, Productionized ML
+
+See full presentation [here](https://docs.google.com/presentation/d/1ztrrJ0i8vQlQCpxoRaqsCDTobXYJ9B-XThJ2IGd9VRY/edit#slide=id.g3974aef880_0_0)
+
+- Algorithmia has 9,5000 algorithms on multiple frameworks developed by over 100,000 developers
+The main challenges of deploying ML models in enterprise are as follows
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo1.png)
+
+
+- Machine Learning != Production Machine Learning
+
+An **Operating System** :
+
+* provides common functionality needed by many programs
+* Standardizes conventions to make systems easier to work with
+* Presents a higher level of abstraction of the underlying hardware.
+
+Operating systems evolved from punch cards that was suitable for only one job to to Unix that supported multi-tenancy and composability to DOS that allowed hardware abstraction i.e. you could access the hard disk or floppy disk through the same set of commands. Windows and Mac allowed GUI that democratized computing. Finally we have app stores made available through IOS and Android that made software installation extremely easily.
+
+This is where we want ML to ultimately be - a user should be able to search for an algorithm and use it without having to do cumbersome installations and devops.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo2.png)
+
+
+The most standard way of building and deploying a model involves building a model and putting it on a server while exposing a REST endpoint that can be accessed from any device,building such a system from scratch can be quite laborious involving the following steps:
+
+1. Set Up Server
+
+This requires properly balancing CPU,GPU,memory and cost.
+
+2. Create microservice
+
+You can write an API wrapper using Flask but securing, metering and disseminating this can be challenging.
+
+3. Add scaling
+
+You have to do automation to predict increase in loads and automatically configure a cloud VM to scale to meet the increased loads
+
+4. Repeat for each unique environment
+
+This can be challenging if you are using multiple languages and frameworks.
+
+Deploying models using serverless functions help resolve these challenges to a certain extent as shown below.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo3.png)
+
+
+Even so, all dependencies are supported and you often have to build a container with the dependencies locally and then move it to the cloud service provider.
+
+
+An ideal OS for AI should do the following:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/algo4.png)
+
+Algorithmia has built a solution that seeks to do all this. Refer to the deck linked to earlier for more details.
+
+
+
+## 45) Towards universal semantic understanding of natural languages | IBM Research
+
+Typically, each language needs separate parsers and separate text analytics to be developed. This means work has to be replicated in each language.
+
+The goal is to come with a unified representation applicable across all languages, so this work does not have to be replicated.
+
+
+The major challenges being faced here include:
+
+1) Annotation: Different annotation schemes are used for different languages and sometimes for the same language.
+2) Training Data: High quality labeled data is required
+3) Models are built for one task at a time
+
+IBM is addressing these challenges by creating an automated annotation scheme combined with smart crowdsourcing coupled with programmable abstractions so that work does not have to be repeated.
+
+
+With semantic parsing we want to identify the key semantic parts of a sentence no matter in which way it is written, these semantic labels are largely stable.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics1.png)
+
+
+[Framenet](https://framenet.icsi.berkeley.edu/fndrupal/about) and [PropBank](https://propbank.github.io/) are commonly used resources for Semantic Role Labeling in English.
+
+
+The challenge is that labels across languages typically do not match even if it conveys the same meaning. For example the same subject in a given sentence can be labelled as an 'orderer' in English and 'buyer' in Chinese.
+
+We want sentences across languages to share the semantic labels as shown below.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics2.png)
+
+
+### Creating cross lingual training data
+
+Typically you find annotators to annotate corpora in each language separately that takes months. The proposed solution is to do annotation in parallel corpora on datasets that are readily available across multiple languages e.g. subtitles of movies, the Bible etc.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics3.png)
+
+However these projections are not always accurate due to translation shifts or error in the source languages that get magnified by projecting it.
+
+
+One way to solve this is the below method where only selected sentences where the projections from the source language (EN) to the target language (TL) are complete and correct. This training data is used to train the SRL model which is then used to bootstrap more labelled data and train iteratively.
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics4.PNG)
+
+
+There still can be cases where there is a one to many mapping between a single label in one language to multiple labels in another or cases where no mapping exists. Human intervention is required in this case.
+
+
+### Crowd in the Loop Learning
+
+Labeling tasks are classified as hard and easy  by a routing model and assigned to a crowd or an expert accordingly.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics5.PNG)
+
+A query strategy model can also be used to determine if the labels predicted by an SRL model are correct or not. If this model is not confident that the labels are correct, it can be assigned to a human.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/semantics6.PNG)
+
+
+These techniques were used to create a [universal propostion banks](https://github.com/System-T/UniversalPropositions) for 8 languages.
+
+
+### Developing Models for Semantic Annotation
+
+
+The data is characterized by a heavy tail of labels that occur very infrequently. So instance based learning with KNN is used in conjunction with deep learning.
+
+A demo of the final model is available [here](https://vimeo.com/180382223)
+
+
+## 46) The holy grail of data science : Rapid model development and deployment | Zepl
+
+* 87% of ML projects don't make it into production
+
+* Zepl data science and analytics platform makes Apache Zepplin enterprise grade
+
+### Data Dependencies
+
+* Model consumes different data sources as well as outputs of other models. Data is subject to input distribution changes, data label mapping changes etc. So keeping a versioned copy of the data is important.
+
+* Creating a data catalog which is searchable, accessible and annotatable is important. It can capture basic information such as location of data, schema and additional notes. This can be accomplished in a data science notebook.
+
+
+### Reproducibility
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/zepl1.PNG)
+
+Containers deployed on the server side so that every one can access the same resources can help solve reproducibility issues.
+
+###  Prototyping vs Production
+
+Replicating a model in a different language as is typically required in corporate settings is challenging.
+
+
+### Monitoring
+
+
+**Prediction Bias**:
+
+Distributions of predicted labels should be equal to distribution of observed labels.
+E.g. if only 1% of e-mails are spam, only 1 % of e-mails should be predicted as spam
+
+
+**Action Limits**:
+
+Trigger alarms when model performance deteriorates/drifts significantly
+
+### Model Ownership in Production
+
+Developer != Owner
+
+Hand offs between departments tend to result in loss of information. Need thorough documentation to prevent this.
+
+### Testing & Deploying
+
+Use pipelines with Kubeflow or on Sagemaker.
+
+Zepl allows you run tests on developed models. Clicking a test button, it packages a notebook and spins up a container where there tests are carried out.
+
+
+## 47) Deep reinforcement learning for industrial robotics | OSARO
+
+
+* OSARO builds edge deployed perception and control software for robots.
+
+Levels of Autonomy:
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/osaro1.png)
+
+Most robots used in warehouses are at Level 1, do not take sensory feedback and cannot react to the environment. 
+
+Partial autonomy: At this level, robots can take sensory feedback and react to the environment but cannot react to surprises or new objects.
+
+**Deep RL** enables level 4 and level 5 automation. It allows:
+
+
+1) Moving away from programming robots - from static to dynamic robotic systems
+2) Addressing questions that are "hard to describe to computers"
+3) Handling variabilities and react to changes
+4) Learning at scale
+
+This is necessary as warehouse robots often have to pick objects that are transparent or reflective which poses challenge to computer vision systems as well as objects with deformable surfaces.
+
+This can also be important in countries like Japan with a shrinking labor force.
+
+OSARO has built 'object picking' robots with level 4 automation to staff e-commerce warehouses.
+
+* In robotics industry , each vendor has a proprietary platform and Domain Specific programming language, industry is thus highly fragmented.
+
+## Imitation Learning
+Learning from an expert's demonstration.
+
+* Copies behavior, does not necessarily learn problem objective.
+* Trained policy only as good as the demonstration.
+
+## Meta Learning 
+
+* Models that can learn new skills or adapt to new environments with few training examples
+
+A meta learner(agent) will train a Learner(model) on a data set with a large number of tasks, and learn common representations across these tasks. The Learner can now adapt to new tasks with very little
+
+## 48) Challenges and future directions in deploying NLP in commercial environments | Intel
+
+Implications of latest developments in NLP include:
+
+1) Pre-training of large Language models is very costly
+2) Shift of focus from lower level training to more application specific tweaking
+3) Loading very large model and heavy fast forward computing during inference
+
+
+[NLP Architect](https://github.com/NervanaSystems/nlp-architect) is Intel's NLP Library for developing DL based NLP applications. It also produces optimized NLP models ready for inference deployment.
+
+
+* Knowledge distillation from BERT/XLNet to small models is supported
+* Q8BERT - Produced by quantization aware training. Quantized 8 bit version of Bert(int) as against 32 bit(floating point). Leads to 4x memory compression. This can be done in just the fine tuning step.
+* Sparse version of Google's NMT model is also available
+
+
+### Model Distillation
+
+Train a small network using the output of a larger model. See details [here](https://arxiv.org/abs/1503.02531)
+
+Using this approach, BERT models with 300 million parameters can be distilled to an LSTM+CRF model with only 3 million parameters.
+
+As seen in the figure below, the performance of these distilled models is on par with the original BERT model. 
+
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel1.PNG)
+
+Quantized BERT's performance on various tasks is comparable to that of BERT.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel2.png)
+
+
+NLP Architect also supports Aspect based sentiment analysis which identifies the target word a sentiment term qualifies.
+
+E.g. for the sentence: 'service is poor but pizza was great'. 'poor' is a sentiment term which qualifies the target word 'service' while 'great' qualifies the word 'pizza'. There are also semi supervised techniques that can learn domain specific terms or lexicon e.g. movie reviews vs food reviews
+
+NER models that can learn to tag words from any domain when seeded with a few examples is also supported. Example, if seeded with grape fruit and lemon as  examples of citrus fruits, the model will recommend a list of words to the user who can modify/accept it.
+
+![](/post/2020-06-06-2019-oreilly-ai-conference_files/intel3.PNG)
+
+
+
+## 49) What you must know to build AI systems that understand natural language | Pacific AI
+
+Solving Natural Language Understanding would effectively lead to solving hard AGI.
+
+## Many languages spoken. 
+
+Even the type of language spoken at home or in an academic paper are very different. Different domains have different jargon. 
+
+SMS Language will have emojis and use a lot of slang or profanities. Auto correct can often be a problem with informal language.
+
+Legal transcriptions follow a strict procedure that needs to be understood to make sense of it.
+SEC filings will have a lot of boiler plate that can be ignored.
+
+
+Given the varieties of languages, NLP models have to be tailored to the type of language.
+
+
+## Domain specificity
+
+
+Off the shelf models cannot work on all domains as they are typically trained on content like Wikipedia articles.This problem is particularly acute in health care.
+
+E.g. "states started last night, upper abd, took alka seltzer approx 0500, no relief. nausea no vomiting"
+
+In finance, the sentiment towards a stock is not quite the same as sentiment towards a restaurant in a Yelp review.
+
+It is important to train domain specific models. You might have to pair your NLP data scientist with a domain expert who is an expert in the language the model has to understand.
+
+### Use both structured and unstructured data
+
+In a hospital demand forecasting problem, you need to look at medical notes  from doctors and nurses as well as available structured data such as age, reason for visit, wait time etc.
+
+**Best practice**: Unify NLP and ML pipeline as enabled by Spark NLP and Spark ML
+
+
+What is good first NLP project?
+
+Start with an existing model based on structured data that human domain experts usually solve with free text data
+
+
+> It is interesting to note that with the advent of advanced language models such as GPT3, we may not need to build domain specific models from scratch but only fine tune a language model. Even so, given GPT3 has been licensed exclusively to Microsoft, it may be out fo reach for most organizations in the world.
+
+
+
+## 50) Language Inference in medicine | IBM Research
 
 * Need to determine if a patient meets eligibility criteria for clinical trials by comparing against doctor and nurse notes.
 
@@ -2434,80 +2509,6 @@ In medicine this can be even more complicated.
 
 ![](/post/2020-06-06-2019-oreilly-ai-conference_files/clinic2.PNG)
   
-
-## 50) Improving OCR quality of documents using GANs | EXL
-
-The modern OCR pipeline is as follows.
-
-1) Input documents are fed into an OCR engine which converts the documents into machine understandable format
-2) Automated processing using ML/NLP 
-3) Manual validation to ensure 100 % accuracy
-
-
-* This may not work well if the input documents are highly unstructured i.e. have incorrect layouts, low resolutions or is very noisy with wrinkles,watermarks etc. This can be addressed either by improving the OCR engine or by improving the input documents fed into the OCR engine.
-
-
-The enhanced pipeline is as follows:
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl1.PNG)
-
-Although traditional image enhancement techniques are effective in addressing some problems, GAN based enhancements can improve the quality of input documents even further,
-
-
-Below is an overview of a GAN. It consists of a generator and a discriminator acting in an adversarial fashion, one trying make real and fake images indistinguishable while the other trying to distinguish between the two. 
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl2.PNG)
-
-## Resolution Enhancement
-
-### Data Creation
-
-* High resolution English documents with different font-types, sizes and spacing were first converted to standard resolution(300 dots per inch (DPI)) using standard image processing tools and then converted to low resolution images at 75 DPU using random subsampling and bicubic Downsampling. The high-resolution and low-resolution image pairs are used for training the GANs
-
-
-* Data sets were also created by scanning high resolution English documents at high (300 DPI) and (low) resolution.
-
-### Training
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl3.PNG)
-
-
-
-* The generator will not have a max-pooling layer as max-pooling layers lower the resolution of an image.Upsampling layers such as un-pooling (reverse of max-pooling) or de-convolution layers are used.
-
-* Custom loss with two terms are used
-  * Adversarial loss looks just at the performance of the discriminator
-  * Content loss captures the performance of the generator which again has two terms
-    
-    1) MSE between generated image and ground truth image
-    2) MSE between the ground truth image and image generated using a VGG network
-    
-    Although some use cases would require only the first of these two terms, for the OCR use case, this was found to     perform better.
-
-Given the generator is very sensitive to initialization, the model is trained on imagenet and the weights are transferred.
-
-### Evaluation
-
-In terms of character level accuracy, the GAN enhanced images resulted in an improvement of 7 percentage points for enterprise grade OCR systems and an improvement of 80 percentage points for open source OCR systems.
-
-In terms of word level accuracy, the GAN enhanced images resulted in an improvement of 9 percentage points for enterprise grade OCR systems and an improvement of 79 percentage points for open source OCR systems.
-
-
-## Document De-noising
-
-### Data
-
-* Clean documents with different font types, sizes and spacing were collected. Noise( Random noise, Gaussian noise, pattern noise) were added to these documents to create noisy documents
-
-* Clean datasets from kaggle were taken and synthetic noise was added to this to create noisy documents.
-
-### Training
-
-The training process was identical to the one above and as seen below, the documents were de-noised effectively over successive epochs.
-
-![](/post/2020-06-06-2019-oreilly-ai-conference_files/exl4.PNG)
-
-In other use cases, a Mask-RCNN was used to identify parts of documents that had address like texts,these regions were then enhanced using a GAN. 
 
 
 
