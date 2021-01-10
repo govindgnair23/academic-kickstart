@@ -1,0 +1,741 @@
+---
+title: SVD is (almost) all you need
+author: Govind G Nair
+date: '2021-01-10'
+categories:
+  - Article
+tags:
+  - Machine Learning
+  - Statistics
+slug: svd-is-almost-all-you-need
+summary: Introduction to Singular Value Decomposition
+lastmod: '2021-01-10T10:36:08-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+---
+
+## Background
+
+Some twitter threads deserve to be full blown blog posts. A few months back [Daniela Witten](https://twitter.com/daniela_witten) produced a delightfully informative twitter thread on Singular Value Decomposition while curating the [WomeninStat](https://twitter.com/WomenInStat) twitter account.
+
+{{<tweet 1285610321747611653>}}
+
+As someone who regretfully never paid much attention to my Linear Algebra lessons, this was a good opportunity to dive in and understand the practical and relevant aspects of SVD. I have taken this twitter thread, added some content and code to help bridge some gaps in my understanding.
+
+
+## Introduction
+
+{{<tweet 1285611207530098688>}}
+
+SVD decomposes an $n \times p $ matrix $ X $  into three matrices, $ U $ ($ n \times p $), $ V $ ($ p \times p $) and $ D $ ($ p \times p $) 
+
+$$  X = UDV^T $$
+
+Each of these matrices are special
+
+### V
+
+- This is the **right singular matrix**
+
+- $ V $ is an [orthogonal matrix](https://en.wikipedia.org/wiki/Orthogonal_matrix) which implies that 
+$ V^T V = I_p $ and $ VV^T = I_p $
+
+- Each row and column of $ V $ is an orthogonal unit vector or orthonormal vector implying that the dot product of any two columns of the matrix is 0 and each column has a unit length i.e given two columns of the matrix $ v_i $ and $ v_j $
+
+$$ v_i.v_j = 0 $$ and 
+
+$$ ||v_i||_2 = ||v_j||_2 = 1 $$
+
+Remember that given an n-dimensional vector, $ v =  \begin{bmatrix} v_1 \\\\ v_2 \\\\...\\\\v_n \end{bmatrix} $
+
+$$ ||v||_{2} = \sqrt{v_1^2 + v_2^2+...+v_n^2}  $$
+
+At the risk of jumping too far ahead, let us verify all the claims made so far
+
+
+```{r}
+set.seed(0)
+X <- matrix(rnorm(50,10,5),ncol=5) 
+print(paste0("Dimensions of X: ",dim(X)[1],"x",dim(X)[2]))# 10x5
+UDV_t <- svd(X)
+U <- UDV_t$u
+print(paste0("Dimensions of U: ",dim(U)[1],"x",dim(U)[2])) #10x5
+D <- diag(UDV_t$d)
+print(paste0("Dimensions of D: ",dim(D)[1],"x",dim(D)[2])) #5x5
+V <- UDV_t$v
+print(paste0("Dimensions of V: ",dim(V)[1],"x",dim(V)[2])) #5x5
+```
+
+
+Asserting if V is an orthogonal matrix, whether the dot product of any two columns is 0 and whether each column has a unit length
+
+```{r}
+#V.V^T = I
+VdotVt = V %*% t(V)
+all.equal(VdotVt,diag(5))
+
+#V^T.V = I
+VtdotV = t(V) %*% V
+all.equal(VtdotV,diag(5))
+
+#Calculate length of the rows and columns
+apply(V,1,norm,"2")
+apply(V,2,norm,"2")
+```
+
+### U
+
+This is the left singular matrix.
+
+$ U $ is not quite an orthogonal matrix because it is not a square matrix.
+
+```{r}
+dim(U)
+```
+
+
+However 
+
+$ U^T \times U = I_n$
+
+```{r}
+all.equal(t(U)%*%U,diag(5))
+```
+
+But $ U \times U^T \neq I $
+```{r}
+all.equal(U%*%t(U),diag(10))
+```
+
+Check if rows and columns are unit vectors
+
+```{r}
+apply(U,1,norm,"2")
+apply(U,2,norm,"2")
+```
+
+As you can see **the columns of U are orthonormal vectors** but the rows are not.
+
+### D
+
+$ D $ is a diagonal matrix with non-negative and decreasing elements
+
+$$ D_{11} \geq  D_{22}... \geq D_{pp} \geq 0 $$
+The diagonal elements of $ D $ are the the singular values of the matrix
+
+
+```{r}
+all.equal (X, U%*%D%*%t(V))
+```
+
+**The decomposition is unique up to sign flips of U & V.**
+
+
+```{r}
+all.equal (X, -U%*%D%*%-t(V))
+```
+
+
+## Relation to PCA
+
+[PCA](https://aaronschlegel.me/principal-component-analysis-r-example.html) is a dimensionality reduction technique where the goal is to represent a matrix in fewer number of dimensions while preserving as much information as possible.
+
+{{<tweet 1285613851879313412>}}
+
+
+Let us obtain the **principle component loading vectors** of X. Each column in the matrix below is a principle component loading vector.
+
+```{r}
+pca <- prcomp(X)
+pca$rotation
+```
+Note each column above gives the weights to be used for multiplying each row of the original matrix X to get **principle component scores**.
+
+For example the , principle component scores for the first observation(row) of X when using only the first two principle components is given by
+
+```{r}
+#1x5  x  5x2
+t(X[1,]) %*% pca$rotation[,c(1,2)]
+
+```
+
+The above is a 2D representation of the original 5D observation.
+
+
+Let us obtain the above principal component loading vectors using SVD
+
+1) Compute $ \bar{X} $ by centering each column to have mean = 0
+
+```{r}
+n <- nrow(X)
+col_means <- colMeans(X)
+X_bar <- sweep(X,2,col_means)
+
+```
+
+
+2) Apply SVD to $ \bar{X} $
+
+
+```{r}
+svd_X_bar <- svd(X_bar)
+```
+
+The **principle component loading vectors** are given by V
+
+```{r}
+svd_X_bar$v
+```
+
+
+The **principle component score vectors** are given by U upto a scaling factor.
+```{r}
+(u <- svd_X_bar$u)
+```
+
+The true principle component score vectors are given by
+
+
+```{r}
+##########10x5 X 5x5
+(pc <- (X_bar)%*% svd_X_bar$v)
+```
+
+
+The scaling factor for each column is given by
+
+```{r}
+(pc/u)[1,]
+```
+
+The scaling factors are in fact given by the singular values.
+```{r}
+svd_X_bar$d
+```
+
+
+This is in fact how PCA is implemented in the **prcomp** function in R
+
+
+## Relation to Eigen Value Decomposition
+
+{{<tweet 1285615493978750977>}}
+
+Eigen decomposition decomposes a matrix $ X $ as follows
+
+$$ X = P\Sigma P^{-1} $$
+Alternately
+
+$$ XP = P\Sigma $$
+where $ P $ is a matrix of eigen vectors and $ \Sigma $ is a diagonal matrix of eigen values.
+
+
+We have already defined the SVD of X ($m \times p $) as shown below
+
+$$  X = UDV^T $$
+Let the rank of X be given by $ r $
+
+$$ rank(X) = r \leq min(m,p) $$
+
+
+$ U $ , $ D $ and $ V $ can be expressed as  block matrices  as shown below
+
+$$ U = \begin{bmatrix} U_1 && U_2 \end{bmatrix} $$
+where:
+$ U_1 $ is an $ m \times r $ matrix <br>
+$ U_2 $ is an $ m \times (p-r) $ matrix <br>
+$ U_1^TU_1 = I_r $
+      
+$$ D = \begin{bmatrix}  D_r &   \textbf{0} \\\\ \textbf{0} & \textbf{0}    \end{bmatrix} $$
+      
+
+where:
+$ D_r $ is an $ r \times r $ matrix <br>
+$ \textbf{0} $ is an $ (p-r) \times (p-r) $ matrix
+      
+
+$$ V^T = \begin{bmatrix} V_1^T && V_2^T \end{bmatrix} $$
+
+where:
+$ V_1^T $ is an $ r \times p $ matrix <br>
+$ V_2 $ is an $ r \times (p-r) $ matrix <br>
+$ V_1^TV_1 = I_r $
+
+
+$$ X  =  \begin{bmatrix} U_1 && U_2 \end{bmatrix} \begin{bmatrix}  D_r &   \textbf{0} \\\\ \textbf{0} & \textbf{0}    \end{bmatrix} \begin{bmatrix} V_1^T && V_2^T \end{bmatrix}   = U_1D_rV_1^T  $$
+This means
+
+$$ XX^T = U_1D_rV_1^T (U_1D_rV_1^T )^T $$
+$$ = U_1D_rV_1^T V1D_rU_1^T   = U_1D_r^2U_1^T $$
+Multiplying both sides by $ U_1 $ gives
+
+$$ (XX^T)U_1 = U_1D_r^2U_1^TU_1 = U_1D_r^2 $$
+This is the classic definition of the eigen vectors and eigen values of a matrix. $ U_1 $ i.e. the **left singular matrix** gives the eigen vectors while $ D_r^2 $ i.e. the square of the singular values gives the eigen values of 
+$ XX^T $
+
+
+Similarly,
+$$ X^TX =  (U_1D_rV_1^T )^T U_1D_rV_1^T = V_1D_rU_1^TU_1D_rV_1^T $$
+
+
+$$ = V_1D_r^2V_1^T $$
+
+Multiplying both sides by $ V_1 $ gives
+
+$$ (X^TX)V_1 = V_1D_r^2V_1^TV_1 = V_1D_r^2 $$
+
+
+Thus, the right singular matrix $ V_1 $ gives the eigen vectors for the matrix $ X^TX $,while $ D_r^2 $ i.e. the square of the singular values gives the eigen values of $ X^TX $
+
+
+
+## Computing SVD :Power Method
+
+{{<tweet 1285617523287822336>}}
+
+Below is the power method, a simple algorithm for computing SVD of a matrix $ A \in \mathbb{R}^{m\times n} $.<br>
+It first computes the first singular value $ \sigma_1 $ and left and right singular vectors $ u_1 $ and $ v_1 $ 
+of A, for which: <br> $ min_{i<j} log(\frac{\sigma_i}{\sigma_j}) \geq \lambda $ where $ \lambda $ is a tunable threshold.
+
+
+1. Generate $ x_0 $ such that $ x_0(i) \sim N(0,1) $
+2. Determine no of of iterations ($ s $) required to get $ \epsilon $ precision with probability of at least
+$ 1 -\delta $
+
+&nbsp;$ s \leftarrow log(4log(2n/ \delta)/\epsilon\delta)/2\lambda $
+
+3. for $ i $ in [1,.....,$ s $]: <br>
+&nbsp;$ x_i \leftarrow A^TAx_{i-1} $ <br>
+4. $ v_1 \leftarrow x_i/ \Vert x_i \Vert $ <br>
+5. $ \sigma_1 \leftarrow \Vert Av_1 \Vert $ <br>
+6. $ u_1 \leftarrow Av_1/\sigma_1 $ <br>
+7. return($ \sigma_1,u_1,v_1 $)
+
+
+Given we have computed ($ \sigma_1,u_1,v_1 $), we can repeat the procedure 
+for $ A - \sigma_1u_1v_1^T = \Sigma_{i=2}^{n} \sigma_iu_iv_i^T $. The top singular values and vectors of this will be
+($ \sigma_2,u_2,v_2 $)
+
+THis method converges only if the below two assumptions hold.
+
+1. $ A^TA $ has an eigen value strictly greater in magnitude than its other eigen values
+2. The starting vector $ x_0 $ has a non-zero component in the direction of an eigen vector associated with the dominant eigen value.
+
+
+Below is an implementation of the algorithm.
+
+
+```{r}
+
+power_svd <- function(A){
+  #Function to calculate the first singular value, sigma 1,left singular vector u1 and right singular vector v1
+x <- rnorm(dim(A)[2])
+n <- dim(X)[2]
+eps <- 0.001 #precision
+delta <- 0.001 #1 - prob
+lambda <- 2
+
+s <- ceiling(log(4*log(2*n/delta)/(eps*delta))/(2*lambda))
+
+for (i in 1:s){
+  x <- t(A)%*%A%*%x }
+
+
+v1 <- x/norm(x,type="2")
+sigma1 <- norm(A%*%v1,type="2")
+u1 <- A%*%v1/sigma1
+return(list('u'=u1,'sigma'=sigma1,'v'=v1))
+
+}
+
+```
+
+
+```{r}
+library(Matrix)
+
+SVD_fn <- function(A){
+  rank <- rankMatrix(A)[1]
+  udv_list <- list()
+  for (i in 1:rank){
+    
+    udv <- power_svd(A)
+    udv_list[[i]] <- udv
+    A <- A - udv$sigma*udv$u%*%t(udv$v)
+  }
+  
+  
+  u <-  mapply(cbind,lapply(udv_list,function(x){x$u}))
+  d <-  mapply(c,lapply(udv_list,function(x){x$sigma}))
+  v <-  mapply(cbind,lapply(udv_list,function(x){x$v}))
+  return(list('u'=u,'d'=d,'v'=v))
+}
+
+```
+
+
+The results of the algorithm are as expected.
+
+```{r}
+SVD_fn(X)
+```
+
+
+This video provides a good theoretical explanation and intuition about how this method works.
+
+{{< youtube OzeDqsVoTFc >}}
+
+## Applications
+
+### Matrix Compression or Approximation
+
+
+{{<tweet 1285613105121198080>}}
+
+
+If we want to approximate the entire matrix X with just two vectors (a rank 1 approximation), the optimal representation in terms of residual sum of squares is given by the first columns of U and V
+
+$$ X \approx D_{11}U_1V_1^T $$
+
+```{r}
+D[1,1]*U[,1]%*%t(V[,1])
+```
+
+
+Similarly a representation of the matrix using any number of vectors (1,2..p) can be computed as 
+
+$$  X \approx D_{11}U_1V_1^T + D_{22}U_2V_2^T+...+D_{pp}U_pV_p^T $$
+
+The below figure shows how the quality of the compressed representation improves as we use 1,2,...p vectors
+
+```{r}
+quality <- function(X,Y){sqrt(sum((X-Y)^2))} 
+q <- rep(NA,5)
+repr <- matrix(0,10,5)
+for (i in 1:5){
+  repr <- repr +  D[i,i]*U[,i]%*%t(V[,i])
+  q[i] <- quality(X,repr)
+}
+
+plot(q,type='b',xlab = "Rank of approximation",ylab="Error")
+```
+
+
+## Impute Missing Values
+
+{{<tweet 1285614472065953793>}}
+
+Assume 1/5 of the values in the matrix are randomly missing.
+
+
+```{r}
+#Identify random missing elements in the matrix
+set.seed(999)
+missing<- matrix(sample(c(rep(FALSE,40),rep(TRUE,10))),nr=5)
+X_missing <- X
+X_missing[missing] <- NA
+X_missing
+
+```
+
+The following algorithm can be used to impute the missing values
+
+1) Fill in the missing elements with the column mean
+
+2) Compute SVD to get the rank-K approximation of the filled out matrix (Say K = 3)
+
+3) Replace missing values with values from rank-K approximation
+
+4) Go to step 2) until imputed values stop changing
+
+
+
+```{r}
+
+#Calculate column means
+X_col_means <- apply(X_missing,2,mean,na.rm=TRUE)
+
+#loop through each column and replace missing values with mean of the column
+
+X_imputed <- X_missing
+for (i in c(1:ncol(X_imputed))){
+  v <- X_imputed[,i]
+  v[is.na(v)] <- col_means[i]
+  X_imputed[,i] <- v
+}
+
+
+
+```
+
+The baseline will be the above matrix where the missing values were replaced by the mean. The quality of this imputation is given by
+
+
+```{r}
+quality(X[missing],X_imputed[missing])
+```
+
+
+Compute rank-3 approximation using SVD
+
+
+```{r}
+svd_X <- svd(X_imputed)
+U <- svd_X$u
+D <- diag(svd_X$d)
+V <- svd_X$v
+
+repr <- matrix(0,10,5)
+for (i in 1:3){
+  repr <- repr +  D[i,i]*U[,i]%*%t(V[,i])
+}
+```
+
+
+Compare imputed values with original values
+```{r}
+X[missing]
+repr[missing]
+```
+
+The quality of applying one round of SVD is given by:
+```{r}
+quality(X[missing],repr[missing])
+```
+
+
+The above algorithm have been wrapped up into a function below.
+
+```{r}
+
+rank_k_approx <- function (X,k){
+  #X: matrix to be approximate
+  #k: rank of approximation
+  
+  svd_X <- svd(X)
+  U <- svd_X$u
+  D <- diag(svd_X$d)
+  V <- svd_X$v
+  
+  repr <- matrix(0,nrow(X),ncol(X))
+  for (i in 1:k){
+    repr <- repr +  D[i,i]*U[,i]%*%t(V[,i])
+  }
+  
+  return(repr)
+      }
+
+
+impute_with_SVD <- function(X_missing,k){
+  # X_missing: Matrix with missing values
+  # k: rank of approximation to be used
+  
+  #Calculate column means
+  X_col_means <- apply(X_missing,2,mean,na.rm =TRUE)
+  
+  #identify missing elements
+  missing <- is.na(X_missing)
+  
+  
+  #loop through each column and replace missing values with mean of the column
+  
+  for (i in c(1:ncol(X))){
+    v <- X_missing[,i]
+    v[is.na(v)] <- X_col_means[i]
+    X_missing[,i] <- v
+  }
+  
+  
+  #Center the values on 0
+  #X_missing <- sweep(X_missing,2,X_col_means)
+  
+  
+  
+  #Record newly imputed values in a vector
+  imputed <- X_missing[missing]
+  
+  j<- 1
+  
+  #record imputed elements in each iteration
+  imputed_list <- list()
+  imputed_list[[j]] <- imputed
+  
+  while(TRUE){
+  ##Compute rank-k SVD approximation
+  X_approx <- rank_k_approx(X_missing,k)
+  
+  #Replace missing values with new approximation
+  X_missing[missing] <- X_approx[missing]
+  
+  # break out of loop if imputed values stop changing
+  if (max(abs(imputed-X_approx[missing])) < 0.001 ) {break}
+  j <- j + 1
+  imputed <- X_approx[missing]
+  imputed_list[[j]] <- imputed
+  }
+  
+  return(list(imputed_list,X_missing))
+  
+   }
+```
+
+The missing values are now imputed using a rank 3 approximation
+
+```{r}
+ans <-impute_with_SVD(X_missing,3)
+```
+
+The below figure shows how the imputed values change every 100 steps
+
+```{r}
+imputed_matrix <- do.call(rbind,ans[[1]])
+index <- c(1,seq(10,nrow(imputed_matrix),by=100),nrow(imputed_matrix))
+imputed_matrix <- imputed_matrix[index,]
+
+matplot(imputed_matrix,type='l')
+
+```
+
+
+The final imputed values and original values are shown below.
+```{r}
+#Original values
+X[missing]
+#Imputed values
+ans[[2]][missing]
+```
+
+
+The quality of the imputation is given by
+
+```{r}
+quality(X[missing],ans[[2]][missing])
+```
+
+
+Rank-3 approximation was used above and the quality of the imputed values were inferior to using simple column means. Let us also evaluate the quality of imputation when using approximations of rank 1 2 and 4. 
+
+
+First,carry out the imputations with the other rank-approximations.
+```{r}
+
+imputed_list_k <- list()
+imputed_list_k[[3]] <- ans
+for (i in c(1,2,4)){  
+  imputed_list_k[[i]] <-impute_with_SVD(X_missing,i)
+}
+```
+
+And evaluate their quality.
+```{r}
+for( i in 1:4){
+  print(quality(X[missing],imputed_list_k[[i]][[2]][missing]))
+}
+```
+
+
+From the experiments for far, it does not seem SVD is a very good approach for imputing missing values. Replacing missing values with a simple column average seems to be a more effective way to impute missing values.
+
+Also note that if your original data has only positive values, SVD is probably not a good fit as it gives negative values. Non-negative matrix factorization is a better choice in this case.
+
+### Check for multi-collinearity 
+
+{{<tweet 1285616331673481219>}}
+
+To check for multi-collinearity in an $ m \times p $ matrix ($ p \leq m $), check the ratio of the first singular value to the last singular value $ \frac{D_{11}}{D_{pp}}$, if this is very large then using least squares regression is a bad idea.
+
+
+First check this ratio for a random matrix.
+
+
+```{r}
+
+svd_X <- svd(X)
+svd_X$d[1]/svd_X$d[5]
+```
+
+
+Let us add some multi-collinearity to X   by adding a column that is equal to the sum of the first 3 columns and find the same ratio
+
+
+```{r}
+
+X2<- cbind(X,X[,1]+X[,2]+X[,3])
+svd_X2 <- svd(X2)
+svd_X2$d[1]/svd_X2$d[6]
+
+
+```
+
+
+### Moore-Penrose Pseudo Inverse
+
+
+{{<tweet 1285616929202470912>}}
+
+The pseudo inverse can be computed by simply using the expression below
+
+
+$$  X^{-1} \approx D_{11}^{-1}U_1V_1^T + D_{22}^{-1}U_2V_2^T+...+D_{pp}^{-1}U_pV_p^T $$
+
+
+
+```{r}
+inverse <- function(X){
+  # X must be a square matrix to compute the inverse
+  
+  stopifnot("Matrix must be square"=nrow(X)==ncol(X))
+  
+  
+  svd_X <- svd(X)
+  U <- svd_X$u
+  V <- svd_X$v
+  D <- svd_X$d
+  nr <- nc <- nrow(X)
+  inv <- matrix(0,nr,nc)
+  for (i in 1:nc){
+  inv <- inv +  1/D[i]*(U[,i]%*%t(V[,i]))
+  }
+  
+return(inv)
+}
+```
+
+```{r}
+cov_mat <- cov(X)
+round(cov_mat%*%inverse(cov_mat),3)
+
+```
+
+
+### Rank of a Matrix
+
+Rank of a matrix is just the number of non-zero singular values.
+
+
+The rank of X (10 x 5 matrix) used in this blog is
+```{r}
+sum(D>0)
+```
+
+The rank of X2 (10 x 6) matrix used above is also:
+
+
+```{r}
+sum(svd_X2$d>0.0001) # using a value slightly greater than 0
+```
+
+
+## References and Additional Resources
+
+1) https://aaronschlegel.me/principal-component-analysis-r-example.html <br>
+2) https://www.youtube.com/watch?v=3_45TkPVjpU <br>
+3) https://www.cs.yale.edu/homes/el327/datamining2013aFiles/07_singular_value_decomposition.pdf <br>
+4) https://www.youtube.com/playlist?list=PLtmWHNX-gukIc92m1K0P6bIOnZb-mg0hY
+
+
+
+
