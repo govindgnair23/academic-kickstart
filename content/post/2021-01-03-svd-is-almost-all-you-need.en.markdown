@@ -749,7 +749,7 @@ The baseline will be the above matrix where the missing values were replaced by 
 
 
 ```r
-quality(X[missing],X_imputed[missing])
+(baseline <- quality(X[missing],X_imputed[missing]))
 ```
 
 ```
@@ -950,17 +950,24 @@ for (i in c(1,2,4)){
 And evaluate their quality.
 
 ```r
+library(knitr)
+quality_df <- data.frame('Method'=c('Column Means','Rank 1 Approx','Rank 2 Approx','Rank 3 Approx','Rank 4 Approx'),'RMSE' = baseline)
+
 for( i in 1:4){
-  print(quality(X[missing],imputed_list_k[[i]][[2]][missing]))
+  quality_df[i+1,'RMSE'] <- quality(X[missing],imputed_list_k[[i]][[2]][missing])
 }
+kable(quality_df)
 ```
 
-```
-## [1] 22.73903
-## [1] 29.28236
-## [1] 15.67569
-## [1] 15.6327
-```
+
+
+|Method        |      RMSE|
+|:-------------|---------:|
+|Column Means  |  9.958537|
+|Rank 1 Approx | 22.739031|
+|Rank 2 Approx | 29.282360|
+|Rank 3 Approx | 15.675690|
+|Rank 4 Approx | 15.632698|
 
 
 From the experiments for far, it does not seem SVD is a very good approach for imputing missing values. Replacing missing values with a simple column average seems to be a more effective way to impute missing values.

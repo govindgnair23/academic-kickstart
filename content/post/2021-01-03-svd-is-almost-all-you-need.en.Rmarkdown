@@ -504,7 +504,7 @@ The baseline will be the above matrix where the missing values were replaced by 
 
 
 ```{r}
-quality(X[missing],X_imputed[missing])
+(baseline <- quality(X[missing],X_imputed[missing]))
 ```
 
 
@@ -659,9 +659,13 @@ for (i in c(1,2,4)){
 
 And evaluate their quality.
 ```{r}
+library(knitr)
+quality_df <- data.frame('Method'=c('Column Means','Rank 1 Approx','Rank 2 Approx','Rank 3 Approx','Rank 4 Approx'),'RMSE' = baseline)
+
 for( i in 1:4){
-  print(quality(X[missing],imputed_list_k[[i]][[2]][missing]))
+  quality_df[i+1,'RMSE'] <- quality(X[missing],imputed_list_k[[i]][[2]][missing])
 }
+kable(quality_df)
 ```
 
 
