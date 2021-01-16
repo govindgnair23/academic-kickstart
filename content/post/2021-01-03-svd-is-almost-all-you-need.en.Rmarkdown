@@ -40,6 +40,7 @@ Each of these matrices are special
 
 - This is the **right singular matrix**
 
+
 - $ V $ is an [orthogonal matrix](https://en.wikipedia.org/wiki/Orthogonal_matrix) which implies that 
 $ V^T V = I_p $ and $ VV^T = I_p $
 
@@ -70,6 +71,12 @@ print(paste0("Dimensions of V: ",dim(V)[1],"x",dim(V)[2])) #5x5
 ```
 
 
+
+```{r}
+V
+```
+
+
 Asserting if V is an orthogonal matrix, whether the dot product of any two columns is 0 and whether each column has a unit length
 
 ```{r}
@@ -89,6 +96,11 @@ apply(V,2,norm,"2")
 ### U
 
 This is the left singular matrix.
+
+```{r}
+U
+```
+
 
 $ U $ is not quite an orthogonal matrix because it is not a square matrix.
 
@@ -122,6 +134,11 @@ As you can see **the columns of U are orthonormal vectors** but the rows are not
 ### D
 
 $ D $ is a diagonal matrix with non-negative and decreasing elements
+
+```{r}
+D
+```
+
 
 $$ D_{11} \geq  D_{22}... \geq D_{pp} \geq 0 $$
 The diagonal elements of $ D $ are the the singular values of the matrix
@@ -288,7 +305,7 @@ Multiplying both sides by $ V_1 $ gives
 $$ (X^TX)V_1 = V_1D_r^2V_1^TV_1 = V_1D_r^2 $$
 
 
-Thus, the right singular matrix $ V_1 $ gives the eigen vectors for the matrix $ X^TX $,while $ D_r^2 $ i.e. the square of the singular values gives the eigen values of $ X^TX $
+Thus, the **right singular matrix** $ V_1 $ gives the eigen vectors for the matrix $ X^TX $,while $ D_r^2 $ i.e. the square of the singular values gives the eigen values of $ X^TX $
 
 
 
@@ -307,9 +324,12 @@ $ 1 -\delta $
 
 &nbsp;$ s \leftarrow log(4log(2n/ \delta)/\epsilon\delta)/2\lambda $
 
+**Note**: I did not find step 2 and 3 to be useful in practice. It gave inaccurate SVD results. In practice, as explained in the video below, your estimate gets better as $ s \rightarrow \infty $. In the below implementation, I keep iterating as long as the vector stops changing by more than $ \epsilon $
+
 3. for $ i $ in [1,.....,$ s $]: <br>
 &nbsp;$ x_i \leftarrow A^TAx_{i-1} $ <br>
-4. $ v_1 \leftarrow x_i/ \Vert x_i \Vert $ <br>
+&nbsp;$ x_i \leftarrow x_i/ \Vert x_i \Vert  $ <br>
+4. $ v_1 \leftarrow x_i $ <br>
 5. $ \sigma_1 \leftarrow \Vert Av_1 \Vert $ <br>
 6. $ u_1 \leftarrow Av_1/\sigma_1 $ <br>
 7. return($ \sigma_1,u_1,v_1 $)
@@ -330,21 +350,30 @@ Below is an implementation of the algorithm.
 
 ```{r}
 
-power_svd <- function(A){
-  #Function to calculate the first singular value, sigma 1,left singular vector u1 and right singular vector v1
+power_svd <- function(A,eps){
+  #Function to calculate the first singular value
+  #A: Matrix to be decomposed
+  #eps: if change between successive iterations is lesser than this threshold value, stop
 x <- rnorm(dim(A)[2])
-n <- dim(X)[2]
-eps <- 0.001 #precision
-delta <- 0.001 #1 - prob
-lambda <- 2
+n <- dim(A)[2]
+#eps <- 0.01 #precision
+#delta <- 0.001 #1 - prob
+#lambda <- 2
 
-s <- ceiling(log(4*log(2*n/delta)/(eps*delta))/(2*lambda))
+#s <- ceiling(log(4*log(2*n/delta)/(eps*delta))/(2*lambda))
 
-for (i in 1:s){
-  x <- t(A)%*%A%*%x }
+A_ <- t(A)%*%A
+x <- A_%*%x
+x_1 <- x <- x/norm(x,type="2")
+while (TRUE){
+  x <- A_%*%x 
+  x_2<- x <- x/norm(x,type="2")
+  if(max(abs(x_2-x_1))<=eps){break}
+  x_1 <- x_2
+  }
 
 
-v1 <- x/norm(x,type="2")
+v1 <- x
 sigma1 <- norm(A%*%v1,type="2")
 u1 <- A%*%v1/sigma1
 return(list('u'=u1,'sigma'=sigma1,'v'=v1))
@@ -362,7 +391,7 @@ SVD_fn <- function(A){
   udv_list <- list()
   for (i in 1:rank){
     
-    udv <- power_svd(A)
+    udv <- power_svd(A,eps=1e-6)
     udv_list[[i]] <- udv
     A <- A - udv$sigma*udv$u%*%t(udv$v)
   }
@@ -377,7 +406,7 @@ SVD_fn <- function(A){
 ```
 
 
-The results of the algorithm are as expected.
+The results of the algorithm are consistent with expectations.
 
 ```{r}
 SVD_fn(X)
@@ -602,10 +631,9 @@ matplot(imputed_matrix,type='l')
 
 The final imputed values and original values are shown below.
 ```{r}
-#Original values
-X[missing]
-#Imputed values
-ans[[2]][missing]
+
+X[missing] #Original values
+ans[[2]][missing]#Imputed values
 ```
 
 

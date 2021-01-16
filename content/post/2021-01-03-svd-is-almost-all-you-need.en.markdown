@@ -40,6 +40,7 @@ Each of these matrices are special
 
 - This is the **right singular matrix**
 
+
 - $ V $ is an [orthogonal matrix](https://en.wikipedia.org/wiki/Orthogonal_matrix) which implies that 
 $ V^T V = I_p $ and $ VV^T = I_p $
 
@@ -96,6 +97,22 @@ print(paste0("Dimensions of V: ",dim(V)[1],"x",dim(V)[2])) #5x5
 ```
 
 
+
+
+```r
+V
+```
+
+```
+##            [,1]       [,2]       [,3]       [,4]        [,5]
+## [1,] -0.5305928 -0.5839346  0.4900540 -0.3674478 -0.04817542
+## [2,] -0.3623817  0.2449652 -0.2651247 -0.1078315 -0.85249798
+## [3,] -0.4412964  0.3258640  0.4449880  0.7058240  0.05355521
+## [4,] -0.4608308  0.5588499 -0.1516082 -0.4858374  0.46507923
+## [5,] -0.4243149 -0.4248668 -0.6845120  0.3451506  0.22750709
+```
+
+
 Asserting if V is an orthogonal matrix, whether the dot product of any two columns is 0 and whether each column has a unit length
 
 
@@ -139,6 +156,26 @@ apply(V,2,norm,"2")
 ### U
 
 This is the left singular matrix.
+
+
+```r
+U
+```
+
+```
+##             [,1]        [,2]        [,3]        [,4]         [,5]
+##  [1,] -0.4075764 -0.30451400 -0.34042098  0.10207128 -0.555209282
+##  [2,] -0.2841823 -0.04400465 -0.11911239  0.57696247  0.211675152
+##  [3,] -0.3024197 -0.19865882  0.30451706 -0.01914373  0.230178929
+##  [4,] -0.3241650 -0.07720920  0.40096627  0.17648218 -0.427589601
+##  [5,] -0.3003256  0.19558501  0.17636880 -0.38297623 -0.003307577
+##  [6,] -0.2596249  0.55588827 -0.05727637  0.11335624  0.326148076
+##  [7,] -0.2965586  0.58432033  0.15789336  0.12393566 -0.235925477
+##  [8,] -0.2715670 -0.18391382 -0.36662106  0.26229031  0.367754197
+##  [9,] -0.3405978  0.06566051 -0.51198359 -0.56492803  0.012115654
+## [10,] -0.3482504 -0.36479736  0.40070706 -0.24972577  0.337174733
+```
+
 
 $ U $ is not quite an orthogonal matrix because it is not a square matrix.
 
@@ -200,6 +237,21 @@ As you can see **the columns of U are orthonormal vectors** but the rows are not
 ### D
 
 $ D $ is a diagonal matrix with non-negative and decreasing elements
+
+
+```r
+D
+```
+
+```
+##         [,1]     [,2]     [,3]     [,4]     [,5]
+## [1,] 72.6732  0.00000  0.00000 0.000000 0.000000
+## [2,]  0.0000 20.69451  0.00000 0.000000 0.000000
+## [3,]  0.0000  0.00000 17.38002 0.000000 0.000000
+## [4,]  0.0000  0.00000  0.00000 9.614317 0.000000
+## [5,]  0.0000  0.00000  0.00000 0.000000 6.687267
+```
+
 
 $$ D_{11} \geq  D_{22}... \geq D_{pp} \geq 0 $$
 The diagonal elements of $ D $ are the the singular values of the matrix
@@ -442,7 +494,7 @@ Multiplying both sides by $ V_1 $ gives
 $$ (X^TX)V_1 = V_1D_r^2V_1^TV_1 = V_1D_r^2 $$
 
 
-Thus, the right singular matrix $ V_1 $ gives the eigen vectors for the matrix $ X^TX $,while $ D_r^2 $ i.e. the square of the singular values gives the eigen values of $ X^TX $
+Thus, the **right singular matrix** $ V_1 $ gives the eigen vectors for the matrix $ X^TX $,while $ D_r^2 $ i.e. the square of the singular values gives the eigen values of $ X^TX $
 
 
 
@@ -461,9 +513,12 @@ $ 1 -\delta $
 
 &nbsp;$ s \leftarrow log(4log(2n/ \delta)/\epsilon\delta)/2\lambda $
 
+**Note**: I did not find step 2 and 3 to be useful in practice. It gave inaccurate SVD results. In practice, as explained in the video below, your estimate gets better as $ s \rightarrow \infty $. In the below implementation, I keep iterating as long as the vector stops changing by more than $ \epsilon $
+
 3. for $ i $ in [1,.....,$ s $]: <br>
 &nbsp;$ x_i \leftarrow A^TAx_{i-1} $ <br>
-4. $ v_1 \leftarrow x_i/ \Vert x_i \Vert $ <br>
+&nbsp;$ x_i \leftarrow x_i/ \Vert x_i \Vert  $ <br>
+4. $ v_1 \leftarrow x_i $ <br>
 5. $ \sigma_1 \leftarrow \Vert Av_1 \Vert $ <br>
 6. $ u_1 \leftarrow Av_1/\sigma_1 $ <br>
 7. return($ \sigma_1,u_1,v_1 $)
@@ -484,21 +539,30 @@ Below is an implementation of the algorithm.
 
 
 ```r
-power_svd <- function(A){
-  #Function to calculate the first singular value, sigma 1,left singular vector u1 and right singular vector v1
+power_svd <- function(A,eps){
+  #Function to calculate the first singular value
+  #A: Matrix to be decomposed
+  #eps: if change between successive iterations is lesser than this threshold value, stop
 x <- rnorm(dim(A)[2])
-n <- dim(X)[2]
-eps <- 0.001 #precision
-delta <- 0.001 #1 - prob
-lambda <- 2
+n <- dim(A)[2]
+#eps <- 0.01 #precision
+#delta <- 0.001 #1 - prob
+#lambda <- 2
 
-s <- ceiling(log(4*log(2*n/delta)/(eps*delta))/(2*lambda))
+#s <- ceiling(log(4*log(2*n/delta)/(eps*delta))/(2*lambda))
 
-for (i in 1:s){
-  x <- t(A)%*%A%*%x }
+A_ <- t(A)%*%A
+x <- A_%*%x
+x_1 <- x <- x/norm(x,type="2")
+while (TRUE){
+  x <- A_%*%x 
+  x_2<- x <- x/norm(x,type="2")
+  if(max(abs(x_2-x_1))<=eps){break}
+  x_1 <- x_2
+  }
 
 
-v1 <- x/norm(x,type="2")
+v1 <- x
 sigma1 <- norm(A%*%v1,type="2")
 u1 <- A%*%v1/sigma1
 return(list('u'=u1,'sigma'=sigma1,'v'=v1))
@@ -516,7 +580,7 @@ SVD_fn <- function(A){
   udv_list <- list()
   for (i in 1:rank){
     
-    udv <- power_svd(A)
+    udv <- power_svd(A,eps=1e-6)
     udv_list[[i]] <- udv
     A <- A - udv$sigma*udv$u%*%t(udv$v)
   }
@@ -530,7 +594,7 @@ SVD_fn <- function(A){
 ```
 
 
-The results of the algorithm are as expected.
+The results of the algorithm are consistent with expectations.
 
 
 ```r
@@ -539,28 +603,28 @@ SVD_fn(X)
 
 ```
 ## $u
-##            [,1]        [,2]       [,3]         [,4]        [,5]
-##  [1,] 0.4075762  0.22807681 -0.4136396  0.034553705  0.56261451
-##  [2,] 0.2841822  0.01864591 -0.1295644  0.594297337 -0.08042572
-##  [3,] 0.3024197  0.25699180  0.2352601  0.009597931 -0.22801515
-##  [4,] 0.3241651  0.15798033  0.3614055  0.135073837  0.45709352
-##  [5,] 0.3003257 -0.15520694  0.2267242 -0.377276422 -0.07996249
-##  [6,] 0.2596250 -0.55578591  0.1031419  0.149888928 -0.29288420
-##  [7,] 0.2965587 -0.53938841  0.3174404  0.103152735  0.25855443
-##  [8,] 0.2715669  0.10467378 -0.4051548  0.293797202 -0.30268126
-##  [9,] 0.3405977 -0.16952658 -0.4691809 -0.567900338 -0.13730022
-## [10,] 0.3482504  0.43932656  0.2811805 -0.207382228 -0.38285557
+##            [,1]        [,2]        [,3]        [,4]         [,5]
+##  [1,] 0.4075764  0.30451330 -0.34042189  0.10207090  0.555209384
+##  [2,] 0.2841823  0.04400440 -0.11911259  0.57696253 -0.211674576
+##  [3,] 0.3024197  0.19865946  0.30451647 -0.01914351 -0.230178948
+##  [4,] 0.3241650  0.07721004  0.40096602  0.17648211  0.427589777
+##  [5,] 0.3003256 -0.19558464  0.17636941 -0.38297617  0.003307195
+##  [6,] 0.2596249 -0.55588839 -0.05727474  0.11335637 -0.326147963
+##  [7,] 0.2965586 -0.58431999  0.15789507  0.12393560  0.235925601
+##  [8,] 0.2715670  0.18391306 -0.36662164  0.26229036 -0.367753935
+##  [9,] 0.3405978 -0.06566158 -0.51198335 -0.56492820 -0.012116219
+## [10,] 0.3482504  0.36479820  0.40070600 -0.24972547 -0.337174982
 ## 
 ## $d
-## [1] 72.673196 20.514344 17.591810  9.555827  6.771895
+## [1] 72.673196 20.694512 17.380019  9.614317  6.687267
 ## 
 ## $v
-##           [,1]       [,2]         [,3]       [,4]         [,5]
-## [1,] 0.5305930  0.6852828  0.337086767 -0.3676333 -0.008765794
-## [2,] 0.3623816 -0.3019550 -0.196749211 -0.2399238  0.825366042
-## [3,] 0.4412972 -0.2080469  0.504352419  0.7101937  0.056804518
-## [4,] 0.4608310 -0.5790545 -0.007186734 -0.4081224 -0.534523239
-## [5,] 0.4243138  0.2462175 -0.770220259  0.3692470 -0.172488294
+##           [,1]       [,2]       [,3]       [,4]        [,5]
+## [1,] 0.5305928  0.5839358  0.4900526 -0.3674478  0.04817517
+## [2,] 0.3623817 -0.2449658 -0.2651241 -0.1078322  0.85249790
+## [3,] 0.4412964 -0.3258629  0.4449887  0.7058242 -0.05355472
+## [4,] 0.4608308 -0.5588503 -0.1516067 -0.4858371 -0.46507957
+## [5,] 0.4243149  0.4248651 -0.6845131  0.3451506 -0.22750685
 ```
 
 
@@ -619,7 +683,7 @@ for (i in 1:5){
 plot(q,type='b',xlab = "Rank of approximation",ylab="Error")
 ```
 
-<img src="/post/2021-01-03-svd-is-almost-all-you-need.en_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+<img src="/post/2021-01-03-svd-is-almost-all-you-need.en_files/figure-html/unnamed-chunk-25-1.png" width="672" />
 
 
 ## Impute Missing Values
@@ -834,14 +898,13 @@ imputed_matrix <- imputed_matrix[index,]
 matplot(imputed_matrix,type='l')
 ```
 
-<img src="/post/2021-01-03-svd-is-almost-all-you-need.en_files/figure-html/unnamed-chunk-31-1.png" width="672" />
+<img src="/post/2021-01-03-svd-is-almost-all-you-need.en_files/figure-html/unnamed-chunk-34-1.png" width="672" />
 
 
 The final imputed values and original values are shown below.
 
 ```r
-#Original values
-X[missing]
+X[missing] #Original values
 ```
 
 ```
@@ -850,8 +913,7 @@ X[missing]
 ```
 
 ```r
-#Imputed values
-ans[[2]][missing]
+ans[[2]][missing]#Imputed values
 ```
 
 ```
