@@ -40,13 +40,13 @@ DNA is equivalent to Read only Memory(ROM) that permanently stores instructions 
 
 ### RNA
 
-To carry out a specifc task you need to read the instructions from the ROM. This is where RNA comes in.
+To carry out a specific task you need to read the instructions from the ROM. This is where RNA comes in.
 
 Our cells have molecular machines that can read snippets of DNA and convert them into RNA molecules. The RNA molecule typically contains a subset of the information stored in the DNA. It is equivalent to reading something essential from a computer's ROM to its RAM (Random Access Memory). The information in the RAM is meant to carry out a specific task and is quickly discarded. Similarly RNA are created for a specific task : to instruct the cell how to create amino acids and proteins. They are quickly discarded after the task is complete. **RNA molecules are therefore fragile and short lived.**
 
-Just like DNA, the RNA is also a sequence of four nucelotides - A-Adenine,C-Cytosine,U - Uracil and G-Guanine.
+Just like DNA, the RNA is also a sequence of four nucleotides - A-Adenine,C-Cytosine,U - Uracil and G-Guanine.
 
-The messenger RNA or mRNA is an RNA molecule that carries information about a gene (a sequence of nucelotides in the DNA) from the nucleus  into the cytoplasm (outside the nucleus) where amino acids are made. **Given mRNA are generated inside the nucleus, the body is primed to quickly identify any mRNA that does not originate in the nucleus and destroy it.**
+The messenger RNA or mRNA is an RNA molecule that carries information about a gene (a sequence of nucleotides in the DNA) from the nucleus  into the cytoplasm (outside the nucleus) where amino acids are made. **Given mRNA are generated inside the nucleus, the body is primed to quickly identify any mRNA that does not originate in the nucleus and destroy it.**
 
 
 
@@ -136,7 +136,7 @@ Here are the key takeaways
 
 * mRNA vaccines are synthetically generated RNA that can induce our cells to produce the spike proteins. They have been intelligently engineered in ways to deceive our immune system from destroying it.
 
-* Our body usually identifies and destroys any foreign RNA. To evade the immune system, the Pfizer-BioNTech vaccine replaces the U nucelotide in RNA with a different molecule $ \Psi $. With this replacement, the immune system loses interest in the RNA and does not destroy it.
+* Our body usually identifies and destroys any foreign RNA. To evade the immune system, the Pfizer-BioNTech vaccine replaces the U nucleotide in RNA with a different molecule $ \Psi $. With this replacement, the immune system loses interest in the RNA and does not destroy it.
 
 * A stretch of the mRNA vaccine encodes the actual spike protein with some minor modifications as shown below:
 
@@ -152,11 +152,11 @@ knitr::include_graphics('/post/2021-01-30-the-covid-vaccine-landscape-for-people
 
 The original virus mRNA has thus been modified in this vaccine.Further the protein being expressed has also been modified to give it more stability. 
   
-This mRNA has to be carried into the cell. mRNA vaccines use mRNA carriers for this purpose. All the mRNA vaccines use lipid nanoparticles as carriers. 
+This mRNA has to be carried into the cell. mRNA vaccines use mRNA carriers for this purpose. All the mRNA vaccines use lipid nano particles as carriers. 
 
-Carriers molecules should have lots of positive charges on them. Given RNA has lot of negatively charged phosphate groups,the two match up to create stable combinations. Lipid nanoparticles have been found to be very effective in protecting the mRNA as it travels through the bloodstream and also helps it cross through the cell membrane into the cell.
+Carriers molecules should have lots of positive charges on them. Given RNA has lot of negatively charged phosphate groups,the two match up to create stable combinations. Lipid nano particles have been found to be very effective in protecting the mRNA as it travels through the bloodstream and also helps it cross through the cell membrane into the cell.
 
-The Pfizer vaccine uses lipid nanoparticles developed by the Canadian company Acuitas.
+The Pfizer vaccine uses lipid nano particles developed by the Canadian company Acuitas.
 
 mRNA vaccines also have the added advantage they only need to get into the cell and not the nucleus. A DNA based vaccine on the other hand will have to get into the nucleus of the cell where it could be accidentally incorporated into the genome.
 
@@ -249,7 +249,7 @@ Many of the other vaccines also poses fewer logistical challenges and will still
 
 ## Variants
 
-Viruses mutate all the time due to errors in the DNA/RNA replication mechanism. Any one of the four nucelotides in the SARS-COV-2 virus RNA genome can get switched.
+Viruses mutate all the time due to errors in the DNA/RNA replication mechanism. Any one of the four nucleotides in the SARS-COV-2 virus RNA genome can get switched.
 
 Although the rate at which the SARS-Cov-2 virus mutates is much slower than that of others such as influenza or HIV, the scale of the pandemic means that variants of the virus that are more transmissible or resistant to vaccines may emerge due to natural selection.
 
@@ -270,7 +270,7 @@ This was identified in Brazil.
 All these variants change the way the critical spike protein is expressed by the virus.The mutations in B.1.351 and P.1 seem to make it more difficult for the body's antibodies to bind to the spike protein on the virus.
 
 
-Studies have indicated that anitbodies from individuals vaccinated with the Moderna and Pfizer-BioNTech vaccines work well against the B.1.17 variant but less so against the B.1.351 variant. In fact, no vaccine has reported greater than 60% efficiacy in preventing symptomps for the B.1.351 variant of Covid
+Studies have indicated that anitbodies from individuals vaccinated with the Moderna and Pfizer-BioNTech vaccines work well against the B.1.17 variant but less so against the B.1.351 variant. In fact, no vaccine has reported greater than 60% efficacy in preventing symptoms for the B.1.351 variant of Covid
 
 The Novavax and Johnson&Johnson vaccines also appear to be less effective against these variants but should still be effective in preventing severe disease and hospitalizations.
 
@@ -282,7 +282,7 @@ Scientists and researchers are hard at work developing vaccines that are more ef
 
 At a personal level, if the pandemic has a silver lining, it is that I have developed a greater appreciation for the biological sciences. I hope this blog does the same for you. 
 
-Also,I want to extend my gratitude to the thousands of healthcare workers who have been putting their lives on the line to keep us safe and the brilliant scientists who have made pandemic busting vaccines a reality in just over a year. 
+Also,I want to extend my gratitude to the thousands of health care workers who have been putting their lives on the line to keep us safe and the brilliant scientists who have made pandemic busting vaccines a reality in just over a year. 
 
 
 
