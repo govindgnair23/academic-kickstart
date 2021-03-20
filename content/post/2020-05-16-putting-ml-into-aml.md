@@ -2,23 +2,19 @@
 title: Putting ML into  AML
 author: Govind G Nair
 date: '2020-05-16'
-slug: putting-ml-into-aml
 categories:
-  - Machine Learning
-  - Anti Money Laundering
+  - Article
 tags:
-  - Strategy
   - Anti Money Laundering
-subtitle: ''
-summary: 'Machine Learning in the AML Industry'
-authors: []
+  - Strategy
+slug: putting-ml-into-aml
+summary: Machine Learning in the AML Industry
 lastmod: '2020-05-16T11:19:25-04:00'
 featured: yes
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 Machine learning has swept through and transformed several industries in the past decade. Financial Crime and Compliance has bucked this trend so far with incremental change the far more likely outcome than any radical transformation. Although several vendors have provided a preliminary set of ML capabilities for early adopters, the future road map for these products should address the specific challenges that prevent the wider adoption and use of these tools as well as introduce capabilities to address specific problems business users face.

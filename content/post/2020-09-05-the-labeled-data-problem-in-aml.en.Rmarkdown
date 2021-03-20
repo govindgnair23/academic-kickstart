@@ -2,23 +2,19 @@
 title: The Labeled Data Problem in AML
 author: Govind G Nair
 date: '2020-09-05'
-slug: the-labeled-data-problem-in-aml
 categories:
-  - Anti Money Laundering
-  - Machine Learning
+  - Article
 tags:
   - Anti Money Laundering
   - Machine Learning
-subtitle: ''
-summary: 'Data Challenges in the AML Industry'
-authors: []
+slug: the-labeled-data-problem-in-aml
+summary: Data Challenges in the AML Industry
 lastmod: '2020-09-05T14:28:22-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 # Introduction

@@ -71,9 +71,12 @@ user_groups:
 - Visitors
 ---
 
-I am a Technical Product Manager @ Oracle where I work on building AI and ML powered products that enable Financial Institutions to better prevent and detect Money Laundering and thus make our financial system safer. 
+I am a Technical Product Manager @ Oracle where I work on building AI and ML powered products that enable Financial Institutions to better prevent and detect Financial Crime and thus make our financial system safer. 
 
 I am a data scientist, a newbie product manager and an infinite learner constantly seeking to become a little wiser every single day.
+
+I use this website to write long form [articles](/category/article) ,summarize [books](/category/book-summary), share my [thoughts](/category/musings/), and publish [notes](/category/conferences/) from conferences/seminars/talks I attend.
+
 
 > *Wisdom is not a product of schooling but the lifelong attempt to acquire it* - Albert Einstein
 

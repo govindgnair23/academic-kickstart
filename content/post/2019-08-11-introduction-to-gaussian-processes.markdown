@@ -2,21 +2,19 @@
 title: Introduction to Gaussian Processes
 author: Govind G Nair
 date: '2019-08-11'
-slug: introduction-to-gaussian-processes
 categories:
-  - Statistics
+  - Article
+tags:
   - Machine Learning
-tags: ["R","Machine Learning"]
-subtitle: ''
-summary: 'An Introduction to Gaussian Processes for Beginners'
-authors: []
+  - R
+slug: introduction-to-gaussian-processes
+summary: An Introduction to Gaussian Processes for Beginners
 lastmod: '2019-08-11T11:10:22-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 
@@ -109,7 +107,14 @@ ggplot(viz_data_long,aes(x=x,y=y,group=set)) + geom_point() +
   geom_line(col='cornflowerblue')+ transition_time(set)
 ```
 
-![](2019-08-11-introduction-to-gaussian-processes_files/figure-html/unnamed-chunk-6-1.gif)<!-- -->
+```
+## Warning: No renderer available. Please install the gifski, av, or magick package
+## to create animated output
+```
+
+```
+## NULL
+```
 
 
 
@@ -157,7 +162,14 @@ ggplot(viz_data_long,aes(x=x,y=y,group=set)) + geom_point() +
   geom_line(col='cornflowerblue')+ transition_time(set)
 ```
 
-![](2019-08-11-introduction-to-gaussian-processes_files/figure-html/unnamed-chunk-9-1.gif)<!-- -->
+```
+## Warning: No renderer available. Please install the gifski, av, or magick package
+## to create animated output
+```
+
+```
+## NULL
+```
 
 
 This should give you the intuition that using an N - dimensional Gaussian can be used to model a line through N number of points and an infinite dimensional Gaussian can model a continuous curve. This leads to the idea for Gaussian process regression.

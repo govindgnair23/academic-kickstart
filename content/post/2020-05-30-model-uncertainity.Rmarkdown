@@ -2,22 +2,17 @@
 title: Model Uncertainity
 author: Govind G Nair
 date: '2020-05-30'
-slug: model-uncertainity
-categories:
-  - Machine Learning
-  - Anti Money Laundering
 tags:
   - R
-subtitle: ''
-summary: 'Incorporating Uncertainty in Model Predictions'
-authors: []
+  - Machine Learning
+slug: model-uncertainity
+summary: Incorporating Uncertainty in Model Predictions
 lastmod: '2020-05-30T10:40:44-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 ```{r setup, include=FALSE}

@@ -2,22 +2,19 @@
 title: Should you rebalance an imbalanced dataset?
 author: Govind G Nair
 date: '2020-06-14'
-slug: should-you-rebalance-an-imbalanced-dataset
 categories:
-  - Machine Learning
+  - Article
 tags:
-  - R
   - Machine Learning
-subtitle: ''
-summary: 'Impact of rebalancing an imbalanced dataset'
-authors: []
+  - R
+slug: should-you-rebalance-an-imbalanced-dataset
+summary: Impact of rebalancing an imbalanced dataset
 lastmod: '2020-06-14T13:37:51-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 

@@ -2,22 +2,19 @@
 title: Introduction to Bayesian Methods
 author: Govind G Nair
 date: '2019-02-21'
-slug: introduction-to-bayesian-methods
 categories:
-  - Statistics
+  - Article
 tags:
   - R
   - Statistics
-subtitle: ''
-summary: 'An Introduction to Bayesian Methods for Beginners'
-authors: []
+slug: introduction-to-bayesian-methods
+summary: An Introduction to Bayesian Methods for Beginners
 lastmod: '2019-02-21T11:49:23-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 
@@ -625,19 +622,6 @@ fit_summary <- summary(stanFit)
 print(fit_summary$summary)
 ```
 
-```
-##              mean      se_mean          sd         2.5%          25%
-## beta0  29.5696491 2.625636e-02 1.293945251  27.11267961  28.68294770
-## beta1  -0.0410876 9.947395e-05 0.004946345  -0.05081334  -0.04438446
-## sigma   3.3939237 8.372453e-03 0.464829248   2.64657448   3.06761010
-## lp__  -53.1058270 2.706169e-02 1.273373018 -56.36666281 -53.67127032
-##                50%         75%      97.5%    n_eff      Rhat
-## beta0  29.55984704  30.4418262  32.136722 2428.637 0.9999554
-## beta1  -0.04105301  -0.0377471  -0.031559 2472.578 1.0001371
-## sigma   3.34727746   3.6574836   4.435199 3082.346 0.9996605
-## lp__  -52.77341431 -52.1817374 -51.661926 2214.122 1.0003161
-```
-
 
 These credible regression lines can be plotted against the original data to carry out a posterior predictive check..
 
@@ -658,16 +642,12 @@ ggplot(mtcars,aes(x=disp,y=mpg)) + geom_point()+
     theme(legend.title = element_blank())
 ```
 
-<img src="/post/2019-02-21-introduction-to-bayesian-methods_files/figure-html/unnamed-chunk-28-1.png" width="672" />
-
 
 Th posterior distributions can be visualized..
 
 ```r
 stan_dens(stanFit)
 ```
-
-<img src="/post/2019-02-21-introduction-to-bayesian-methods_files/figure-html/unnamed-chunk-29-1.png" width="672" />
 
 
 This certainly looks like a lot more work then fitting a simple linear model.To make Bayesian modeling easier packages like rstanarm provide a convenient wrapper around Stan.
@@ -689,9 +669,9 @@ posterior_interval(stan_glm2,prob=0.95)
 
 ```
 ##                    2.5%       97.5%
-## (Intercept) 26.99254181 32.20352646
-## disp        -0.05107572 -0.03123249
-## sigma        2.61585260  4.39277459
+## (Intercept) 27.05312572 32.19917527
+## disp        -0.05135965 -0.03186019
+## sigma        2.60862309  4.42986602
 ```
 
 Again note here that it is a valid assertion to make that there is a 95% probability that the parameter lies in the range given above. We cannot make such a statement based on a frequentist confidence interval.

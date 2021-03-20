@@ -23,6 +23,11 @@
 #  url = "#featured"
 #  weight = 40
 
+#[[main]]
+#  name = "Articles"
+#   url = "#articles"
+#   weight = 30
+
 [[main]]
   name = "Contact"
   url = "#contact"

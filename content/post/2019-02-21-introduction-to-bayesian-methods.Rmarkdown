@@ -2,22 +2,19 @@
 title: Introduction to Bayesian Methods
 author: Govind G Nair
 date: '2019-02-21'
-slug: introduction-to-bayesian-methods
 categories:
-  - Statistics
+  - Article
 tags:
   - R
   - Statistics
-subtitle: ''
-summary: 'An Introduction to Bayesian Methods for Beginners'
-authors: []
+slug: introduction-to-bayesian-methods
+summary: An Introduction to Bayesian Methods for Beginners
 lastmod: '2019-02-21T11:49:23-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 
@@ -444,7 +441,7 @@ $$ \sigma \sim Uniform(sd(Y)/1000,1000sd(Y)) $$
 
 Specify data for shipment to Stan
 
-```{r,message=FALSE}
+```{r,message=FALSE,eval=FALSE}
 library(rstan)
 dataList <- list(
   x <- mtcars$disp,
@@ -458,7 +455,7 @@ dataList <- list(
 
 Specify the model..
 
-```{stan output.var= "stan_fit"}
+```{stan output.var= "stan_fit",eval = FALSE}
 
 data{
   int<lower=1> Ntotal;
@@ -498,7 +495,7 @@ for(i in 1:Ntotal){
 
 Specify MCMC parameters..
 
-```{r}
+```{r,eval=FALSE}
   # RUN THE CHAINS
   parameters = c( "beta0" ,  "beta1" ,  "sigma" )
   adaptSteps = 500  # Number of steps to "tune" the samplers
@@ -512,7 +509,7 @@ Specify MCMC parameters..
 
 
 Get MCMC sample...
-```{r}
+```{r,eval = FALSE}
 
 # Get MC sample of posterior:
   stanFit <- sampling( object=stan_fit , 
@@ -526,7 +523,7 @@ Get MCMC sample...
 
 Get summary of the posterior distribution and MCMC diagnostics,,
 
-```{r}
+```{r,eval = FALSE}
 fit_summary <- summary(stanFit)
 print(fit_summary$summary)
 ```
@@ -535,7 +532,7 @@ print(fit_summary$summary)
 These credible regression lines can be plotted against the original data to carry out a posterior predictive check..
 
 
-```{r,message=FALSE,warning=FALSE}
+```{r,message=FALSE,warning=FALSE,eval = FALSE}
 library(tidyr)
 library(dplyr)
 library(magrittr)
@@ -554,7 +551,7 @@ ggplot(mtcars,aes(x=disp,y=mpg)) + geom_point()+
 
 
 Th posterior distributions can be visualized..
-```{r}
+```{r,eval = FALSE}
 stan_dens(stanFit)
 ```
 

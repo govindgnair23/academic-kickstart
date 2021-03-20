@@ -2,22 +2,19 @@
 title: Detecting Concept Drift
 author: Govind G Nair
 date: '2020-05-09'
-slug: detecting-concept-drift
 categories:
-  - Machine Learning
+  - Article
 tags:
-  - R
   - Machine Learning
-subtitle: ''
-summary: 'Methods to Detect Concept Drift in supervised models'
-authors: []
+  - R
+slug: detecting-concept-drift
+summary: Methods to Detect Concept Drift in supervised models
 lastmod: '2020-05-09T10:49:50-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 

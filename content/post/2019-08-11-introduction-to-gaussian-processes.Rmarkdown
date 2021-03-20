@@ -2,21 +2,19 @@
 title: Introduction to Gaussian Processes
 author: Govind G Nair
 date: '2019-08-11'
-slug: introduction-to-gaussian-processes
 categories:
-  - Statistics
+  - Article
+tags:
   - Machine Learning
-tags: ["R","Machine Learning"]
-subtitle: ''
-summary: 'An Introduction to Gaussian Processes for Beginners'
-authors: []
+  - R
+slug: introduction-to-gaussian-processes
+summary: An Introduction to Gaussian Processes for Beginners
 lastmod: '2019-08-11T11:10:22-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 

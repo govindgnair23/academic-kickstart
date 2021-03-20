@@ -2,22 +2,17 @@
 title: Model Uncertainity
 author: Govind G Nair
 date: '2020-05-30'
-slug: model-uncertainity
-categories:
-  - Machine Learning
-  - Anti Money Laundering
 tags:
   - R
-subtitle: ''
-summary: 'Incorporating Uncertainty in Model Predictions'
-authors: []
+  - Machine Learning
+slug: model-uncertainity
+summary: Incorporating Uncertainty in Model Predictions
 lastmod: '2020-05-30T10:40:44-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 
@@ -238,9 +233,9 @@ posterior_interval(bayes_glm1,prob=0.95)
 
 ```
 ##                    2.5%      97.5%
-## (Intercept)  -41.784209 -13.136812
-## Sepal.Length  -1.370776   2.215592
-## Petal.Width    8.785807  21.795103
+## (Intercept)  -39.151105 -12.370249
+## Sepal.Length  -1.390665   2.049905
+## Petal.Width    8.636345  20.015803
 ```
 
 Model predictions on new data points are computed below
@@ -249,7 +244,13 @@ Model predictions on new data points are computed below
 ```r
 newdata <- data.frame(Sepal.Length = c(7,5,2,2,7), Petal.Width = c(2,2,2,7,7))
 new_pred_means <- posterior_linpred(bayes_glm1,transform=TRUE,newdata=newdata)
+```
 
+```
+## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
+```
+
+```r
 ###Get 95 %  credible intervals intervals
 p_2.5 <- apply(new_pred_means,2,function(x){ quantile(x,0.025)})
 p_97.5 <- apply(new_pred_means,2,function(x){ quantile(x,0.975)})
@@ -261,9 +262,9 @@ print(results)
 
 ```
 ##   label    median         lb        ub
-## 1     A 0.9957762 0.95670934 0.9998836
-## 2     B 0.9919329 0.84845089 0.9998762
-## 3     C 0.9766733 0.01786457 0.9999951
+## 1     A 0.9946407 0.95395165 0.9997456
+## 2     B 0.9902417 0.83807582 0.9997677
+## 3     C 0.9751805 0.01987324 0.9999941
 ## 4     D 1.0000000 1.00000000 1.0000000
 ## 5     E 1.0000000 1.00000000 1.0000000
 ```
@@ -297,7 +298,7 @@ print(probs)
 
 ```
 ##       A       B       C       D       E 
-## 1.00000 0.98575 0.72600 1.00000 1.00000
+## 1.00000 0.98200 0.72275 1.00000 1.00000
 ```
 
 This can allow us to set thresholds like,the posterior predictive distribution should have a probability mass of 0.5 exceeding the chosen threshold. 
@@ -343,10 +344,10 @@ posterior_interval(bayes_glm2,prob=0.95)
 ```
 
 ```
-##                     2.5%        97.5%
-## (Intercept) -3.831934864 -3.268164915
-## Height      -0.018557965 -0.013382559
-## P_black      0.005524707  0.006682367
+##                    2.5%       97.5%
+## (Intercept) -5.61684669 -5.05640186
+## Height       0.03593999  0.05116209
+## P_black      5.57297983  6.49314443
 ```
 
 
@@ -394,10 +395,10 @@ posterior_interval(bayes_glm3,prob=0.95)
 ```
 
 ```
-##                     2.5%       97.5%
-## (Intercept) -0.740659588 -0.49722402
-## Height      -0.018614291 -0.01607407
-## P_black      0.003768615  0.00427035
+##                   2.5%       97.5%
+## (Intercept) -2.9301851 -2.67279134
+## Height       0.0400952  0.04899063
+## P_black      4.8666753  5.33718942
 ```
 
 
@@ -447,10 +448,10 @@ posterior_interval(bayes_glm4,prob=0.95)
 ```
 
 ```
-##                     2.5%        97.5%
-## (Intercept) -0.925660865 -0.248135291
-## Height      -0.019081858 -0.011686445
-## P_black      0.003037272  0.004393307
+##                    2.5%       97.5%
+## (Intercept) -3.49022006 -2.63906206
+## Height       0.04146041  0.07188549
+## P_black      4.89423139  6.48174478
 ```
 
 
@@ -474,9 +475,29 @@ Now consider the prediction on a new data point from each of these three models.
 ```r
 newdata <- data.frame(Height = c(110), P_black = c(750))
 pred_imb <- posterior_linpred(bayes_glm2,transform=TRUE,newdata=newdata)
-pred_over <- posterior_linpred(bayes_glm3,transform=TRUE,newdata=newdata)
-pred_under <- posterior_linpred(bayes_glm4,transform=TRUE,newdata=newdata)
+```
 
+```
+## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
+```
+
+```r
+pred_over <- posterior_linpred(bayes_glm3,transform=TRUE,newdata=newdata)
+```
+
+```
+## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
+```
+
+```r
+pred_under <- posterior_linpred(bayes_glm4,transform=TRUE,newdata=newdata)
+```
+
+```
+## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
+```
+
+```r
 preds_all <- cbind(pred_imb,pred_over,pred_under)
 
 ###Get 95 %  credible intervals intervals

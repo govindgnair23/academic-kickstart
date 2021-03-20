@@ -3,11 +3,10 @@ title: Learning with Noisy Labels
 author: Govind G Nair
 date: '2020-05-24'
 categories:
-  - Anti Money Laundering
-  - Machine Learning
+  - Article
 tags:
-  - Python
   - Machine Learning
+  - Python
 slug: learning-with-noisy-labels
 summary: Using cleanlab for learning with Noisy labels
 lastmod: '2020-05-24T18:18:17-04:00'
