@@ -49,7 +49,7 @@ When customers encounter a product they have never seen before, they will look f
   1) **Target buyers and where you sell**: Upscale restaurants vs coffee shops <br>
   2) **Competitive alternatives**: Cakes and ice-creams vs Donuts and bagels
   3) **Pricing and margin**: Smaller volume, higher prices vs Higher Volume , lower prices
-  4) **Key product features and roadmap**: Organic and gluten free vs More carael.
+  4) **Key product features and roadmap**: Organic and gluten free vs More carmael.
   
   Choices we make in positioning can have a massive impact on our business.
   
@@ -126,8 +126,8 @@ This suffers from the following problems
 - Understanding the customer's problem isn't enough, to really understand how they perceived our strengths and weaknesses , we need to understand the alternatives to which they compared us.
 - Understand what a customer might replace you with in order to understand how they categorize their solution
 - In cases, where customers don't understand that they have a problem
-        - 1) Remain focused on the best fit customers list and name only what those customers would see as an alternative
-        - 2) Rank the list from most common to least common
+    - 1) Remain focused on the best fit customers list and name only what those customers would see as an alternative <br>
+    - 2) Rank the list from most common to least common
 - Group the alternatives if they cluster e.g. Do it manually includes hiring an intern or using excel.
 - If the arrival of a competitor signals a change in the way customers think about a market, positioning has to be revisited.
     
