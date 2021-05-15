@@ -1,0 +1,259 @@
+---
+title: Stanford MLSys Seminar Series
+author: ''
+date: '2021-05-09'
+slug: stanford-mlsys-seminars
+categories:
+  - Conferences
+tags:
+  - Machine Learning
+  - AI
+  - Software Engineering
+subtitle: ''
+summary: 'Notes from Stanford ML Sys Seminar series'
+authors: []
+lastmod: '2021-05-09T11:58:31-04:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+I will  progressively summarize talks I find illuminating  from the [Stanford MLSys](https://mlsys.stanford.edu/) Seminar Series here.
+
+# 1) Deep Learning at Scale with Horovod
+
+Talk Link: https://www.youtube.com/watch?v=aGzu7nI8IRE
+
+- There are two types of distributed deep learning:
+
+1) Model Parallelism : This is used when a model is too large to fit into a single GPU. Here the model is distributed across multiple machines.<br>
+2) Data Parallelism: This is used when the data is too large to fit into a single GPU. Here the data is distributed across multiple machines, but the model is instantiated in each machine.
+
+Horovod is a system for data parallelism.
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod1.png)
+
+
+- The pre-Horovod approach to data parallelism pioneered by Google used parameter servers.
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod2.png)
+
+In this approach,weights are updated synchronously by a parameter server using gradients shared by workers. The weights are then returned to the workers
+for the next round of gradient descent.
+
+**Pros** <br>
+
+* Asynchronous SGD is possible <br>
+* Fault tolerant
+
+**Cons** <br>
+- Usability: 
+  - There is a tight coupling between model and parameters. 
+  - A system admin has to determine and allocate resources for the server and client.
+
+- Scalability:
+  - Parameter server is an intermediary through which messages have to be relayed to clients leading to increased message passing. 
+  - Increased bandwidth utilization.
+
+- Convergence challenges with asynchronous SGD
+  - When SGD is done asynchronously, there is often the stale gradient problem where a straggler worker reports a gradient several iterations late.
+  
+  
+- Horovod uses a technique called Ring Allreduce developed by Baidu. This algorithm has been proven to be the bandwidth optimal way of doing gradient aggregation.
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod3.png)
+
+
+### Horovod
+
+Data parallel framework for distributed deep learning.
+
+* Framework agnostic
+  * Supports TF, MXNet, TF and Keras
+  
+* High Performance features
+  * NVIDIA's NCCL allows direct GPU access which obviates the need to move data between GPU and CPU or sending it across the network
+  * tensor fusion: Can fetch multiple gradients using a single network call
+  
+* Easy to use and install.
+
+
+### API and Architecture
+
+
+#### GPU Pinning
+
+- Uses a driver application like MPI Run
+- Each horovod worker affinitize themselves to a specific GPU
+- No of workers = No of GPUs to prevent any contention in terms of resource consumption
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod4.png)
+#### State Synchronization
+- All model replicas on all workers should have same parameters at any given point in time.
+- API call available to synchronize all workers at start of training
+
+`callbacks = [hvd.callbacks.BroadcastGlobalVariablesCallback(0)]`
+
+#### Learning Rate Scaling
+- Data parallel means bigger batch size
+    - Total batch size = local batch size x N
+- Learning rate should also be scaled up
+    - $$ LR_N = LR_1 \times N $$
+- APIs available for smooth learning rate warm up and decay
+    - `opt = keras.optimizers.Adadelta(lr=0.01 * hvd.size())`
+    - `opt = hvd.DistributedoOptimizer(opt)`
+
+Distributed training can be accomplished with some minor augmentations to existing Keras script
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod5.png)
+
+
+#### Horovod Architecture
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod6.png)
+
+- Custom operations are implemented for each supported framework
+- When you install Horovod, C++ code linked against native libraries are compiled
+- When a framework gets an operation like 'allreduce' , it is submitted to a queue internally within Horovod
+- Control plane checks the queue and performs a negotiation step to figure out which workers have which tensors ready, given frameworks like TF are asynchronous
+- Tensors are then fused together into a single buffer
+- An arbitrarily chosen worker broadcasts lists of operations to other workers and submits to Data plane
+- A simple[ memcopy](https://www.tutorialspoint.com/c_standard_library/c_function_memcpy.htm) is done to the fusion buffer.
+- It is scaled to prevent underflow and overflow
+- All-reduce algorithm is then run.
+- Optimizations have been added to the Negotiate,Broadcast and allreduce steps
+
+
+
+### Horovod on Spark
+
+
+
+```{r echo = FALSE, fig.cap = "A Typical Deep Learning pipeline"}
+library(knitr)
+knitr::include_graphics('/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod9.png',error = FALSE)
+```
+
+- End to End Training in Spark was one of the first integrations
+- Horovod  available on Spark for doing distributed deep learning : https://horovod.readthedocs.io/en/stable/api.html#module-horovod.spark
+- Horovod spark estimators allow you to define define a spark ml pipeline where model fitting using keras is one of several pre-processing/post-processing  steps
+
+```
+from tensorflow import keras
+import tensorflow as tf
+import horovod.spark.keras as hvd
+
+
+model = keras.models.Sequential()
+		.add(keras.layers.Dense(8,input_dim=2))
+  		.add(keras.layers.Activation('tanh'))
+    	.add(keras.layers.Dense(1))
+      	.add(keras.layers.Activation('sigmoid'))
+ 
+optimizer = keras.optimizers.SGD(lr=0.1)
+loss = 'binary_crossentropy'
+
+keras_estimator = hvd.KerasEstimator(model,optimizer,loss)
+
+pipeline = Pipeline(stages=[...,keras_estimator,...])
+trained_pipeline = pipeline.fit(train_df)
+pred_df = trained_pipeline.transform(test_df)
+
+```
+
+
+
+```{r echo = FALSE, fig.cap = "Deep Learning in Spark 3.0 Cluster"}
+library(knitr)
+knitr::include_graphics('/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod10.png',error = FALSE)
+```
+
+
+- Allows you to transition between using CPUs for feature engineering and GPUs for training.
+- Materializes spark data frame into a parquet file on HDFS which is then used for training.
+- RDD(Resilient Distributed Dataset) available in Spark is not used as deep learning requires shuffling of data.
+- Spark and RDD was designed to solve data problems whereas the problem here is one of compute
+
+
+### Deep Learning in Spark with Horovod and Petastorm
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod11.png)
+
+- [Petastorm](https://github.com/uber/petastorm) reads row groups from HDFS. 
+- Petastorm worker then unbatches row group into elements , inserts them into a buffer which then gets the shuffled.
+- Downstream worker can then sample from this to get batches.
+- Petastorm optimizes a lot of the data reading process including caching and buffering
+
+### Horovod on Ray
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod12.png)
+
+- More similar to doing deep learning on a desktop. Typically everything has to be done in Spark with heterogeneous infrastructure (Spark/Parquet/Horovod)that is challenging for any data scientist.
+- Ray brings all this heterogeneous compute into a single infrastructure layer which is abstracted from the user
+- Pre-processing can be done in Dask which exposes the same APIs as Pandas
+- Training can then be done using Horovod with Ray in a distributed manner.
+- Horovod has also been integrated with Ray tune for hyperparameter tuning.
+- Horovod on Ray has a stateful API as Ray actors can be stateful. It has a caching layer which can store things in between invocations.
+- This allows you to multiple training runs on a remote worker without communicating with the server.
+
+
+### Elastic Horovod
+
+- In a cloud setting with pre-emptible instances, a worker might come online late or might fail, so you need to switch between workers.
+    - Fault Tolerance: Continue training if a single worker fails
+    - Cost reduction: Using [pre-emptible](https://cloud.google.com/compute/docs/instances/preemptible) instances is cheaper vs dedicated instances
+    - Cluster Utilization on prem: Scale workers up and down based on demand.
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod13.png)
+
+
+- Driver sits on top of Ray head node
+- If you get advance notice that a worker is going to be removed, you can remove it from the Horovod job at a point when all the workers are in sync. If this is not available , you have to roll back the workers to a previous state using an expensive commit operation
+- The workers synchronize , train and check for host operations. Since host removal event was sent to the driver, workers are notified that a worker is going to be removed.
+- This prompts all workers to stop and wait until the worker in question is removed by cluster orchestrator before training resumes.
+
+### Future of Horovod
+
+#### Hybrid Parallelism
+
+- Large models use embeddings tables that are really big . Each embedding table is hosted on a different GPU
+- An **All to All** operation is then used to combine these different embeddings in a data parallel fashion. Each worker operates on a subset of the data in the second stage.
+- Integrating Deep Learning accelerators like SambaNova, Cerebras, Graphcore
+
+
+#### Distributed Hyper parameter search
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod14.png)
+
+- Let every number be a GPU and every color be a trial
+- After every 10 epochs, remove a low performing trial and allocate the GPU to a higher performing trial.
+- Do this successively and finally deploy all resources on highest performing trials
+
+#### Unified End to End Infrastructure
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod15.png)
+
+- Currently the feature engineering and training steps are distinct with data being dumped to a disk in between
+- These steps are slowly converging.
+- In the future, training and pre-processing nodes will be co-located. Data will be accessible in both steps through a shared memory rather than dumping to disk.
+- This will speed up the end to end workflow.
+
+
+### Advice when using Horovod
+
+- Horovod caveat: Manage learning rates carefully in a distributed setting.
+- Partitioning and shuffling is also very important. If shuffling is not done properly, there can be correlation between data for a worker.
+- Horovod can be slower than using a single GPU, it might be because of the I/O rather than issues with your model forward/backward pass.
+- Use Horovod only when single GPU has full utilization.
+
+
+
+
+
+
+
+
+
