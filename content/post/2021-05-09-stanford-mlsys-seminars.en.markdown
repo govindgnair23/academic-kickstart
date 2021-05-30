@@ -23,9 +23,9 @@ projects: []
 
 I will  progressively summarize talks I find illuminating  from the [Stanford MLSys](https://mlsys.stanford.edu/) Seminar Series here.
 
-# 1) Deep Learning at Scale with Horovod
+# 1) Deep Learning at Scale with Horovod | Travis Addair
 
-Talk Link: https://www.youtube.com/watch?v=aGzu7nI8IRE
+Talk Link: https://www.youtube.com/watch?v=DB7oOZ5hyrE
 
 - There are two types of distributed deep learning:
 
@@ -250,7 +250,7 @@ pred_df = trained_pipeline.transform(test_df)
 - Use Horovod only when single GPU has full utilization.
 
 
-# 2) Reinforcement Learning for Hardware Design
+# 2) Reinforcement Learning for Hardware Design | Anna Goldie
 
 Talk Link: https://www.youtube.com/watch?v=Y4fcSwsNqoE
 
@@ -341,6 +341,106 @@ Edge property focused Graph CNNs were used.
 - Reduced chip placement times from weeks to 24 hours, allowing faster experimentation. SIll takes 72 hours to fabricate and test the chip and retrieve relevant metrics.
 
 Paper: https://arxiv.org/pdf/2004.10746.pdf
+
+
+
+# 3) On Hetrogeneity in Federated Settings | Virginia Smith
+
+
+## Workflow and SetUp
+
+Goal is to train an ML model across multiple remote devices.
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/federated1.png)
+
+- Objective is to minimize sum of losses across k devices
+- At every training iteration, the central server sends current version of the model to a subset of the devices, the devices perform local training and return model updates to central server.
+- Challenges
+    - Expensive communications 
+        - massive, slow networks across thousands of devices e.g. cell phones
+    - Privacy concerns - user privacy constraints
+    - statistical heterogeneity - unbalanced, non -IID data
+    - systems heterogeneity - variable hardware, connectivity etc
+
+
+
+## Heterogeneity Considerations
+
+- Impact of heterogeneity on federated optimization methods
+- Model might perform well on subset of devices and poorly on other devices. How to equalize performance across diverse networks ?
+- Personalizing models for specific devices
+
+## Federated Averaging
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/federated2.png)
+
+ Train models on a device, share trained model with central server which averages the models ,sends it back to devices for additional local training.
+ 
+ - Federated averaging can diverge in heterogeneous settings. 
+- As the amount of local work increases, performance can deteriorate
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/federated3.png)
+
+- X axis: No of communication rounds
+- In the presence of statistical heterogeneity, As the amount of local work increases, performance can deteriorate
+- Behavior can be even worse in the presence of systems heterogeneity e.g. some devices are stragglers and cannot complete training in time. Such stragglers may have  to be dropped from the training update which exacerbates convergence issues
+
+ 
+## FedProx
+
+- Algorithm for heterogeneous optimization.
+- Modifies the local sub problem for device k.
+
+$$ \min\limits_{w_k} F_k(w_k) + \frac{\mu}{2} \Vert w_k - w^t \Vert^2 $$
+The first term is a loss function on the local weights on device k.
+
+The second term is the **proximal term**. It limits the impact of local  heterogeneous updates by ensuring that local update is not too different from global weights.
+
+This approach also incorporates partial work completed by stragglers.
+
+ 
+This approach converges despite *non-IID data, local updating and partial participation*
+
+**Key result**: Fed prox with the proximal term leads to a 22% test accuracy improvement on average.
+
+## Fairness
+
+- Most approaches use some form of empirical risk minimization approach that attempts to reduce the weighted loss across all devices, this does not ensure uniformly good performance across devices.
+- Solution inspired by fair resource allocation problems e.g. fairly allocating bandwidth: $ \alpha $ fairness
+
+A modified objective (qFFL) is given below
+
+$$qFFL = \min\limits_{w} \frac{1}{q+1} \big( p_1 F_1^{q+1} + p_2 F_2^{q+1} + ... + p_N F_N^{q+1} \big)  $$
+If $ q \rightarrow 0 $, you get the traditional risk minimization objective. 
+
+If $ q \rightarrow \infty $, you get minimax fairness.
+
+Increasing $ q $ reduces variance of accuracy distribution and increases fairness. This approach can cut variance in half while maintaining the overall average accuracy.
+
+## Personalization
+
+- In the absence of data for a specific, might want to learn from peers.
+- Learning one model across the network means we have non-personalized models.
+- Can you deliver personalized models that learn from peers ?
+
+
+- Use the multi task learning framework.
+    - Learn separate model for each device.
+    - Learn relationship that exists between the devices
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/federated4.png)
+
+
+- $ w_t $ represents models on device $ t $
+- $ W $ represents a relationship matrix between devices and $ \Omega $ represents a task relationship matrix
+- $ W $ and $ \Omega $ can be learn various possible relationships between devices and tasks ranging from a scenario where all tasks are related across devices to a scenario where 1 device asymmetrically impacts all other devices
+
+- Not scalable to very deep neural nets
+    - Device metadata can be included in the regularization factor
+
+
+Benchmark dataset for federated learning: [LEAF](https://leaf.cmu.edu/)
+
 
 
 
