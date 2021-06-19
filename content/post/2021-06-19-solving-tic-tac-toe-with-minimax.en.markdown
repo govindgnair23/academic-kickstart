@@ -10,7 +10,7 @@ tags:
   - Algorithms
   - Python
 subtitle: ''
-summary: ''
+summary: 'Solving Tic Tac Toe with Minimax'
 authors: []
 lastmod: '2021-06-19T11:07:39-04:00'
 featured: no
@@ -661,7 +661,7 @@ results1 = play_games(1000,X_strategy=random_decision,O_strategy=random_decision
 ```
 ## 
   0%|          | 0/1000 [00:00<?, ?it/s]
-100%|##########| 1000/1000 [00:00<00:00, 20461.42it/s]
+100%|##########| 1000/1000 [00:00<00:00, 20874.97it/s]
 ```
 
 When both players follow a random strategy, player X has a first mover advantage and wins the majority of the games.
@@ -687,8 +687,8 @@ results2 = play_games(1000,X_strategy=optimal_decision,O_strategy=random_decisio
 ```
 ## 
   0%|          | 0/1000 [00:00<?, ?it/s]
-  0%|          | 1/1000 [00:00<02:17,  7.27it/s]
-100%|##########| 1000/1000 [00:00<00:00, 5633.28it/s]
+  0%|          | 1/1000 [00:00<02:18,  7.21it/s]
+100%|##########| 1000/1000 [00:00<00:00, 5633.05it/s]
 ```
 
 
@@ -712,7 +712,7 @@ results3 = play_games(1000,X_strategy=random_decision,O_strategy=optimal_decisio
 ```
 ## 
   0%|          | 0/1000 [00:00<?, ?it/s]
-100%|##########| 1000/1000 [00:00<00:00, 22858.49it/s]
+100%|##########| 1000/1000 [00:00<00:00, 22279.67it/s]
 ```
 
 
@@ -735,7 +735,7 @@ results4 = play_games(100,X_strategy=optimal_decision,O_strategy=optimal_decisio
 ```
 ## 
   0%|          | 0/100 [00:00<?, ?it/s]
-100%|##########| 100/100 [00:00<00:00, 20182.39it/s]
+100%|##########| 100/100 [00:00<00:00, 20218.39it/s]
 ```
 
 
@@ -746,3 +746,6 @@ plot_results(results4)
 <img src="/post/2021-06-19-solving-tic-tac-toe-with-minimax.en_files/figure-html/unnamed-chunk-2-7.png" width="2880" />
 
 When both players play the optimal strategy, all games end in ties.
+
+
+You can find the jupyter notebook for the blog post [here](https://github.com/govindgnair23/Algorithms_and_Data_Structures/blob/master/Solving%20Tic%20Tac%20Toe%20with%20Minimax%20-%20Blog.ipynb)

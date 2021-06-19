@@ -10,7 +10,7 @@ tags:
   - Algorithms
   - Python
 subtitle: ''
-summary: ''
+summary: 'Solving Tic Tac Toe with Minimax'
 authors: []
 lastmod: '2021-06-19T11:07:39-04:00'
 featured: no
@@ -593,3 +593,6 @@ plot_results(results4)
 ```
 
 When both players play the optimal strategy, all games end in ties.
+
+
+You can find the jupyter notebook for the blog post [here](https://github.com/govindgnair23/Algorithms_and_Data_Structures/blob/master/Solving%20Tic%20Tac%20Toe%20with%20Minimax%20-%20Blog.ipynb)
