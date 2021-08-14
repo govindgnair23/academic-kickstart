@@ -12,7 +12,7 @@ tags:
 subtitle: ''
 summary: 'Notes from Stanford ML Sys Seminar series'
 authors: []
-lastmod: '2021-05-09T11:58:31-04:00'
+lastmod: '2021-08-14T11:58:31-04:00'
 featured: no
 image:
   caption: ''
@@ -441,6 +441,88 @@ Increasing $ q $ reduces variance of accuracy distribution and increases fairnes
 
 Benchmark dataset for federated learning: [LEAF](https://leaf.cmu.edu/)
 
+
+# 4) Bridging Models and Data with Feature Stores | Willem Pienaar
+
+## Current State
+
+- Pipelines can be used to process data inside a model as in sklearn or TF
+- Typically there are ETL or ELT pipelines that populate a table
+- Models have to see data twice - during training and inference
+    - These needs to be consistent
+- Typically pipelines are developed by data scientists for model training and then re-developed and maintained by data engineers for model serving
+
+## ML Data Challenges
+1. Building feature pipelines
+    - Feature engineering is time consuming
+    - Requires different technologies for different production requirements (distributed compute ,
+    stream processing , low latency transformation)
+    - Reliable computation and backfilling of features requires a large investment
+    
+2. Consistent data access
+    - Redevelopment of pipelines leads to inconsistencies in data
+    - Training-serving skew degrades model performance
+    - Models needs point-in-time correct view of data to avoid label leakage (especially for time series)
+
+3. Duplication of effort
+        - Siloed development
+        - No means of collaboration or sharing feature pipelines
+        - Lack of governance and standardization
+    4. Ensuring data quality
+        - Is the model receiving right data and still operating correctly ?
+        - Are features fresh ?
+        - Has there been drift in data over time ?
+
+
+## Solution with Feature Stores
+
+1. Easy pipeline creation
+    - Write feature definitions in SQL
+    - Register in feature store specifying online or offline computation
+    - Feature is computed and populated at required schedule
+    
+2. Consistent data acess
+    - Common serving API to access data for both training and serving
+    - ![](/post/2021-05-09-stanford-mlsys-seminars.en_files/FS1.png)
+    
+3. Cataloging and Discovery
+    - Can browse through library of features , how many teams use it , documentation etc.
+    
+4. Data quality monitoring
+    - Can produce statistics of data over time
+    - Integrates with packages like [great expectations](https://greatexpectations.io/) 
+    - Supports Feature as code, including version control and CI/CD integration.
+
+
+## Deployment Patterns
+
+1. Offline feature serving
+    - ![](/post/2021-05-09-stanford-mlsys-seminars.en_files/FS2.PNG)
+    - Suitable for use cases like Pricing, Risk, Churn prediction where jobs are run periodically or in an ad-hoc fashion
+    
+2. Online feature serving
+    - ![](/post/2021-05-09-stanford-mlsys-seminars.en_files/FS3.PNG)
+    - Suitable for low latency use cases like recommendations and personalization
+    
+3. Online feature computation
+    - ![](/post/2021-05-09-stanford-mlsys-seminars.en_files/FS4.PNG)
+    - Real time / on demand feature transformations are supported
+    - Model is triggered when a transaction event occurs
+    - The metadata within the transaction is often required to derive features synchronously rather than fetch something that has been pre-computed.
+    - Models serving layer will send trxn metadata to the feature store . Feature store will use pre-computed streaming data , batch data , trxn metadata; call vendor apis; combine these, produce new features and return to mode serving layer.
+    - Call vendor API from feature store, so all this data can be logged.
+
+## Feature Stores in A Modern Data Stack
+
+1.  Greater abstraction meaning we don't need a separate modules for an online store, offline store and data processing
+    - ![](/post/2021-05-09-stanford-mlsys-seminars.en_files/FS5.PNG)
+    - dbt allows you to write ELT type queries
+2. ML engineers create basic model and Data scientists can optimize the model further. This is opposed to the traditional approach of DS developing models locally and ML engineers rewriting and deploying them.
+
+## Other Points
+
+- Feature stores work better with structured rather than unstructured data
+- The performance of the code you use to write transformations will affect whether you can use a feature in both batch and real time use cases. Writing a transformation in pandas means it could be slower than writing it as a JVM process.
 
 
 
