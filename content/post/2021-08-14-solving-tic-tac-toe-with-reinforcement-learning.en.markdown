@@ -10,9 +10,9 @@ tags:
   - Python
   - Reinforcement Learning
 subtitle: ''
-summary: ''
+summary: 'Solving Tic-Tac-Toe with RL '
 authors: []
-lastmod: '2021-08-14T10:36:42-04:00'
+lastmod: '2021-09-06T10:36:42-04:00'
 featured: no
 image:
   caption: ''
@@ -26,11 +26,15 @@ projects: []
 
 
 
+
+
 ## Introduction
 
 In [this](https://www.govindgnair.com/post/solving-tic-tac-toe-with-minimax/) earlier blog post, I covered how to solve Tic-Tac-Toe using the classical Minimax algorithm. Here we will use Reinforcement Learning to solve the same problem.
 
-This should give you an overview of this branch of AI in a familiar setting. As argued in this paper by pioneers in the field, RL could be the key to Artificial General Intelligence. Therefore, it would behoove us to better understand this fascinating field.
+This should give you an overview of this branch of AI in a familiar setting. As argued in [this](https://www.sciencedirect.com/science/article/pii/S0004370221000862) paper by pioneers in the field, RL could be the key to Artificial General Intelligence. Therefore, it would behoove us to better understand this fascinating field.
+
+To see the full code, please refer to the notebook [here](https://github.com/govindgnair23/RL_Exploration/blob/main/Solving%20Tic%20Tac%20Toe%20with%20RL%20Blog%20-%20vf.ipynb). I will only focus on the results here, lest the blog become too code heavy.
 
 ## Introduction to Reinforcement Learning
 
@@ -48,7 +52,7 @@ As shown in the figure above, the reinforcement learning framework comprises the
     - Goal reward representation: 1 for goal, 0 otherwise
     - Action penalty representation: -1 for not goal, 0 once goal is reached
 4) **State**: A representation of the environment. At time step $ t $,the agent is in state $ S_t \in \mathcal{S} $ where $ \mathcal{S} $ is the set of all possible states <br>
-5) **Action**: At time step `\(t\)`, an agent takes an action $ A_t \in \mathcal{A}(S_t) $ where $ \mathcal{A}(S_t) $ is the set of actions available in state $ S_t $ <br>
+5) **Action**: At time step $ t $, an agent takes an action $ A_t \in \mathcal{A}(S_t) $ where $ \mathcal{A}(S_t) $ is the set of actions available in state $ S_t $ <br>
 6) **Policy**: A policy tells the agent what action to take in a given state. $ \pi(a|S) $
 
 A policy can be deterministic i.e. there is one action that is deterministically selected in a given state $ \pi(s)=a $,
@@ -63,7 +67,7 @@ In an MDP, the environment is completely characterized by the **transition dynam
 $$ p(s',r|s,a) $$
 That is, the probability of each possible value for $ s' $ (the subsequent state) and $ r $ (reward) depends only on the immediately preceding state and action, $ s $ and $ a $, and, given them, not at all on earlier states and actions. In other words, given the present, the future is independent of the past.
 
-**The state must include information about all aspects of the past agent–environment interaction that make a difference for the future. If it does, then the state is said to have the *Markov property***
+**The state must include information about all aspects of the past agent–environment interaction that make a difference for the future. If it does, then the state is said to have the __Markov property__**
 
 If the transition dynamics equation is fully known by the agent, it means an optimal policy can be computed without interacting with the environment. This is **planning**. Some kind of search algorithm can be used here.<br>
 
@@ -90,25 +94,25 @@ To navigate an environment optimally, we need the concept of a value function th
 2) Action Value Function
 
 The **State - Value function** of a state $ s $ under a policy $ \pi $,is the expected return from following policy $ \pi $ when starting in state $ s $
+
 $$ v_{\pi}(s) \doteq \mathbb{E}_{\pi}[G_t | S_t =s]  $$
 
-The **Action-Value function** is the value of taking action `\(a\)` in state `\(s\)` under policy `\(\pi\)` and thereafter following the policy `\(\pi\)`
+The **Action-Value function** is the value of taking action $ a $ in state $ s $ under policy $ \pi $ and thereafter following the policy $ \pi $
 
 $$ q_{\pi}(s,a) \doteq \mathbb{E}_{\pi}[G_t| S_t =s ,A_t=a] $$
 
 
 ## Bellman Equations
 
-The above defintions of the state and action value functions suggest equations to evaluate them known as Bellman Equations.
+The above definitions of the state and action value functions suggest equations to evaluate them known as Bellman Equations.
 
 **The Bellman expectation equation for the state value function** follows naturally from the above definition of the state value function.
 
-$$ v_{\pi}(s) \doteq \mathbb{E}[G_t | S_t =s]  $$ 
-
-$$ = \mathbb{E}_{\pi}[R_{t+1} + \gamma G_{t+1} | S_t =s]  $$ 
+$$ v_{\pi}(s) \doteq \mathbb{E}[G_t | S_t =s] = \mathbb{E}_{\pi}[R_{t+1} + \gamma G_{t+1} | S_t =s]$$ 
+ 
 
 $$ = \sum_{a} \pi(a|s) \sum_{s'}\sum_{r} p(s',r|s,a) \Big[ r + \gamma \mathbb{E}_{\pi}[G_{t+1}|S_{t+1} = s']\Big] $$
-$$ \sum_{a} \pi(a|s) \sum_{s',r}  p(s',r|s,a) [r + \gamma v_{\pi}(s')] $$
+$$ = \sum_{a} \pi(a|s) \sum_{s',r}  p(s',r|s,a) [r + \gamma v_{\pi}(s')] $$
 
 
 
@@ -122,7 +126,7 @@ The value of a state $ s $ is obtained by considering all possible paths to all 
 **The Bellman expectation equation for the action value function** is similarly given by
 
 $$ q_{\pi}(s,a) \doteq \mathbb{E}_{\pi}[G_t| S_t =s ,A_t=a] $$
-$$ = \mathbb{E}_{\pi}[R_{t+1} + \gamma G_{t+1} | S_t =s',A_t=a']  $$ 
+$$ = \mathbb{E}_{\pi}[R_{t+1} + \gamma G_{t+1} | S_t =s',A_t=a'] $$ 
 
 $$ =  \sum_{s',r} p(s',r|s,a)[r + \gamma \sum_{a'} \pi(a'|s')q_{\pi}(s',a')] $$
 
@@ -135,7 +139,7 @@ We will assume the discount factor $ \gamma = 1 $
 ![](/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/RL_my_image2.png)
 
 The value of any given state is derived from the value of the successor states.E.g.
-`$$V_{\pi}(B) = 0.5V_{\pi}(D) + 0.5 V_{\pi}(E)  = 0.5 \times 4 + 0.5 \times 3 = 3.5$$`
+$$ V_{\pi}(B) = 0.5V_{\pi}(D) + 0.5 V_{\pi}(E)  = 0.5 \times 4 + 0.5 \times 3 = 3.5 $$
 
 Once the value of the successive states are known, the agent can pick the action that leads to the optimal state. 
 In this example, the agent wants to move to state B, and takes action "L" to move to that state. A limitation of the state value function is that once you have determined the optimal state, you have to then identify the action that leads to that state.
@@ -155,7 +159,7 @@ $$ Q(\mathcal{S}=A,\mathcal{A}=R) = 1.5 $$
 
 **Theorem** <br>
 For any MDP <br>
-- There exists an optimal policy `\(\pi_*\)`, that is better than or equal to all other policies, $ \pi_* \ge \pi, \forall \pi $ 
+- There exists an optimal policy $ \pi_* $, that is better than or equal to all other policies, $ \pi_* \ge \pi, \forall \pi $ 
 - All optimal policies achieve the optimal value function $ v_{\pi_*} = v_*(s) $
 - All optimal policies achieve optimal action-value function, $ q_{\pi_*}(s,a) = q_*(s,a) $
 
@@ -191,6 +195,8 @@ import random
 from collections import defaultdict
 from tqdm import tqdm
 from collections import Counter
+import seaborn as sns
+from matplotlib import pyplot as plt
 ```
 
 
@@ -198,195 +204,321 @@ from collections import Counter
 ```python
 
 class TicTacToe():
-  def __init__(self,player = 'X',reward_type ='goal_reward'):
-    '''
-    player: Role agent should play. If X, agent has the first turn else agent has second turn
-    reward_type: 'goal_reward' or 'action_penalty'
-    
-    '''
-    
-    self.board = np.array(['__']*9).reshape(3,3)
-    self.reward_type = reward_type
-    self.first_move = None #Keep track of first move made by agent
-    self.winning_sequence = None #Keep track of sequence that won agent the game
-  
-    if player == 'X':
-      self.me ='X'
-      self.id = 1
-      self.opponent = 'O'
-    else:
-      self.me = 'O'
-      self.id = 2
-      self.opponent = 'X'
-      
-    self.game_over = False #Flag indicating whether game is over
-    # Mapping of action representaion in board to action representation in tuple 
-    self.b_to_s = {'__':0,'X':1,'O':2} 
-    # Mapping of action representaion in tuple to action representation in board
-    self.s_to_b = {0:'__',1:'X',2:'O'} 
-    
-    #Create mapping from 2D position in board to 1D position in tuple
-    positions = self.available_positions()
-    self.b2_to_s1 = {position:i for (i,position) in enumerate(positions)}
-    
-    #Create mapping from 1D position in tuple to 2D position in board 
-    self.s1_to_b2 = {i:position for (i,position) in enumerate(positions)}
-    
-    #State the current player is in
-    self.starting_state = self.board_to_state()
-    
-    #Initialize all possible states of the game
-    l_o_l = [list(range(3)) for _ in range(9)]
-    states = set(product(*l_o_l))
-    
-    #Player X states include states with odd number of blanks and both players have occupied equal number of slots
-    #Player O playes after Player X, so player O states include states with even number of blanks and where
-    #player X has occupied one more slot than player O
-    playerX_states = {state for state in states if (state.count(0)%2 == 1 and state.count(1)==state.count(2))} #
-    playerO_states =  {state for state in states if (state.count(0)%2 == 0 and state.count(1)==(state.count(2)+1))}
-    
-    if player == 'X':
-      self.my_states = playerX_states
-    else:
-      self.my_states = playerO_states
+    def __init__(self,player = 'X',reward_type ='goal_reward'):
+        '''
+        player: Role agent should play. If X, agent has the first turn else agent has second turn
+        reward_type: 'goal_reward' or 'action_penalty'
+        '''
+        self.board = np.array(['__']*9).reshape(3,3)
+        self.reward_type = reward_type
+        self.winning_seqeunce = None #Keep track of winning move made by agent
+        self.first_move = None #Keep track of first move made by agent
+        if player == 'X':
+            self.me ='X'
+            self.id = 1
+            self.opponent = 'O'
+        else:
+            self.me = 'O'
+            self.id = 2
+            self.opponent = 'X'
+     
+        self.game_over = False #Flag indicating whether game is over
+        # Mapping of action representation in board to action representation in tuple 
+        self.b_to_s = {'__':0,'X':1,'O':2} 
+        # Mapping of action representation in tuple to action representation in board
+        self.s_to_b = {0:'__',1:'X',2:'O'} 
+        
+        #Create mapping from 2D position in board to 1D position in tuple
+        positions = self.available_positions()
+        self.b2_to_s1 = {position:i for (i,position) in enumerate(positions)}
+        
+        #Create mapping from 1D position in tuple to 2D position in board 
+        self.s1_to_b2 = {i:position for (i,position) in enumerate(positions)}
+        
+        #State the current player is in
+        self.starting_state = self.board_to_state()
+        
+        #Initialize all possible states of the game
+        l_o_l = [list(range(3)) for _ in range(9)]
+        states = set(product(*l_o_l))
+        
+
+        
+        #Player X states include states with odd number of blanks and both players have occupied equal number of slots
+        #Player O players after Player X, so player O states include states with even number of blanks and where
+        #player X has occupied one more slot than player O
+        playerX_states = {state for state in states if (state.count(0)%2 == 1 and state.count(1)==state.count(2))} #
+        playerO_states =  {state for state in states if (state.count(0)%2 == 0 and state.count(1)==(state.count(2)+1))}
+        
+        #States 
+        #self.board_full_states = {state for state in states if state.count(0)==0}
+        if player == 'X':
+            self.my_states = playerX_states
+        else:
+            self.my_states = playerO_states
           
-  def reset_board(self):
-    "Function to reset game and reset board to starting state"
-    self.board = np.array(['__']*9).reshape(3,3)
-    self.starting_state = self.board_to_state()
-    self.game_over = False
-    self.winning_sequence = None
-    self.first_move = None  
     
-  def show_board(self):    
-    "Shows board as a pandas dataframe"
-    return pd.DataFrame(self.board)
+    def reset_board(self):
+        "Function to reset game and reset board to starting state"
+        self.board = np.array(['__']*9).reshape(3,3)
+        self.starting_state = self.board_to_state()
+        self.game_over = False
+        self.winning_sequence = None
+        self.first_move = None
     
-  def board_to_state(self):
-    "Convert a board to a state in tuple format"
-    return tuple([self.b_to_s[x] for x in np.ravel(self.board)])
+    def show_board(self):    
+        "Shows board as a pandas dataframe"
+        return pd.DataFrame(self.board)
     
-  @staticmethod
-  def possible_actions(state):
-    "Return possible actions given a state"
-    return [i for i,x  in enumerate(state) if x ==0]
-  
-  
+    def board_to_state(self):
+        "Convert a board to a state in tuple format"
+        return tuple([self.b_to_s[x] for x in np.ravel(self.board)])
     
-  def is_game_over(self):
-    "Function to check if game is over"
-    if not np.any(self.board == '__') :
-      self.game_over = True
-            
-    return self.game_over
-  
-  
-  def available_positions(self):
-    "Return available positions on the board"
-    x,y = np.where(self.board =='__')
-    return[(x,y) for x,y in zip(x,y)]
+    @staticmethod
+    def possible_actions(state):
+        "Return possible actions given a state"
+        return [i for i,x  in enumerate(state) if x ==0]
     
-  def win(self,player):
-    "Check if player won the game and record the winning sequence"
-    if np.all(self.board[0,:] == player):
-      self.winning_sequence = 'R1'
-    elif np.all(self.board[1,:] == player): 
-      self.winning_sequence = 'R2'
-    elif np.all(self.board[2,:] == player):
-      self.winning_sequence = 'R3'
-    elif np.all(self.board[:,0] == player):
-      self.winning_sequence = 'C1'
-    elif np.all(self.board[:,1] == player):
-      self.winning_sequence = 'C2'
-    elif np.all(self.board[:,2] == player):
-      self.winning_sequence = 'C3'
-    elif np.all(self.board.diagonal()==player):
-      self.winning_sequence = 'D1'
-    elif  np.all(np.fliplr(self.board).diagonal()==player):
-      self.winning_sequence = 'D2'
-    else:
-      return False
-    
-    return True
-    
-    
-  def opponent_move(self,position):
-    "Fills out the board in the given position with the action of the opponent"
-    assert position[0] >= 0 and position[0] <= 2 and position[1] >= 0 and position[1] <= 2 , "incorrect position"
-    assert self.board[position] == "__" , "position already filled"
-    assert np.any(self.board == '__') , "Board is complete"
-    assert self.win(self.me) == False and self.win(self.opponent)== False , " Game has already been won"
-    self.board[position] = self.opponent
-    
-    
-  def my_move(self,position):
-    
-    "Fills out the board in the given position with the action of the agent"
-      
-    assert position[0] >= 0 and position[0] <= 2 and position[1] >= 0 and position[1] <= 2 , "incorrect position"
-    assert self.board[position] == "__" , "position already filled"
-    assert np.any(self.board == '__') , "Board is complete"
-    assert self.win(self.me) == False and self.win(self.opponent)== False , " Game has already been won"
-    self.board[position] = self.me
-    
-    I_win = self.win(self.me)
-    opponent_win = self.win(self.opponent)
-    
-    if self.reward_type == 'goal_reward':
-      if I_win:
-        self.game_over = True
-        return 1
-      
-      elif opponent_win:
-        self.game_over = True
-        return -1
-      
-      else:
-        return 0
-    
-    elif self.reward_type == 'action_penalty':
-      if I_win:
-        self.game_over = True
-        return 0
-            
-      elif opponent_win:
-        self.game_over = True
-        return -10
-            
-      else:
-        return -1 
-      
-  
-           
-    
-  def pick_best_action(self,Q,action_type,eps=None):
-    current_state = self.board_to_state()
-    actions =  self.possible_actions(current_state)
+
         
-    best_action = []
-    best_action_value = -np.Inf
+    def is_game_over(self):
+        "Function to check if game is over"
+        if not np.any(self.board == '__') :
+            self.game_over = True
+            
+        return self.game_over
     
-    for action in actions:
-      Q_s_a = Q[current_state][action]
-      if Q_s_a == best_action_value:
-        best_action.append(action)
-      elif Q_s_a > best_action_value:
-        best_action = [action]
+    def available_positions(self):
+        "Return available positions on the board"
+        x,y = np.where(self.board =='__')
+        return[(x,y) for x,y in zip(x,y)]
+    
+    
+    def win(self,player):
+        "Check if player won the game and record the winning sequence"
+        if np.all(self.board[0,:] == player):
+            self.winning_sequence = 'R1'
+        elif np.all(self.board[1,:] == player): 
+            self.winning_sequence = 'R2'
+        elif np.all(self.board[2,:] == player):
+            self.winning_sequence = 'R3'
+        elif np.all(self.board[:,0] == player):
+            self.winning_sequence = 'C1'
+        elif np.all(self.board[:,1] == player):
+            self.winning_sequence = 'C2'
+        elif np.all(self.board[:,2] == player):
+            self.winning_sequence = 'C3'
+        elif np.all(self.board.diagonal()==player):
+            self.winning_sequence = 'D1'
+        elif  np.all(np.fliplr(self.board).diagonal()==player):
+            self.winning_sequence = 'D2'
+        else:
+            return False
         
-    best_action = random.choice(best_action)
+        return True
     
-    if action_type == 'greedy':
-      return self.s1_to_b2[best_action]
-    else:
-      assert eps != None , "Include epsilon parameter"
-      n_actions =len(actions) #No of legal actions 
-      p = np.full(n_actions,eps/n_actions)
-      #Get index of best action
-      best_action_i = actions.index(best_action)
-      p[best_action_i]+= 1 - eps
-      return self.s1_to_b2[np.random.choice(actions,p=p)]
-      
+    
+    def my_move(self,position):
+        "Fills out the board in the given position with the action of the agent"
+        
+        assert position[0] >= 0 and position[0] <= 2 and position[1] >= 0 and position[1] <= 2 , "incorrect position"
+        assert self.board[position] == "__" , "position already filled"
+        assert np.any(self.board == '__') , "Board is complete"
+        assert self.win(self.me) == False and self.win(self.opponent)== False , " Game has already been won"
+        self.board[position] = self.me
+        
+        I_win = self.win(self.me)
+        opponent_win = self.win(self.opponent)
+        
+        if self.reward_type == 'goal_reward':
+            if I_win:
+                self.game_over = True
+                return 1
+            
+            elif opponent_win:
+                self.game_over = True
+                return -1
+            
+            else:
+                return 0
+            
+        elif self.reward_type == 'action_penalty':
+            if I_win:
+                self.game_over = True
+                return 0
+            
+            elif opponent_win:
+                self.game_over = True
+                return -10
+            
+            else:
+                return -1
+    
+    def opponent_move(self,position):
+        "Fills out the board in the given position with the action of the opponent"
+        assert position[0] >= 0 and position[0] <= 2 and position[1] >= 0 and position[1] <= 2 , "incorrect position"
+        assert self.board[position] == "__" , "position already filled"
+        assert np.any(self.board == '__') , "Board is complete"
+        assert self.win(self.me) == False and self.win(self.opponent)== False , " Game has already been won"
+        self.board[position] = self.opponent
+            
+    
+    def pick_best_action(self,Q,action_type,eps=None):
+        '''Given a Q function return optimal action
+        If action_type is 'greedy' return best action with ties broken randomly else return epsilon greedy action
+        '''
+        #Get possible actions
+        current_state = self.board_to_state()
+        actions =  self.possible_actions(current_state)
+        
+        best_action = []
+        best_action_value = -np.Inf
+        
+        for action in actions:
+            Q_s_a = Q[current_state][action]
+            if Q_s_a == best_action_value:
+                best_action.append(action)
+            elif Q_s_a > best_action_value:
+                best_action = [action]
+                best_action_value = Q_s_a
+        best_action = random.choice(best_action)
+
+        if action_type == 'greedy':
+            return self.s1_to_b2[best_action]
+        else:
+            assert eps != None , "Include epsilon parameter"
+            n_actions =len(actions) #No of legal actions 
+            p = np.full(n_actions,eps/n_actions)
+            #Get index of best action
+            best_action_i = actions.index(best_action)
+            p[best_action_i]+= 1 - eps
+            return self.s1_to_b2[np.random.choice(actions,p=p)]
+    
+                  
 ```
+
+Below is a demonstration of how this class works. Let us assume the we are training Player X to play the game.
+
+
+```python
+t_board_X = TicTacToe(player = 'X',reward_type ='goal_reward')
+t_board_X.show_board()
+```
+
+```
+##     0   1   2
+## 0  __  __  __
+## 1  __  __  __
+## 2  __  __  __
+```
+
+We will alternate between moves for X(player) and O(opponent) until the game ends with player X winning
+
+
+```python
+t_board_X.my_move((0,0))
+```
+
+```
+## 0
+```
+
+```python
+t_board_X.show_board()
+```
+
+```
+##     0   1   2
+## 0   X  __  __
+## 1  __  __  __
+## 2  __  __  __
+```
+
+
+
+```python
+t_board_X.opponent_move((0,1))
+t_board_X.show_board()
+```
+
+```
+##     0   1   2
+## 0   X   O  __
+## 1  __  __  __
+## 2  __  __  __
+```
+
+
+```python
+t_board_X.my_move((1,0))
+```
+
+```
+## 0
+```
+
+```python
+t_board_X.opponent_move((1,1))
+t_board_X.my_move((2,0))
+```
+
+```
+## 1
+```
+
+```python
+t_board_X.show_board()
+```
+
+```
+##    0   1   2
+## 0  X   O  __
+## 1  X   O  __
+## 2  X  __  __
+```
+
+
+## Utility Functions
+
+
+The following primary utility functions will be used. Please refer to the jupyter notebook for the definitions of these functions
+
+
+1) `play_games` :This function simulates games between the two players a specified number of times and returns relevant statistics from the game <br>
+2) `get_win_statistics` : This functions simulates the specified number of games N times(equivalent to sets in a tennis game) and returns statistics
+collected across these sets <br>
+3) `plot_results` : This function visualizes the statistics collected <br>
+4) `initialize_Q` : Randomly initialize a Q table for the given player <br>
+5) `train`: Function to train the agent using the Q-Learning algorithm <br>
+
+
+
+
+I will also define the following utility functions to simulate matches.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Experiments
 
@@ -398,160 +530,9 @@ I will run the following experiments to evaluate how well the agent has learned<
 4) Trained X vs Trained O <br>
 5) Re-trained X vs Trained O
 
-I will also define the following utility functions to simulate matches.
 
 
-```python
-def play_games(n_games,Q_X,Q_O,X_strategy = 'eps_greedy',O_strategy='eps_greedy',eps_X=0.05,eps_O=0.05,seed=1):
-  
-  
-  """
-  Function to play tic tac toe specified no of times, and return summary of win statistics
-  n_games: No of times to play the game
-  Q_X: Q function for player X that gives X's policy
-  Q_O: Q function for player O that gives O's policy
-  X_strategy: eps_greedy or greedy
-  O_strategy: eps_greedy or greedyj
-  """
-  np.random.seed(seed)
-  # #Dictionary for holding results of simulation
-  win_stats = defaultdict(int)
-  
-  #Dictionary for holding winning sequences of the winning player
-  winning_sequences_X = defaultdict(int)
-  winning_sequences_O = defaultdict(int)
-    
-   
-      
-  #List of final boards
-  final_boards = []
-   
-  t_board_X = TicTacToe(player = 'X',reward_type ='action_penalty')
-  t_board_O = TicTacToe(player = 'O',reward_type ='action_penalty')
-  X_first_actions = [] #List to record first actions of player X
-  O_first_actions = [] #List to record first actions of player O
-  
-  
-  for i in tqdm(range(n_games),position=0,leave=True):
-    first_action_flag = True
-    while True:
-      x_action = t_board_X.pick_best_action(Q_X,action_type=X_strategy,eps=eps_X)
-      if first_action_flag == True:
-        X_first_actions.append(x_action)
-        
-      t_board_X.my_move(x_action) #make move on X's board
-      t_board_O.opponent_move(x_action) #make same move on O's board
-      
-      if t_board_X.is_game_over(): #need to end game here if X makes the winning move
-        break
-      
-      #O plays second
-      o_action = t_board_O.pick_best_action(Q_O,action_type=O_strategy,eps=eps_O)
-      if first_action_flag == True:
-        O_first_actions.append(o_action)
-        first_action_flag = False
-        
-      t_board_O.my_move(o_action) #make move on O's board
-      t_board_X.opponent_move(o_action) #make same move on X's board
-      if t_board_O.is_game_over(): #need to end game here if O makes the winnng move
-        break
-      
-    #Check who won game or if game was drawn
-    if t_board_X.win('X'):
-      win_stats['X_win'] += 1
-      winning_sequences_X[t_board_X.winning_sequence] += 1
-    
-    elif t_board_X.win('O'):
-      win_stats['O_win'] += 1
-      winning_sequences_O[t_board_O.winning_sequence] += 1
-    else:
-      win_stats['Draw'] += 1
-      
-    final_boards.append(t_board_X.show_board())
-    t_board_X.reset_board()
-    t_board_O.reset_board()
-  
-  
-  return win_stats,final_boards,winning_sequences_X,winning_sequences_O,X_first_actions,O_first_actions
-```
-
-
-We also have a function to analyse the results of the games
-
-
-
-```python
-def get_win_statistics(Q_X,Q_O,sets = 5, games_in_set = 100,X_strategy = 'eps_greedy',O_strategy='eps_greedy', eps_X=1.0,eps_O=1.0):
-  """
-  Function to get winning statistics by pitting competing strategies. 
-  Q_X: Q table representing the strategy of X
-  Q_O: Q Table representing the strategy of O
-  sets: No of sets to be played
-  games_in_set: No of games in each set
-  X_strategy: greedy or epsilon greedy
-  O_strategy: greedy or epsilon greedy
-  eps_X and eps_O: epsilon in case of epsilon greedy strategy, set to 1 for random strategy
-  
-  """
-  win_stats_list = []
-  winning_sequences_X_list = []
-  winning_sequences_O_list = []
-  X_first_actions_list = []
-  O_first_actions_list = []
-  
-  for i in tqdm(range(sets),position=0,leave=True):
-    win_stats, _ ,winning_sequences_X,winning_sequences_O, X_first_actions,O_first_actions = play_games(n_games=games_in_set,
-    Q_X=Q_X,Q_O=Q_O,X_strategy = X_strategy,O_strategy=O_strategy,eps_X=eps_X,eps_O=eps_O,seed=i)
-    
-    win_stats_list.append(win_stats)
-    winning_sequences_X_list.append(winning_sequences_X)
-    winning_sequences_O_list.append(winning_sequences_O)
-    X_first_actions_list.append(X_first_actions)
-    O_first_actions_list.append(O_first_actions)
-    
-  #Unwrap these lists
-  flatten =  lambda l:[item for sublist in l for item in sublist] 
-  winning_sequences_X_list = flatten(winning_sequences_X_list)
-  winning_sequences_O_list = flatten(winning_sequences_O_list)
-  X_first_actions_list = flatten(X_first_actions_list)
-  O_first_actions_list = flatten(O_first_actions_list)
-  
-  win_stats_df  = pd.DataFrame(win_stats_list)
-  stats = win_stats_df.describe()
-  lb = stats.loc['mean'] - 2 * stats.loc['std'] 
-  ub = stats.loc['mean'] + 2 * stats.loc['std']
-  results = pd.concat([lb,ub],axis=1)
-  results.columns= ['mu - 2 sd', 'mu + 2 sd']
-  
-    
-  return win_stats_df,results,winning_sequences_X_list,winning_sequences_O_list,X_first_actions_list,O_first_actions_list
-                  
-```
-
-
-
-
-
-Another utility function we need is one to randomly initialize the Q table which encapsulates a policy by quantifying the value of each state and action.
-
-
-```python
-
-def initialize_Q(S,seed = 1):
-  "Given a state assign random values to each possible action"
-  np.random.seed(seed)
-  Q = {}
-  for state in S:
-    Q[state]= {}
-    for i,x  in enumerate(state): # Loop through action
-      if x == 0:
-        Q[state][i] = np.random.rand()
-        
-  return Q
-```
-
-
-## Random X vs Random O
+### Random X vs Random O
 
 As a baseline, let us see how the results look like when both players follow a random policy. We will maintain two separate boards for each of the players. 
 
@@ -561,11 +542,15 @@ t_board_X = TicTacToe(player = 'X',reward_type ='goal_reward')
 t_board_O = TicTacToe(player = 'O',reward_type ='goal_reward')
 ```
 
+We will first enumerate the states for both sets of players.
+
 
 ```python
 States_X = t_board_X.my_states
 States_O = t_board_O.my_states
 ```
+
+Create a Q-table for both.
 
 
 ```python
@@ -573,217 +558,157 @@ Q_X = initialize_Q(States_X)
 Q_O = initialize_Q(States_O)
 ```
 
-
-```python
-win_stats_df,stats,winning_sequences_X_list,winning_sequences_O_list, X_first_actions_list,O_first_actions_list = get_win_statistics(Q_X, Q_O,sets = 5, games_in_set = 100, X_strategy = 'eps_greedy',O_strategy='eps_greedy',eps_X=1.0,eps_O=1.0)
-# Setting eps = 1.0 ensures purely random policy
-```
-
-```
-## 
-  0%|          | 0/5 [00:00<?, ?it/s]
-  0%|          | 0/100 [00:00<?, ?it/s]
- 41%|####1     | 41/100 [00:00<00:00, 404.45it/s]
- 82%|########2 | 82/100 [00:00<00:00, 405.22it/s]
-100%|##########| 100/100 [00:00<00:00, 404.88it/s]
-## 
- 20%|##        | 1/5 [00:00<00:01,  3.36it/s]
-  0%|          | 0/100 [00:00<?, ?it/s]
- 41%|####1     | 41/100 [00:00<00:00, 398.97it/s]
- 82%|########2 | 82/100 [00:00<00:00, 399.06it/s]
-100%|##########| 100/100 [00:00<00:00, 404.25it/s]
-## 
- 40%|####      | 2/5 [00:00<00:00,  3.38it/s]
-  0%|          | 0/100 [00:00<?, ?it/s]
- 39%|###9      | 39/100 [00:00<00:00, 376.15it/s]
- 69%|######9   | 69/100 [00:00<00:00, 347.43it/s]
-100%|##########| 100/100 [00:00<00:00, 337.65it/s]
-## 
- 60%|######    | 3/5 [00:00<00:00,  3.22it/s]
-  0%|          | 0/100 [00:00<?, ?it/s]
- 31%|###1      | 31/100 [00:00<00:00, 304.74it/s]
- 76%|#######6  | 76/100 [00:00<00:00, 336.08it/s]
-100%|##########| 100/100 [00:00<00:00, 384.12it/s]
-## 
- 80%|########  | 4/5 [00:01<00:00,  3.22it/s]
-  0%|          | 0/100 [00:00<?, ?it/s]
- 41%|####1     | 41/100 [00:00<00:00, 406.88it/s]
- 81%|########1 | 81/100 [00:00<00:00, 402.68it/s]
-100%|##########| 100/100 [00:00<00:00, 396.25it/s]
-## 
-100%|##########| 5/5 [00:01<00:00,  3.27it/s]
-100%|##########| 5/5 [00:01<00:00,  3.25it/s]
-```
-
-
 Let us see what the results look like over 1000 games.
 
 
+```python
+win_statistics = get_win_statistics(Q_X, Q_O,sets = 10, games_in_set = 100, X_strategy ='eps_greedy',O_strategy='eps_greedy',eps_X=1.0,eps_O=1.0)
+# Setting eps = 1.0 ensures purely random policy
+```
+
+
+
 
 ```python
-win_stats_df.head()
+plot_results(win_statistics)
 ```
 
-```
-##    Draw  O_win  X_win
-## 0     5     34     61
-## 1     8     30     62
-## 2    12     30     58
-## 3     8     26     66
-## 4    12     29     59
-```
+![](/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/RXvsRO.PNG)
 
 
 It seems like X typically wins around 60/100 games.
 
-As expected X wins more games than O as it gets to start first and make more moves than O. Overall,we can say that with 95% confidence the mean number of each of these outcomes are as follows:
+As expected X wins more games than O as it gets to start first and make more moves than O. For both players, occupying the central square in the first move maximizes the chances of winning.
 
-## Trained X vs Random O
+Further, for both players, the winning sequence is most likely to be along the diagonal.
 
-Now we will train X to play optimally against a random O. To do this we create a train function
+### Trained X vs Random O
 
+Now we will train X to play optimally against a random O. 
 
 
 ```python
+np.random.seed(1)
+Q_X,_,rewards_X,rewards_O = train(n_games=5000,alpha = 0.5, gamma = 0.9,train_X=True,train_O=False,is_random=True)
+```
 
-def train(n_games=1000,alpha = 0.5, gamma = 0.9,train_X=True,train_O=False,is_random=True,**kwargs):
-  """
-  Function to train two players in a game of tic-tac-toe
-  Arguments:
-    n_games: Number of games on which tot rain
-    is_random: should actions of untrained agent be random or deterministic according to Q table
-  
-  """
-  # If Q is not provided, randomize intially, if provided, it will be used to select actions greedily
-  if "Q_X" in kwargs:
-    action_type_X = "greedy"
-    assert train_X == False ,"Train flag should be set to False if Q table is being provided"
-    Q_X = kwargs["Q_X"]
-  else:
-    Q_X = initialize_Q(States_X)
-    
-  if "Q_O" in kwargs:
-    action_type_O = "greedy"
-    assert train_O == False ,"Train flag should be set to False if Q table is being provided"
-    Q_O = kwargs["Q_O"]
-  else:
-    Q_O = initialize_Q(States_O)
-    
-  #Set epsilon value conditional on whether we are training X or O
-  eps_ = lambda flag,i: 0.05*0.99**i if flag else 1.0
-  
-  #Lists to keep track of rewards earned by both players during training
-  rewards_X = []
-  rewards_O = []
-  
-  
-  if train_X:
-    X_action_type = 'eps_greedy'
-  else:
-    X_action_type = 'greedy'
-    if is_random:
-      X_action_type = 'eps_greedy'
-      
-      
-  if train_O:
-    O_action_type = 'eps_greedy'
-  else:
-    O_action_type = 'greedy'
-    if is_random:
-      O_action_type = 'eps_greedy'
-      
-  for i in tqdm(range(n_games),position=0,leave=True):
-    
-    eps = 0.05*0.99**i
-    t_board_X.reset_board()
-    t_board_O.reset_board()
+<img src="/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 
-    #X lands on empty board
-    S_X = t_board_X.board_to_state()
-    
-    #X plays first
-    eps = eps_(train_X,i)
-    
-        
-    x_action = t_board_X.pick_best_action(Q_X,action_type = X_action_type,eps=eps)
-    x_action1d = t_board_X.b2_to_s1[x_action]
-    
-    R_X = t_board_X.my_move(x_action) # make move on X's board
-    t_board_O.opponent_move(x_action) # make same move on O's board
+```python
+Q_X_trained = Q_X #Save trained X
+```
 
-    while not (t_board_X.is_game_over() or t_board_O.is_game_over()):
-      S_O = t_board_O.board_to_state()
-            
-      #O plays second
-      eps = eps_(train_O,i)
-      
-      
-      o_action = t_board_O.pick_best_action(Q_O,action_type=O_action_type,eps=eps)
-      o_action1d = t_board_O.b2_to_s1[o_action]
-      R_O = t_board_O.my_move(o_action) #make move on O's board
-      t_board_X.opponent_move(o_action) #make same move on X's board
-      if t_board_O.is_game_over(): 
-        #need to end game here if O makes the winnng move and add a reward 
-        if train_O:
-          Q_O[S_O][o_action1d] += alpha*(R_O + 0 - Q_O[S_O][o_action1d]) # 0 given value of terminal state is 0
-        if train_X:
-          #Need to penalize X's previous action if game is over
-          Q_X[S_X][x_action1d] += alpha*(-R_O + 0 - Q_X[S_X][x_action1d]) 
-        rewards_O.append(R_O)
-        rewards_X.append(-R_O)
-        break
-      
-      S_X_new =  t_board_X.board_to_state() #Get new state
-      #Calculate max_a Q_X(S',a)
-      if train_X:
-        x_action_ = t_board_X.pick_best_action(Q_X,action_type = 'greedy',eps=0.05) #best action from S_new
-        x_action_1d = t_board_X.b2_to_s1[x_action_]
-        Q_X[S_X][x_action1d]+= alpha*(R_X + gamma*Q_X[S_X_new][x_action_1d] - Q_X[S_X][x_action1d])
-        
-      S_X = S_X_new
-      
-      #X plays next
-      eps = eps_(train_X,i)
-      x_action = t_board_X.pick_best_action(Q_X,action_type = X_action_type,eps=eps)
-      x_action1d = t_board_X.b2_to_s1[x_action]
-      R_X = t_board_X.my_move(x_action) #make move on X's board
-      t_board_O.opponent_move(x_action) #make same move on O's board
 
-      if t_board_X.is_game_over(): 
-        if train_O:
-          #need to end game here if X makes the winning move and make sure O's action is penalized
-          Q_O[S_O][o_action1d] += alpha*(-R_X + 0 - Q_O[S_O][o_action1d]) #0 given value of terminal state is 0
-          
-        if train_X:
-          #need to end game here if X makes the winning move and make sure reward is added to V
-          Q_X[S_X][x_action1d] += alpha*(R_X + 0 - Q_X[S_X][x_action1d]) #0 given value of terminal state is 0
-          
-        reards_X.append(R_X)
-        rewards_O.append(-R_X)
-        break
-      
-      S_O_new = t_board_O.board_to_state() #Get new state
-      #Calculate max_a Q_O(S',a)
-      
-      if train_O:
-        o_action_ = t_board_O.pick_best_action(Q_O,action_type = 'greedy',eps=0.05) #best action from S_new
-        o_action_1d = t_board_O.b2_to_s1[o_action_]
-        Q_O[S_O][o_action1d]+= alpha*(R_O + gamma*Q_O[S_O_new][o_action_1d] - Q_O[S_O][o_action1d])
-        
-      S_O = S_O_new
-      
-      
-  return Q_X,Q_O,rewards_X,rewards_O
-    
+The learning curve indicates the training has converged after around 4000 games.
+
+
+```python
+win_statistics = get_win_statistics(Q_X_trained,Q_O,sets = 5, games_in_set = 100,X_strategy = 'greedy',O_strategy='eps_greedy',eps_X=1.0,eps_O=1.0)
+```
+
+
+```python
+plot_results(win_statistics)
+```
+
+
+![](/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/TXvsRO.PNG)
+
+These results indicate that player X has learned to easily beat a random player O. 
+Player X consistently chooses the top right hand box and seem to win the majority of games through the right most column (C3) or the off diagonal(D2).
+
+### Random X vs Trained O
+
+Now we will train O to play against a random X
+
+
+```python
+np.random.seed(1)
+_,Q_O,rewards_X,rewards_O = train(n_games=20000,alpha = 0.5, gamma = 0.5,train_X=False,train_O=True,is_random=True)
+```
+
+<img src="/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/figure-html/unnamed-chunk-2-3.png" width="672" />
+
+```python
+Q_O_trained = Q_O #Save trained O
+```
+
+The learning curve indicates training has converged after about 15000 games.
+
+
+```python
+win_statistics = get_win_statistics(Q_X,Q_O_trained,sets = 10, games_in_set = 100,X_strategy = 'eps_greedy',O_strategy='greedy',eps_X=1.0,
+                   eps_O=1.0)
+```
+
+
+```python
+plot_results(win_statistics)
+```
+
+![](/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/RXvsTO.PNG)
+
+
+
+The above results indicate that Player O has learned to consistently beat  the random player X. What is interesting to note is that the RL approach results in Player O beating Player X more consistently (85%) of the time than when using the Minimax approach (~ 81%).
+
+We can also see the player O consistently picks boxes along the leading diagonal as its first move. Most of its wins come from occupying the leading diagonal(D1) or the middle column(C2).
+
+
+### Trained X vs Trained O
+
+Now we will pit the two trained players against each other.
+
+
+```python
+win_statistics = get_win_statistics(Q_X_trained,Q_O_trained,sets = 10, games_in_set = 100,X_strategy = 'greedy',O_strategy='greedy',eps_X=1.0,
+                   eps_O=1.0)
 ```
 
 
 
+```python
+plot_results(win_statistics)
+```
 
 
+![](/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/TXvsTO.PNG)
+
+When the two trained agents face off, all games end in ties.
 
 
+### Retrained X vs Trained O
+
+Initially we trained X against a random O, now we will retrain X against a trained O
 
 
+```python
+np.random.seed(1)
+Q_X,Q_O,rewards_X,rewards_O = train(n_games=1000,alpha = 0.5, gamma = 0.9,train_X=True,train_O=False,is_random=False,Q_O = Q_O_trained)
+```
+
+<img src="/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/figure-html/unnamed-chunk-2-5.png" width="672" />
+
+```python
+Q_X_retrained = Q_X
+```
+In this case , given player O is following a deterministic policy, training converges in just 500 games.
 
 
+```python
+win_statistics= get_win_statistics(Q_X_retrained,Q_O_trained,sets = 10, games_in_set = 100,X_strategy = 'greedy',\
+                                   O_strategy='greedy',eps_X=1.0,eps_O=1.0)
+```
+
+
+```python
+plot_results(win_statistics)
+```
+
+![](/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/RTXvsTO.PNG)
+
+The re-trained player X beats the trained Player in 100% of the games.
+
+## Conclusion
+
+Reinforcement learning is a powerful paradigm in AI that can potentially be the key to solving several real world problems. Although the early days of RL has seen an almost exclusively focus on games, there are several practical applications of RL outside of games that industry is working on. At Oracle, we are working on a potentially category defining product that uses reinforcement learning at its core. Watch this space for more! 
