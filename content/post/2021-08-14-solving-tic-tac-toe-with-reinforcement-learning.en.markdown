@@ -166,7 +166,8 @@ For any MDP <br>
 An optimal policy can be found by maximizing over the optimal value function
 $$ \pi_*(s) = \underset{a} \arg\max q_*(s,a) $$
 
-$ q_*(s,a) $ is given by the **Bellman optimality equations**
+$ q_*(s,a) $ is given by the **Bellman optimality equations**.
+
 
 **The Bellman Optimality equation for state values** is given by
 
@@ -494,8 +495,6 @@ collected across these sets <br>
 
 
 
-I will also define the following utility functions to simulate matches.
-
 
 
 
@@ -576,7 +575,7 @@ plot_results(win_statistics)
 ![](/post/2021-08-14-solving-tic-tac-toe-with-reinforcement-learning.en_files/RXvsRO.PNG)
 
 
-It seems like X typically wins around 60/100 games.
+It seems like X typically wins around 60% of games.
 
 As expected X wins more games than O as it gets to start first and make more moves than O. For both players, occupying the central square in the first move maximizes the chances of winning.
 
