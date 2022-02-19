@@ -8,8 +8,8 @@ categories:
 tags:
   - AI
   - Machine Learning
-subtitle: 'Summary of Oracle MLRG Talks'
-summary: ''
+subtitle: ''
+summary: 'Summary of Oracle MLRG Talks'
 authors: []
 lastmod: '2022-02-19T13:30:33-05:00'
 featured: no
@@ -19,6 +19,8 @@ image:
   preview_only: no
 projects: []
 ---
+
+Oracle invite's ML researchers to give biweekly talks. These are my notes from these sessions.
 
 # Provenance and its Applications
 
