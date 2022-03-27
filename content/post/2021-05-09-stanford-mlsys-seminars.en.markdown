@@ -12,7 +12,7 @@ tags:
 subtitle: ''
 summary: 'Notes from Stanford ML Sys Seminar series'
 authors: []
-lastmod: '2021-08-14T11:58:31-04:00'
+lastmod: '2022-03-27T11:58:31-04:00'
 featured: no
 image:
   caption: ''
@@ -131,6 +131,11 @@ Distributed training can be accomplished with some minor augmentations to existi
 ### Horovod on Spark
 
 
+
+
+```
+## Warning: package 'knitr' was built under R version 4.0.5
+```
 
 <div class="figure">
 <img src="/post/2021-05-09-stanford-mlsys-seminars.en_files/horovod9.png" alt="A Typical Deep Learning pipeline"  />
@@ -527,6 +532,48 @@ Benchmark dataset for federated learning: [LEAF](https://leaf.cmu.edu/)
 
 
 
+# 5) Data Selection for Data Centric AI | Cody Coleman
+
+## Active Learning
+
+- Train model on available subset of data.
+- Apply this trained model to all available unlabeled data.
+- Select highest value data points(highest uncertainty ?) , label them add to training data set.
+- Repeat until budget is exhausted.
+- Smaller deep learning models that can trained much faster are good approximations of larger models.
+- Early epochs make biggest difference in model performance
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/data1.png)
+
+- Train a smaller proxy model to help with data selection and use final model only to train the full dataset for the final downstream task
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/data2.png)
+
+## Core Set Selection
+
+- When large amounts of labelled data are available, select a small subset of data that accurately approximates the full dataset.
+- Train a proxy model that can be used to identify most useful subset and train full model on this data.
 
 
+## Active Search
 
+- https://arxiv.org/abs/2007.00077 #Paper
+- Variation on Active Learning: Goal is to select as many positive examples as possible from billions of unlabeled examples.
+- Pre trained deep learning models tightly cluster unseen concepts forming well connected components
+- Look at local neighborhood of positive examples rather than the entire unlabelled dataset.
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/data3.png)
+
+### Similarity Search for Efficient Active Learning and Search (SEALS)
+
+- Only take examples that lie in the neighborhood of known positive examples
+
+![](/post/2021-05-09-stanford-mlsys-seminars.en_files/data4.png)
+
+- In each iteration, take the newly labeled examples and find their neighbors.
+
+### Selection Criteria for Samples
+
+- Most Likely Positive
+- Max Entropy : Select points with highest entropy based on predicted class probabilities
+- Information density: Select points in regions of high density and high uncertainty

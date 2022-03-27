@@ -525,6 +525,8 @@ Benchmark dataset for federated learning: [LEAF](https://leaf.cmu.edu/)
 - The performance of the code you use to write transformations will affect whether you can use a feature in both batch and real time use cases. Writing a transformation in pandas means it could be slower than writing it as a JVM process.
 
 
+
+
 # 5) Data Selection for Data Centric AI | Cody Coleman
 
 ## Active Learning
