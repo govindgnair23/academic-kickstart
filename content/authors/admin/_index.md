@@ -10,7 +10,7 @@ authors:
 superuser: true
 
 # Role/position
-role: Technical Product Manager
+role: Senior Product Manager
 
 # Organizations/Affiliations
 organizations:
@@ -71,7 +71,7 @@ user_groups:
 - Visitors
 ---
 
-I am a Technical Product Manager @ Oracle where I work on building AI and ML powered products that enable Financial Institutions to better prevent and detect Financial Crime and thus make our financial system safer. 
+I am a Senior Product Manager @ Oracle where I work on building AI and ML powered products that enable Financial Institutions to better prevent and detect Financial Crime and thus make our financial system safer. 
 
 I am a data scientist turned product manager and an infinite learner constantly seeking to become a little wiser every single day.
 
