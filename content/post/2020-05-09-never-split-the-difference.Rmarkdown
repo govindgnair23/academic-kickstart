@@ -2,20 +2,16 @@
 title: Never Split the Difference
 author: Govind G Nair
 date: '2020-05-09'
-slug: never-split-the-difference
 categories:
   - Book Summary
-tags: []
-subtitle: ''
+slug: never-split-the-difference
 summary: 'Summary of Book : Never Split the Difference'
-authors: []
 lastmod: '2020-05-09T16:27:06-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 Below are some of my notes/highlights from the book [**Never Split the Difference: Negotiating as if your life depended on it**](https://www.amazon.com/Never-Split-Difference-Negotiating-Depended-ebook/dp/B014DUR7L2) 
@@ -23,7 +19,7 @@ Below are some of my notes/highlights from the book [**Never Split the Differenc
 
 ### Chapter 1
 
-* The goal of negotiation is discover information and any surprises not to win an argument.
+* The goal of negotiation is discover information and any surprises, not to win an argument.
 
 * Always have a BATNA (Best Alternative to a Negotiated Agreement) before you enter into a negotiation
 
@@ -40,20 +36,20 @@ Below are some of my notes/highlights from the book [**Never Split the Differenc
 
   2) The positive/playful voice: Should be your default voice. It’s the voice of an easygoing, good-natured person.      Your attitude is light and encouraging. The key here is to relax and smile while you’re talking .
 
-  3) The direct or assertive voice: Used rarely. Will cause problems and create pushback.
+  3) The direct or assertive voice: Used rarely. Will cause problems and create push back.
 
 ### Chapter 2
 
 * Show empathy to build intimacy and trust.
 * You can show empathy by deeply listening to a person and observing their face, gestures and tone of voice
-* Acknowledge a person’s emotion by labelling it, labels always begin with roughly the same words:
+* Acknowledge a person’s emotion by labeling it, labels always begin with roughly the same words:
   - It seems like . . .
   -	It sounds like . . .
   - It looks like . . 
 
-* Labelling negatives diffuses them (e.g. It looks like my decision to do X has upset you) while labelling positives reinforces them
+* Labeling negatives diffuses them (e.g. It looks like my decision to do X has upset you) while labeling positives reinforces them
 
-* Pause after labelling. The other party will break the silence
+* Pause after labeling. The other party will break the silence
 
 * Do an ‘accusation audit’ to start with by listing all the most critical things your counterpart can say about you. This takes the sting out of the negotiation.
 
@@ -61,13 +57,13 @@ Below are some of my notes/highlights from the book [**Never Split the Differenc
 
 * The word ‘No’ indicates a negotiation has meaningfully started as ‘No’ is often just a temporary decision to maintain the status quo
 
-* We should tailor questions that elicits a ‘No’ from the counterparty. It gives the speaker feelings of safety and control. After having said ’No’, people are more open to moving towards new options and ideas. It also gets the counterparty to pay serous attention to the discussion. Asking ‘Is now a bad time to talk?’ is always better than ‘Do you have a few minutes to talk?’
+* We should tailor questions that elicits a ‘No’ from the counter-party. It gives the speaker feelings of safety and control. After having said ’No’, people are more open to moving towards new options and ideas. It also gets the counter-party to pay serous attention to the discussion. Asking ‘Is now a bad time to talk?’ is always better than ‘Do you have a few minutes to talk?’
 
 * An early ’Yes’ is mostly a counterfeit ‘Yes’ to dodge the real decisions, just like you say ‘Yes’ to get rid of a pushy salesman. ‘Yes’ should be the final goal of a negotiation.
 
 * Pushing people to say ‘Yes’ makes them defensive e.g. ’Do you like to drink water, Mr Smith?’ in order to sell a water purifier
 
-* One way to get people to say ‘No’ is by mislabeling an emotion  or desire. eg. ‘ It seems like you are eager to leave the job’ when they clearly want to stay or ‘It seems like you want the project to fail’.
+* One way to get people to say ‘No’ is by mislabeling an emotion  or desire. e.g. ‘ It seems like you are eager to leave the job’ when they clearly want to stay or ‘It seems like you want the project to fail’.
 
 ### Chapter 4
 
@@ -87,13 +83,13 @@ Below are some of my notes/highlights from the book [**Never Split the Differenc
 
 * Generally in negotiations involving risk, people are drawn to sure things over probabilities (Certainty effect), and people take greater risks to avoid loss than to achieve gains (Loss Aversion). So make sure that your counterpart feels that there is something to lose if the negotiation fails.
 
-* In salary negotiations, quote a range with the low end of the rang being the number you actually want. It also is better to let the company quote a number first in a negotiation.
+* In salary negotiations, quote a range with the low end of the range being the number you actually want. It also is better to let the company quote a number first in a negotiation.
 
 * Set an extreme anchor as a starting point, letting them know how bad it can be so that the real offer seems reasonable
 
 * It pays to be kind to people as they often feel the need to reciprocate with kindness. This can also be a problem if  you ask a question with an easy ‘Yes’ answer, you will be expected tor reciprocate.
 
-* Using precise numbers (e.g. $ 456.7) rather than round numbers ($400) forces the opponent to think that you have carefully thought through your argument and position.
+* Using precise numbers (e.g. 456.7) rather than round numbers (400) forces the opponent to think that you have carefully thought through your argument and position.
 
 
 ### Chapter 6
@@ -102,9 +98,9 @@ Below are some of my notes/highlights from the book [**Never Split the Differenc
 
 * If the price is too high when you are buying or too low when you are selling, ask ‘How am I supposed to do that’? By asking this question, you give your opponent an illusion of control and invite him/her to help solve your problem.
 
-* Calibrated questions cannot be close ended that an be answered with a ‘Yes’ or ‘No’. Instead, they start with a list of words people know as reporter’s questions: “who,” “what,” “when,” “where,” “why,” and “how.”. It is best to start with ‘what’, ‘how’ and sometimes ‘why’. ’Why’ can backfire as it can come across as accusatory.
+* Calibrated questions cannot be close ended that can be answered with a ‘Yes’ or ‘No’. Instead, they start with a list of words people know as reporter’s questions: “who,” “what,” “when,” “where,” “why,” and “how”. It is best to start with ‘what’, ‘how’ and sometimes ‘why’. ’Why’ can backfire as it can come across as accusatory.
 
- ‘Does this look like something you like’ can be rephrased as What about this works for you?’ or ‘What about this    doesn’t work for you?’
+* ‘Does this look like something you like?’ can be rephrased as 'What about this works for you?’ or ‘What about this    doesn’t work for you?’
 
 * When attacked in a negotiation, pause and avoid angry emotional reactions, instead ask your counterpart a calibrated question
 
@@ -124,9 +120,9 @@ Below are some of my notes/highlights from the book [**Never Split the Differenc
 
 * Keep using calibrated ‘How’ questions to get your counterpart to come up with answers.
 
-* This also forced your counterpart to explain how the deal will be implemented and makes it more likely that he will stick to it given he came up with the idea himself.
+* This also forces your counterpart to explain how the deal will be implemented and makes it more likely that he will stick to it given he came up with the idea himself.
 
-* Any project or deal requires clear criteria for success, get you counterpart to thin##k they are defining success by asking
+* Any project or deal requires clear criteria for success, get you counterpart to think they are defining success by asking
   - How will we know we are on track?
   - How will we address things if we are off track?
 Once they answer, summarize and replay until you get a ‘That’s right’
