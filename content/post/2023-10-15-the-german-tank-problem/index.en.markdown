@@ -46,7 +46,7 @@ This post attempts to present a solution to this problem using both frequentist 
 
 # Problem
 
-Given the above assumptions and re-labelling the tank numbers to start from 1, the problem can be re-stated as follows:
+Given the above assumptions and re-labeling the tank numbers to start from 1, the problem can be re-stated as follows:
 
 **Given a collection of $ k $ integers, $ n_1,\dots,n_k $ sampled independently and uniformly from the range $ 1 $ to $ N $, what is the value of $ N $ ?**
 
@@ -758,8 +758,8 @@ plotPost( codaSamples0[,"N"] , main="N" , xlab="N" )
 <img src="staticunnamed-chunk-36-1.png" width="672" />
 
 ```
-##        ESS     mean   median     mode hdiMass   hdiLow  hdiHigh
-## N 2080.954 565.0609 521.9671 448.6279    0.95 418.0036 867.0675
+##        ESS     mean  median   mode hdiMass   hdiLow  hdiHigh
+## N 2036.402 556.6577 512.555 446.73    0.95 418.0032 841.3058
 ```
 
 We see that the bayesian inference procedure gives us a credible interval comprising the values with the highest density. Rather than a confidence interval where the information we have is limited to whether the true value lies inside or outside the confidence interval, this credible interval gives the posterior probability of the parameter value.
@@ -775,7 +775,7 @@ cat("The probability that the number of tanks is between 419 and 500 is:",prob_4
 ```
 
 ```
-## The probability that the number of tanks is between 419 and 500 is: 0.4151
+## The probability that the number of tanks is between 419 and 500 is: 0.4487
 ```
 
 
@@ -821,8 +821,8 @@ plotPost( codaSamples1[,"N"] , main="N" , xlab="N", xlim = c(100,2000) )
 <img src="staticunnamed-chunk-39-1.png" width="672" />
 
 ```
-##        ESS     mean  median     mode hdiMass   hdiLow  hdiHigh
-## N 821.3005 610.9162 524.754 447.4073    0.95 418.0014 1080.101
+##        ESS     mean   median     mode hdiMass   hdiLow  hdiHigh
+## N 241.2465 643.6212 527.8942 454.1553    0.95 418.0154 1213.298
 ```
 
 In this case, we see that the posterior distribution is much wider than in Model 0.
@@ -873,7 +873,7 @@ plotPost( codaSamples2[,"N"] , main="N" , xlab="N" )
 
 ```
 ##        ESS     mean   median     mode hdiMass   hdiLow  hdiHigh
-## N 3038.726 495.6352 480.9173 436.9487    0.95 418.0069 618.9422
+## N 2796.591 495.5214 480.9062 437.8477    0.95 418.0296 618.4802
 ```
 
 
@@ -881,9 +881,9 @@ Given the improved intelligence  we have a the end of the war, we see that we ca
 
 ## Conclusion
 
-We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for concepts like rejection regions and p-values.. 
+We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for concepts like rejection regions and p-values.
 
-The code underlying this blog post is available [here](https://github.com/govindgnair23/German-Tank-Problem)
+The code underlying this blog post is available [here](https://github.com/govindgnair23/German-Tank-Problem).
 
 
 ## References and Further Reading

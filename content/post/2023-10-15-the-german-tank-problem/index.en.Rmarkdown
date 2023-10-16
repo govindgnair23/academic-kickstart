@@ -50,7 +50,7 @@ This post attempts to present a solution to this problem using both frequentist 
 
 # Problem
 
-Given the above assumptions and re-labelling the tank numbers to start from 1, the problem can be re-stated as follows:
+Given the above assumptions and re-labeling the tank numbers to start from 1, the problem can be re-stated as follows:
 
 **Given a collection of $ k $ integers, $ n_1,\dots,n_k $ sampled independently and uniformly from the range $ 1 $ to $ N $, what is the value of $ N $ ?**
 
@@ -719,9 +719,9 @@ Given the improved intelligence  we have a the end of the war, we see that we ca
 
 ## Conclusion
 
-We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for concepts like rejection regions and p-values.. 
+We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for concepts like rejection regions and p-values.
 
-The code underlying this blog post is available [here](https://github.com/govindgnair23/German-Tank-Problem)
+The code underlying this blog post is available [here](https://github.com/govindgnair23/German-Tank-Problem).
 
 
 ## References and Further Reading
