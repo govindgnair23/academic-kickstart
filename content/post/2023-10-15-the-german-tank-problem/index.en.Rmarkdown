@@ -683,7 +683,7 @@ codaSamples1 = coda.samples( jagsModel1 , variable.names=c("N") ,
 The posterior distribution resulting from this model can now be analyzed. 
 
 ```{r}
-par( mar=c(3.5,0.5,2.5,0.5) , mgp=c(2.25,0.7,0) )
+par( mar=c(3.5,1.5,2.5,0.5) , mgp=c(2.25,0.7,0) )
 plotPost( codaSamples1[,"N"] , main="N" , xlab="N", xlim = c(100,2000) )
 ```
 
@@ -719,17 +719,19 @@ Given the improved intelligence  we have a the end of the war, we see that we ca
 
 ## Conclusion
 
-We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for consepts like rejection regions and p-values.. 
+We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for concepts like rejection regions and p-values.. 
+
+The code underlying this blog post is available [here](https://github.com/govindgnair23/German-Tank-Problem)
 
 
 ## References and Further Reading
 
 
 
-1) [Doing Bayesian Data Analysis : A Tutorial with R, JAGS, and Stan](https://www.amazon.com/Doing-Bayesian-Data-Analysis-Tutorial/dp/0124058884)
-2) [Bernoulli's Fallacy: Statistical Illogic and the Crisis of Modern Science](https://www.amazon.com/Bernoullis-Fallacy-Statistical-Illogic-Science/dp/0231199945)
-3) https://www.isaacslavitt.com/posts/german-tank-problem-with-pymc-and-pystan/
-4) https://www.mjandrews.org/blog/germantank/
+a) [Doing Bayesian Data Analysis : A Tutorial with R, JAGS, and Stan](https://www.amazon.com/Doing-Bayesian-Data-Analysis-Tutorial/dp/0124058884)
+b) [Bernoulli's Fallacy: Statistical Illogic and the Crisis of Modern Science](https://www.amazon.com/Bernoullis-Fallacy-Statistical-Illogic-Science/dp/0231199945)
+c) https://www.isaacslavitt.com/posts/german-tank-problem-with-pymc-and-pystan/
+d) https://www.mjandrews.org/blog/germantank/
 
 
 
