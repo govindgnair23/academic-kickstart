@@ -759,7 +759,7 @@ plotPost( codaSamples0[,"N"] , main="N" , xlab="N" )
 
 ```
 ##        ESS     mean   median     mode hdiMass   hdiLow  hdiHigh
-## N 2048.074 559.6763 515.6248 444.7508    0.95 418.0157 853.9624
+## N 2080.954 565.0609 521.9671 448.6279    0.95 418.0036 867.0675
 ```
 
 We see that the bayesian inference procedure gives us a credible interval comprising the values with the highest density. Rather than a confidence interval where the information we have is limited to whether the true value lies inside or outside the confidence interval, this credible interval gives the posterior probability of the parameter value.
@@ -775,7 +775,7 @@ cat("The probability that the number of tanks is between 419 and 500 is:",prob_4
 ```
 
 ```
-## The probability that the number of tanks is between 419 and 500 is: 0.4345
+## The probability that the number of tanks is between 419 and 500 is: 0.4151
 ```
 
 
@@ -814,15 +814,15 @@ The posterior distribution resulting from this model can now be analyzed.
 
 
 ```r
-par( mar=c(3.5,0.5,2.5,0.5) , mgp=c(2.25,0.7,0) )
+par( mar=c(3.5,1.5,2.5,0.5) , mgp=c(2.25,0.7,0) )
 plotPost( codaSamples1[,"N"] , main="N" , xlab="N", xlim = c(100,2000) )
 ```
 
 <img src="staticunnamed-chunk-39-1.png" width="672" />
 
 ```
-##        ESS     mean   median     mode hdiMass   hdiLow  hdiHigh
-## N 553.8667 613.2112 522.2576 448.2541    0.95 418.0134 1099.393
+##        ESS     mean  median     mode hdiMass   hdiLow  hdiHigh
+## N 821.3005 610.9162 524.754 447.4073    0.95 418.0014 1080.101
 ```
 
 In this case, we see that the posterior distribution is much wider than in Model 0.
@@ -872,8 +872,8 @@ plotPost( codaSamples2[,"N"] , main="N" , xlab="N" )
 <img src="staticunnamed-chunk-41-1.png" width="672" />
 
 ```
-##        ESS     mean   median     mode hdiMass   hdiLow hdiHigh
-## N 2610.985 498.3147 483.7249 439.7254    0.95 418.0337 625.489
+##        ESS     mean   median     mode hdiMass   hdiLow  hdiHigh
+## N 3038.726 495.6352 480.9173 436.9487    0.95 418.0069 618.9422
 ```
 
 
@@ -881,17 +881,17 @@ Given the improved intelligence  we have a the end of the war, we see that we ca
 
 ## Conclusion
 
-We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for consepts like rejection regions and p-values.. 
+We have used frequentist and statistical inference to solve the German Tank problem. In this particular problem, the benefits of the Bayesian approach are evident. Besides  being more intuitive, it also obviates the need for concepts like rejection regions and p-values.. 
+
+The code underlying this blog post is available [here](https://github.com/govindgnair23/German-Tank-Problem)
 
 
 ## References and Further Reading
 
-
-
-1) [Doing Bayesian Data Analysis : A Tutorial with R, JAGS, and Stan](https://www.amazon.com/Doing-Bayesian-Data-Analysis-Tutorial/dp/0124058884)
-2) [Bernoulli's Fallacy: Statistical Illogic and the Crisis of Modern Science](https://www.amazon.com/Bernoullis-Fallacy-Statistical-Illogic-Science/dp/0231199945)
-3) https://www.isaacslavitt.com/posts/german-tank-problem-with-pymc-and-pystan/
-4) https://www.mjandrews.org/blog/germantank/
+a) [Doing Bayesian Data Analysis : A Tutorial with R, JAGS, and Stan](https://www.amazon.com/Doing-Bayesian-Data-Analysis-Tutorial/dp/0124058884) <br>
+b) [Bernoulli's Fallacy: Statistical Illogic and the Crisis of Modern Science](https://www.amazon.com/Bernoullis-Fallacy-Statistical-Illogic-Science/dp/0231199945) <br>
+c) https://www.isaacslavitt.com/posts/german-tank-problem-with-pymc-and-pystan/ <br>
+d) https://www.mjandrews.org/blog/germantank/ <d>
 
 
 

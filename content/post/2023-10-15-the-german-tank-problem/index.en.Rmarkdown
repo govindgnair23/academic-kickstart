@@ -726,12 +726,10 @@ The code underlying this blog post is available [here](https://github.com/govind
 
 ## References and Further Reading
 
-
-
-a) [Doing Bayesian Data Analysis : A Tutorial with R, JAGS, and Stan](https://www.amazon.com/Doing-Bayesian-Data-Analysis-Tutorial/dp/0124058884)
-b) [Bernoulli's Fallacy: Statistical Illogic and the Crisis of Modern Science](https://www.amazon.com/Bernoullis-Fallacy-Statistical-Illogic-Science/dp/0231199945)
-c) https://www.isaacslavitt.com/posts/german-tank-problem-with-pymc-and-pystan/
-d) https://www.mjandrews.org/blog/germantank/
+a) [Doing Bayesian Data Analysis : A Tutorial with R, JAGS, and Stan](https://www.amazon.com/Doing-Bayesian-Data-Analysis-Tutorial/dp/0124058884) <br>
+b) [Bernoulli's Fallacy: Statistical Illogic and the Crisis of Modern Science](https://www.amazon.com/Bernoullis-Fallacy-Statistical-Illogic-Science/dp/0231199945) <br>
+c) https://www.isaacslavitt.com/posts/german-tank-problem-with-pymc-and-pystan/ <br>
+d) https://www.mjandrews.org/blog/germantank/ <d>
 
 
 
