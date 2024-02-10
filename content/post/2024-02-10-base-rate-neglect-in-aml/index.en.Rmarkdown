@@ -81,7 +81,7 @@ For example, the prior for Bob having Covid when he has been sheltering in place
 On the other hand, Alice has been travelling for the last month without wearing a mask, the prior for Alice would be quite high. Say $ P(D) = 0.25 $
 
 
-With this information, we can calculate the posterior probability tha a patient has the disease given a positive test.
+With this information, we can calculate the posterior probability that a patient has the disease given a positive test.
 
 This simple function implements the above formula.
 
