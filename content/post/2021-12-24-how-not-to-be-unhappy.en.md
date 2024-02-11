@@ -30,7 +30,7 @@ This does assume that the basic needs of a human being – food, shelter and sec
 
 From my experience, there is no simple answer to what makes one happy – it could be career, money, fame, family, adventure or something else entirely. Unhappiness on the other hand tends to stem from a few identifiable sources.
 
-This leads me to be believe that if we are able to identify these sources of unhappiness and remedy them, we have a great chance of being happy. Rather than chase unhappiness, resist the habits and impulses that make you unhappy.
+This leads me to be believe that if we are able to identify these sources of unhappiness and remedy them, we have a great chance of being happy. Rather than chase happiness, resist the habits and impulses that make you unhappy.
 
 As Charlie Munger says “Invert, always invert”.
 
