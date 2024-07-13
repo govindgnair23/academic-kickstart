@@ -1,24 +1,21 @@
 ---
 title: Explanations, Causality and Theories - An AML Perspective
 author: ''
-date: '2024-07-09'
-slug: explanations-causality-and-theories-an-aml-perspective
+date: '2024-07-13'
 categories:
   - Article
 tags:
   - Anti Money Laundering
   - R
   - Statistics
-subtitle: ''
-summary: 'Bringing scientific rigor into the practice of AML'
-authors: []
+slug: explanations-causality-and-theories-an-aml-perspective
+summary: Bringing scientific rigor to the practice of AML
 lastmod: '2024-07-09T20:46:19-04:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 ```{r setup, include=FALSE}
@@ -138,7 +135,7 @@ knitr::include_graphics('images/dag1.png',error = FALSE)
 
 This causal diagram indicates that there is a direct impact of gender(G) on admission outcomes(O) as well as an indirect effect mediated through Department(D). To study the possibility of discrimination, we are only interested in the direct effect of gender on outcomes. So we need to mute the indirect effect of Gender through Department.
 
-If you are familiar with causal diagrams, you will realize that G->D->O is a "pipe", and this path can be blocked by conditioning on D. In other words, we should analyze the data by conditioning on Department. This analysis leads us to conclude that there was indeed no systematic discrimination against women at UC Berkeley.
+If you are familiar with causal diagrams, you will realize that G->D->O is a "pipe", and this path can be blocked by conditioning on D. In other words, we should analyze the data at the department level. This analysis leads us to conclude that there was indeed no systematic discrimination against women at UC Berkeley.
 
 Now consider the possibility that the state of residence also impacts the department to which a candidate applies and the outcome of the application. Perhaps a state has excellent prep schools for certain disciplines or the head of admissions of each department has a bias towards his or her home state.
 
@@ -186,7 +183,7 @@ This suggests a very scientific approach to investigations.
 
 Every alert or case begins with a null hypothesis (H0) and an alternate hypothesis (H1) 
 
-H0: The entity did not carry out transactions consistent with a pattern of interest. 
+H0: The entity did not carry out transactions consistent with a pattern of interest. <br>
 H1: The entity carried out transactions with the pattern of interest.
 
 An investigator is trying to collect evidence to reject the null hypothesis.  If sufficient evidence; which is determined by the risk tolerance of the institution; is available, then a SAR has to be filed outlining  the "Why" and the "How"—the hypothesis tested and the evidence gathered.
@@ -327,7 +324,7 @@ summary(glm3)
 
 The estimates suggest that age and marital status are both statistically significant when predicting happiness.
 
-**If this were a model to predict financial crime, we would highlight both these variables as interesting to an investigator. , which is misleading given the underlying data..**
+**If this were a model to predict financial crime, we would highlight both these variables as interesting to an investigator, which is misleading given the underlying data..**
 
 Instead, let's look more closely at the first model
 
@@ -346,7 +343,17 @@ The key lesson is high performing ML models might be good predictors of financia
 
 We do not want to give up on using the best performing predictive models, whether they are rule-based scenarios or neural nets. How do we meet these competing objectives of AML Detection—good predictive performance and reliable causal explanations?
 
-In this [paper](https://arxiv.org/abs/2109.09904), Kambhampati et al proposes an architecture of an AI system that exposes a symbolic interface to a human user. This symbolic interface should operate using symbols that have meaning to the human in the loop - a compliance officer or an investigator in the case of AML. The symbolic interface enables the AI system to provide explanations (hopefully causal) of its decisions to humans (investigators) while accepting guidance/preferences from humans(investigators and compliance officers) in the form of advice or feedback.
+In this [paper](https://arxiv.org/abs/2109.09904), Kambhampati et al proposes an architecture of an AI system that exposes a symbolic interface to a human user. 
+
+
+```{r echo = FALSE, fig.cap = " Overall architecture of an AI system exposing a symboic interface to a human user"}
+library(knitr)
+knitr::include_graphics('images/human_ai_interface.png',error = FALSE)
+
+```
+
+
+This symbolic interface should operate using symbols that have meaning to the human in the loop - a compliance officer or an investigator in the case of AML. The symbolic interface enables the AI system to provide explanations (hopefully causal) of its decisions to humans (investigators) while accepting guidance/preferences from humans(investigators and compliance officers) in the form of advice or feedback.
 
 Further, this symbolic interface should allow representation of causal relations.
 
@@ -389,7 +396,7 @@ knitr::include_graphics('images/ToFC.png',error = FALSE)
 I have laid out two key limitations with the current approach to building and maintaining Transaction Monitoring Systems
 
 - They are ill-equipped to help investigators answer the "Why?" of AML and create meaningful SARs
-- They do not for the application of the scientific method to AML. When we do not approach the problem using the scientific method, is it any surprise tat Transaction Monitoring Systems have shown little improvement over the last decade ?
+- They do not facilitate the application of the scientific method to AML. When we do not approach the problem using the scientific method, is it any surprise that Transaction Monitoring Systems have shown little improvement over the last decade ?
 
 
 In the next blog post, I will share a more prescriptive approach on creating a symbolic-causal model and how it can be systematically updated based on incoming labels. 
@@ -400,3 +407,4 @@ In the next blog post, I will share a more prescriptive approach on creating a s
 2) Statistical Rethinking: A Bayesian Course with Examples in R and Stan - By Richard McElreath <br>
 3) The Beginning of Infinity - By David Deutch <br>
 4) https://arxiv.org/abs/2109.09904
+5) https://www.fincen.gov/sites/default/files/shared/sarnarrcompletguidfinal_112003.pdf
