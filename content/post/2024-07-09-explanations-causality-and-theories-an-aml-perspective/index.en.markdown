@@ -463,7 +463,7 @@ A Transaction Monitoring System is essentially a manifestation of a Financial In
 
 To make AML compliance scientific, we need to follow through with the next three steps of the scientific method. 
 
-* Deduce testable consequences of the hypothesis  - Determine the thresholds for models and/or the combination of models that should trigger to create a case of interest
+* Deduce testable consequences of the hypothesis  - If the scenarios or models alert, is the focal entity suspicious and worthy of a SAR ?
 * Perform an experiment and collect evidence - Generate cases and get human feedback on the case
 * Update your belief in the hypothesis - Use the feedback to update the two key hypotheses.
 
