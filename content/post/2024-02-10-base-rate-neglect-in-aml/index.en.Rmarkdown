@@ -2,23 +2,20 @@
 title: Base Rate Neglect in AML
 author: ''
 date: '2024-02-10'
-slug: base-rate-neglect-in-aml
 categories:
   - Article
 tags:
   - Anti Money Laundering
   - Probability
   - R
-subtitle: ''
+slug: base-rate-neglect-in-aml
 summary: ' A Probabilistic approach to AML Detection'
-authors: []
 lastmod: '2024-02-10T12:38:54-05:00'
 featured: no
 image:
   caption: ''
   focal_point: ''
   preview_only: no
-projects: []
 ---
 
 
@@ -259,29 +256,40 @@ Let us assume  under regime 1. we create and investigate a case when any one of 
 Now each of these scenarios are equivalent to a medical test. When a medical test returns a positive result, a physician can choose to intervene. Similarly, when a scenario triggers an alert, an investigator can choose to intervene and investigate the customer. The key question is how much evidence is sufficient to justify this intervention.
 
 
-Let us assume both institutions use three different scenarios or models - Scenario A (Change in Behavior) ,Scenario B (Rapid Flow Through of Funds) , Scenario C (Large Reportable Transactions). 
+Let us assume both institutions use three different scenarios or models - Scenario A (Change in Behavior) ,Scenario B (Rapid Flow Through of Funds) , Scenario C (High Risk CounterParty), with the goal of detecting Shell Accounts that might be operating through the institution.
 
-I  will also assume the scenarios alert independent of each other.
+The hypothesis here is that a shell company will demonstrate these underlying patterns.
+
+I  will also assume the scenarios alert independent of each other and make the following assumptions
+for each scenario.
+
+Probability of a customer showing target pattern given customer is a shell company = 0.99 <br>
+Probability of a customer showing target pattern given customer is not a shell company = 0.01 <br> 
+Probability a scenario alerts in the presence of the pattern = 0.9 <br>
+Probability a scenario alerts in the absence of the target pattern: 0.05
 
 
-I will assign the following sensitivity and specificity to these scenarios. 
+
+For each of the models, the performance of the scenario is as follows
+
+Sensitivity[^1] is 0.8915 (0.9 x 0.99 + 0.05x(1 - 0.99)). If the customer is truly a criminal, this is the probability that a model triggers and an alert.
+
+[^1]: P(S=Alert | Cust = Criminal) = P(S=Alert |(Cust shows Pattern) x P(Cust Shows Pattern |Cust = Criminal) + P(S =Alert |Cust shows no pattern) x P(Cust shows no pattern | Cust = Criminal)
+
+
+Specificity[^2] is 0.9415 (1 - 0.9 x 0.01 + 0.05*(1-0.01)). If the customer is a regular citizen, this is the probability that the model does not alert.
+
+[^2]: 1 - P(S=Alert | Cust = Citizen)  = 1 -  P(S=Alert |(Cust shows Pattern) x P(Cust Shows Pattern |Cust = Citizen) + P(S =Alert |Cust shows no pattern) x P(Cust shows no pattern | Cust = Citizen)
+
 
 ```{r , echo = FALSE, message=FALSE}
-df <- data.frame("Scenario" = c("Scenario A", "Scenario B","Scenario C"),"Sensitivity" = c(0.81,0.81,0.81), "Specificity" = c(0.63,0.63,0.63) )
+df <- data.frame("Scenario" = c("Scenario A", "Scenario B","Scenario C"),"Sensitivity" = c(0.8915,0.8915,0.8915), "Specificity" = c(0.9415,0.9415,0.9415) )
 
 kable(df,caption="Accuracy of scenarios ")
 
 ```
 
-I am assuming that bad actors have a 0.9 probability of exhibiting the underlying pattern being monitored  while regular citizens have a 0.7 probability of exhibiting the said pattern. For generic patterns like change in behavior or rapid movement of funds, this is a reasonable assumption.
-
-Given  a customer exhibits this pattern, I am assuming there is a 0.9 probability that a scenario alerts on it. 
-
-For each of the models,
-
-Sensitivity is 0.81 (0.9 x 0.9). If the customer is truly a criminal, this is the probability that a model triggers and an alert.
-
-Specificity is 0.37 (1 - 0.7 x 0.9). If the customer is a regular citizen, this is the probability that the model does not alert.
+Note this is the performance you would see only with a high quality scenario.
 
 Now,a critical question. What is the prior probability that a customer at either Financial Institution (FI) is a bad actor or criminal.
 
@@ -298,7 +306,7 @@ The posterior probability of an alerted customer being truly suspicious is truly
 
 ```{r}
 #Prior odds x Bayes factor for one scenario
-odds_to_prob(prob_to_odds(1/1000000)* bf(0.81,0.37))
+odds_to_prob(prob_to_odds(1/1000000)* bf(0.8915,0.9415))
 ```
 
 ### FI 2 under regime 1
@@ -309,7 +317,7 @@ Even here, a conservative approach to investigating cases leads to an extremely 
 
 ```{r}
 #Prior odds x Bayes factor for one scenario
-odds_to_prob(prob_to_odds(1/1000)* bf(0.81,0.37))
+odds_to_prob(prob_to_odds(1/1000)* bf(0.8915,0.9415))
 ```
 ### FI 1 under regime 2
 
@@ -318,7 +326,7 @@ What about FI 1 with a less conservative approach to creating cases ? It gets on
 ```{r}
 
 #Prior odds x Bayes Factor for three independent scenarios
-odds_to_prob(prob_to_odds(1/1000000)* bf(0.81,0.37)^3)
+odds_to_prob(prob_to_odds(1/1000000)* bf(0.8915,0.9415)^3)
 ```
 
 ### FI 2 under regime 2
@@ -327,10 +335,10 @@ What about FI 2 with a less conservative approach to creating cases ?
 
 ```{r}
 #Prior odds x Bayes Factor for three independent scenarios
-odds_to_prob(prob_to_odds(1/1000)* bf(0.81,0.37)^3)
+odds_to_prob(prob_to_odds(1/1000)* bf(0.8915,0.9415)^3)
 ```
 
-Even then the chances of the case being really suspicious is as low as 0.2%.
+Only in this case does, even such a set of high quality scenarios yields cases that are truly likely to result in a SAR.
 
 ## Takeaways
 
