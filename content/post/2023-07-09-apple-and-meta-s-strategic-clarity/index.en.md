@@ -22,8 +22,6 @@ projects: []
 Apple’s unveiling of Apple Vision Pro and the reaction to it has made one thing clear.
 
 
-{{<tweet 1665922508015673344>}}
-
 A new era of computing  has dawned. Whether you call it spatial computing or virtual/mixed reality , it will almost certainly  reshape our digital lives in the decade to come. 
 
 In many ways, what Apple has done with the Vision Pro is validate Mark Zuckerberg’s  bet on VR and AR beginning with Meta’s acquisition of Oculus in 2014.

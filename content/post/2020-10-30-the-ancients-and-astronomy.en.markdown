@@ -35,8 +35,8 @@ Based in Alexandria, he heard from travelers that the sun illuminated the entire
 
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/Trop_Cancer.png" alt="Summer Solistice"  />
-<p class="caption">Figure 1: Summer Solistice</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/Trop_Cancer.png" alt="Summer Solistice"  />
+<p class="caption"><span id="fig:unnamed-chunk-1"></span>Figure 1: Summer Solistice</p>
 </div>
 
 
@@ -47,8 +47,8 @@ Now, all that needed to be done was measure the distance from Alexandria to Syen
 
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/Earth_circumference.PNG" alt="Measuring the circumference of the earth"  />
-<p class="caption">Figure 2: Measuring the circumference of the earth</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/Earth_circumference.PNG" alt="Measuring the circumference of the earth"  />
+<p class="caption"><span id="fig:unnamed-chunk-2"></span>Figure 2: Measuring the circumference of the earth</p>
 </div>
 
 
@@ -68,8 +68,8 @@ estimate of 40,000 km.
 
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/lunar_eclipse.png" alt="Lunar Eclipse"  />
-<p class="caption">Figure 3: Lunar Eclipse</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/lunar_eclipse.png" alt="Lunar Eclipse"  />
+<p class="caption"><span id="fig:unnamed-chunk-3"></span>Figure 3: Lunar Eclipse</p>
 </div>
 
 Aristarchus knew this happened on average twice a year and realized that the angular size of the shadow cast by the earth at a distance to the moon (The angle $ \beta $ between the purple dashed lines) can be measured by noting the difference in the position of the moon before and after the eclipse as shown below. Note the two positions of the green circle representing the moon before and after the eclipse.
@@ -79,8 +79,8 @@ The angular size of the moon (The angle $ \alpha $ between the red dotted lines)
 
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/Size_of_the_Moon.png" alt="Size of the Moon - 1"  />
-<p class="caption">Figure 4: Size of the Moon - 1</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/Size_of_the_Moon.png" alt="Size of the Moon - 1"  />
+<p class="caption"><span id="fig:unnamed-chunk-4"></span>Figure 4: Size of the Moon - 1</p>
 </div>
 
 
@@ -93,8 +93,8 @@ $$ \frac{\beta}{\alpha} = 2.7 \ \ \ \ \ \ Eq(1)$$
 Before we proceed,it is helpful to know the **Observer's Triangle Relation**
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/triangle_relationship.PNG" alt="Observer's Traingle Relation"  />
-<p class="caption">Figure 5: Observer's Traingle Relation</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/triangle_relationship.PNG" alt="Observer's Traingle Relation"  />
+<p class="caption"><span id="fig:unnamed-chunk-5"></span>Figure 5: Observer's Traingle Relation</p>
 </div>
 
 
@@ -122,8 +122,8 @@ This meant that he just needed to estimate the diameter of the earth's shadow at
 
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_moon.PNG" alt="Size of the moon - 2"  />
-<p class="caption">Figure 6: Size of the moon - 2</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_moon.PNG" alt="Size of the moon - 2"  />
+<p class="caption"><span id="fig:unnamed-chunk-6"></span>Figure 6: Size of the moon - 2</p>
 </div>
 
 
@@ -206,8 +206,8 @@ Consider an object JQ of size $ L $ , which has an angular size of $ \alpha $ fr
 You can construct a circle with center at $ I $ and passing through both ends of the object as shown below
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/parallax.png" alt="The parallax method"  />
-<p class="caption">Figure 7: The parallax method</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/parallax.png" alt="The parallax method"  />
+<p class="caption"><span id="fig:unnamed-chunk-7"></span>Figure 7: The parallax method</p>
 </div>
 
 
@@ -238,8 +238,8 @@ Aristarchus again used intelligent geometry to estimate the distance to the sun,
 Consider the sun in yellow with center at B, earth in green with center at A and the moon in red with center at G.
 
 <div class="figure">
-<img src="/post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_to_the_sun.PNG" alt="Distance to the sun"  />
-<p class="caption">Figure 8: Distance to the sun</p>
+<img src="../../../../../../post/2020-10-30-the-ancients-and-astronomy.en_files/Distance_to_the_sun.PNG" alt="Distance to the sun"  />
+<p class="caption"><span id="fig:unnamed-chunk-8"></span>Figure 8: Distance to the sun</p>
 </div>
 
 
@@ -262,7 +262,6 @@ However he had estimated $ \angle CAB $ incorrectly without any modern telescopi
 
 After these discoveries, more than 1500 years would go by before Copernicus and Galileo would transform our understanding of our solar system. Although we take scientific progress granted today, this shows that our civilization is fragile and progress is not a foregone conclusion.
 
-{{<tweet 946916197693472769>}}
 
 Our understanding of our place in the cosmos has evolved rapidly over the last two hundred years. The invention of the spectrograph  by Fraunhofer in 1814 has allowed us to infer the properties,distance and mass of even distant stars by analyzing the light they emit.
 

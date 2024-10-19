@@ -21,14 +21,15 @@ image:
 
 Some twitter threads deserve to be full blown blog posts. A few months back [Daniela Witten](https://twitter.com/daniela_witten) produced a delightfully informative twitter thread on Singular Value Decomposition while curating the [WomeninStat](https://twitter.com/WomenInStat) twitter account.
 
-{{<tweet 1285610321747611653>}}
+See thread [here](https://x.com/WomenInStat/status/1285610321747611653)
+
 
 As someone who regretfully never paid much attention to my Linear Algebra lessons, this was a good opportunity to dive in and understand the practical and relevant aspects of SVD. I have taken this twitter thread, added some content and code to help bridge some gaps in my understanding.
 
 
 ## Introduction
 
-{{<tweet 1285611207530098688>}}
+
 
 SVD decomposes an $n \times p $ matrix $ X $  into three matrices, $ U $ ($ n \times p $), $ V $ ($ p \times p $) and $ D $ ($ p \times p $) 
 
@@ -160,7 +161,7 @@ all.equal (X, -U%*%D%*%-t(V))
 
 [PCA](https://aaronschlegel.me/principal-component-analysis-r-example.html) is a dimensionality reduction technique where the goal is to represent a matrix in fewer number of dimensions while preserving as much information as possible.
 
-{{<tweet 1285613851879313412>}}
+
 
 
 Let us obtain the **principle component loading vectors** of X. Each column in the matrix below is a principle component loading vector.
@@ -239,7 +240,7 @@ This is in fact how PCA is implemented in the **prcomp** function in R
 
 ## Relation to Eigen Value Decomposition
 
-{{<tweet 1285615493978750977>}}
+
 
 Eigen decomposition decomposes a matrix $ X $ as follows
 
@@ -311,7 +312,7 @@ Thus, the **right singular matrix** $ V_1 $ gives the eigen vectors for the matr
 
 ## Computing SVD :Power Method
 
-{{<tweet 1285617523287822336>}}
+
 
 Below is the power method, a simple algorithm for computing SVD of a matrix $ A \in \mathbb{R}^{m\times n} $.<br>
 It first computes the first singular value $ \sigma_1 $ and left and right singular vectors $ u_1 $ and $ v_1 $ 
@@ -422,7 +423,7 @@ This video provides a good theoretical explanation and intuition about how this 
 ### Matrix Compression or Approximation
 
 
-{{<tweet 1285613105121198080>}}
+
 
 
 If we want to approximate the entire matrix X with just two vectors (a rank 1 approximation), the optimal representation in terms of residual sum of squares is given by the first columns of U and V
@@ -455,7 +456,7 @@ plot(q,type='b',xlab = "Rank of approximation",ylab="Error")
 
 ## Impute Missing Values
 
-{{<tweet 1285614472065953793>}}
+
 
 Assume 1/5 of the values in the matrix are randomly missing.
 
@@ -675,7 +676,7 @@ Also note that if your original data has only positive values, SVD is probably n
 
 ### Check for multi-collinearity 
 
-{{<tweet 1285616331673481219>}}
+
 
 To check for multi-collinearity in an $ m \times p $ matrix ($ p \leq m $), check the ratio of the first singular value to the last singular value $ \frac{D_{11}}{D_{pp}}$, if this is very large then using least squares regression is a bad idea.
 
@@ -706,7 +707,7 @@ svd_X2$d[1]/svd_X2$d[6]
 ### Moore-Penrose Pseudo Inverse
 
 
-{{<tweet 1285616929202470912>}}
+
 
 The pseudo inverse can be computed by simply using the expression below
 
