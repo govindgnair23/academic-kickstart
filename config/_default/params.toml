@@ -278,3 +278,5 @@ plugins_js  = []
   netlify_cms = true
 
 
+[params]
+  disable_twitter = true
