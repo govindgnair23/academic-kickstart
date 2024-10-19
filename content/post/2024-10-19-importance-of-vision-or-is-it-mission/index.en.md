@@ -24,7 +24,7 @@ When I stumbled into my first product role, like many others in the same boat, I
 
 Even a thinker like Shreyas comes up with definitions where I still struggle to understand the clear difference between the two.
 
-{{<tweet 1631633275373654016>}}
+{{< tweet 1631633275373654016 >}}
 
 From my perspective, if you can clearly articulate the future you’re trying to create, you don’t really need to explain why it’s worthwhile. Your mission is to create that future. To put it simply: what matters most is having an ambitious, long-term goal that can challenge and inspire people. And like any good goal, you should be able to measure whether you’re making progress.
 
